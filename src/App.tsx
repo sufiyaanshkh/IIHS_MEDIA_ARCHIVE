@@ -20,6 +20,7 @@ type Asset = {
   mediaType?: string; capturedAt?: string | null; ingestedAt?: string | null;
   semanticMatches?: { label: string; score: number; model?: string }[];
   employeeNames?: string[];
+  status?: string;
 };
 
 const demoAssets: Asset[] = [
@@ -39,7 +40,7 @@ type Page = "Archive" | "Ingest" | "Review queue" | "Collections" | "Datasets";
 const navItems: { label: Page; icon: typeof Archive; count?: string }[] = [
   { label: "Archive", icon: LayoutGrid },
   { label: "Ingest", icon: Upload },
-  { label: "Review queue", icon: ScanSearch, count: "24" },
+  { label: "Review queue", icon: ScanSearch },
   { label: "Collections", icon: FolderClosed },
   { label: "Datasets", icon: Database }
 ];
@@ -61,6 +62,7 @@ function App() {
   const [view, setView] = useState<"grid" | "list">("grid");
   const [liveAssets, setLiveAssets] = useState<Asset[] | null>(null);
   const [apiState, setApiState] = useState<"loading" | "connected" | "offline">("loading");
+  const [reviewCount, setReviewCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -76,7 +78,9 @@ function App() {
           capturedAt: row.taken_at ?? null, ingestedAt: row.ingested_at ?? null,
           semanticMatches: (row.semantic_matches ?? []).map((match: any) => ({ label: match.label, score: match.score, model: match.model })),
           employeeNames: (row.verified_employees ?? []).map((person: any) => person.display_name),
+          status: row.status ?? "indexed",
         })));
+        setReviewCount(rows.filter((row) => row.status === "review_requested").length);
         setApiState("connected");
       })
       .catch(() => { if (!cancelled) setApiState("offline"); });
@@ -88,11 +92,12 @@ function App() {
   const filteredAssets = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return (liveAssets ?? demoAssets).filter((asset) => {
+      if (page === "Review queue" && asset.status !== "review_requested") return false;
       const matchesQuery = !normalized || [asset.title, asset.collection, asset.kind, ...asset.tags].join(" ").toLowerCase().includes(normalized);
       const matchesType = activeFilter === "All media" || (activeFilter === "Images" && asset.kind === "Photo") || (activeFilter === "Videos" && asset.kind === "Video") || (activeFilter === "Documents" && asset.kind === "Document");
       return matchesQuery && matchesType;
     });
-  }, [query, activeFilter, liveAssets]);
+  }, [query, activeFilter, liveAssets, page]);
 
   const showNotice = (message: string) => {
     setNotice(message);
@@ -156,6 +161,9 @@ function App() {
       const response = await fetch(`http://127.0.0.1:8000/api/v1/assets/${asset.id}/review`, { method: "POST" });
       if (!response.ok) throw new Error("Review submission failed");
       const result = await response.json();
+      setLiveAssets((items) => items?.map((item) => item.id === asset.id ? { ...item, status: "review_requested" } : item) ?? null);
+      setReviewCount((count) => count + (asset.status === "review_requested" ? 0 : 1));
+      setSelected({ ...asset, status: "review_requested" });
       showNotice(result.message ?? "Asset sent to review.");
     } catch {
       showNotice("Could not send this asset to review. Check that the local API is running.");
@@ -181,7 +189,7 @@ function App() {
         <nav className="main-nav">
           {navItems.map(({ label, icon: Icon, count }) => (
             <button key={label} className={`nav-item ${page === label ? "active" : ""}`} onClick={() => { setPage(label); setMobileNav(false); }}>
-              <Icon size={17} strokeWidth={1.8}/><span>{label}</span>{count && <span className="nav-count">{count}</span>}
+              <Icon size={17} strokeWidth={1.8}/><span>{label}</span>{label === "Review queue" ? <span className="nav-count">{reviewCount}</span> : count && <span className="nav-count">{count}</span>}
             </button>
           ))}
         </nav>
@@ -216,11 +224,11 @@ function App() {
           </div>
         </header>
 
-        {page === "Archive" && <section className="page-content">
-          <div className="eyebrow"><span className="eyebrow-line"></span> THE INSTITUTIONAL MEMORY</div>
+        {(page === "Archive" || page === "Review queue") && <section className="page-content">
+          <div className="eyebrow"><span className="eyebrow-line"></span> {page === "Review queue" ? "HUMAN REVIEW / OPTIONAL" : "THE INSTITUTIONAL MEMORY"}</div>
           <div className="hero-row">
-            <div><h1>Every place has<br/><em>a story to find.</em></h1><p className="hero-subtitle">A living archive of places, people, and the systems that shape how we live.</p></div>
-            <button className="primary-button hero-ingest" onClick={() => setPage("Ingest")}><Plus size={16}/> Add to archive <ArrowUpRight size={15}/></button>
+            <div><h1>{page === "Review queue" ? <>A second pair<br/><em>of eyes.</em></> : <>Every place has<br/><em>a story to find.</em></>}</h1><p className="hero-subtitle">{page === "Review queue" ? "Only assets explicitly submitted for review appear here. Ingestion does not require review." : "A living archive of places, people, and the systems that shape how we live."}</p></div>
+            {page === "Archive" && <button className="primary-button hero-ingest" onClick={() => setPage("Ingest")}><Plus size={16}/> Add to archive <ArrowUpRight size={15}/></button>}
           </div>
           <div className="search-panel">
             <div className="search-icon"><Sparkles size={18}/></div>
@@ -238,8 +246,8 @@ function App() {
           </div>
 
           <div className="section-heading">
-            <div><div className="eyebrow small-eyebrow">EXPLORE THE ARCHIVE</div><h2>Recently collected <span>↘</span></h2></div>
-            <button className="text-button" onClick={() => showNotice("The full archive browser is part of the next integration step.")}>View all media <ArrowRight size={15}/></button>
+            <div><div className="eyebrow small-eyebrow">{page === "Review queue" ? "SUBMITTED BY A HUMAN" : "EXPLORE THE ARCHIVE"}</div><h2>{page === "Review queue" ? "Assets awaiting review" : "Recently collected"} <span>↘</span></h2></div>
+            {page === "Archive" && <button className="text-button" onClick={() => showNotice("The archive list is limited to the current API page.")}>View all media <ArrowRight size={15}/></button>}
           </div>
           <div className="filter-bar">
             <div className="filter-tabs">{["All media", "Images", "Videos", "Documents"].map((filter) => <button key={filter} onClick={() => setActiveFilter(filter)} className={activeFilter === filter ? "selected" : ""}>{filter}{filter === "All media" && <span className="filter-total">8</span>}</button>)}</div>
@@ -251,7 +259,7 @@ function App() {
               <div className="asset-info"><div className="asset-meta"><span>{asset.collection}</span><span>{asset.date}</span></div><h3>{asset.title}</h3><div className="tag-row">{asset.tags.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div>{asset.sizeBytes !== undefined && <div className="asset-card-facts"><span>{asset.sizeBytes < 1048576 ? `${Math.round(asset.sizeBytes / 1024)} KB` : `${(asset.sizeBytes / 1048576).toFixed(1)} MB`}</span>{asset.widthPx && asset.heightPx && <span>{asset.widthPx} × {asset.heightPx}</span>}</div>}</div>
             </button>)}
           </div>
-          <div className="archive-footer"><span>Showing a sample of the archive</span><span><span className="footer-dot"></span> All sample files are illustrative</span></div>
+          <div className="archive-footer"><span>{page === "Review queue" ? `${filteredAssets.length} assets requested for review` : liveAssets ? "Showing indexed archive records" : "Showing illustrative sample data"}</span><span><span className="footer-dot"></span> {liveAssets ? "Local API records" : "Sample files are illustrative"}</span></div>
         </section>}
 
         {page === "Ingest" && <section className="page-content ingest-page">
