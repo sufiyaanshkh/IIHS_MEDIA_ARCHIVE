@@ -165,6 +165,19 @@ def send_asset_to_review(asset_id: int, db: Session = Depends(get_db)):
     return {"id": asset.id, "status": asset.status, "message": "Asset added to the review queue"}
 
 
+@app.get(settings.api_prefix + "/review-queue")
+def list_review_queue(db: Session = Depends(get_db), limit: int = Query(100, ge=1, le=200), offset: int = Query(0, ge=0)):
+    """Return only assets explicitly submitted for human review; ingestion never requires review."""
+    rows = db.scalars(select(Asset).where(Asset.status == "review_requested").order_by(Asset.created_at.desc()).limit(limit).offset(offset)).all()
+    return [{"id": x.id, "name": x.original_name, "path": x.relative_path, "media_type": x.media_type,
+             "size_bytes": x.size_bytes, "width": x.width, "height": x.height,
+             "thumbnail_url": f"{settings.api_prefix}/assets/{x.id}/thumbnail" if x.thumbnail_path else None,
+             "taken_at": x.taken_at.isoformat() if x.taken_at else None,
+             "ingested_at": x.created_at.isoformat() if x.created_at else None,
+             "tags": [{"label": t.label, "source": t.source, "confidence": t.confidence, "reviewed": t.reviewed} for t in x.tags],
+             "status": x.status, "verified_employees": []} for x in rows]
+
+
 @app.get(settings.api_prefix + "/assets/{asset_id}/thumbnail")
 def get_asset_thumbnail(asset_id: int, db: Session = Depends(get_db)):
     asset = db.get(Asset, asset_id)
