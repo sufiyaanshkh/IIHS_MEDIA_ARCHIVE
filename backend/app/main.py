@@ -128,7 +128,41 @@ def list_assets(db: Session = Depends(get_db), q: str | None = None, limit: int 
              "metadata": x.metadata_json or {},
              "tags": [{"label": t.label, "source": t.source, "confidence": t.confidence, "reviewed": t.reviewed} for t in x.tags],
              "semantic_matches": [{"label": t.label, "score": t.confidence, "model": t.source} for t in x.tags if t.source == "embeddinggemma2" and t.confidence is not None],
-             "verified_employees": []} for x in rows]
+             "verified_employees": [], "status": x.status, "download_url": f"{settings.api_prefix}/assets/{x.id}/download"} for x in rows]
+
+
+@app.get(settings.api_prefix + "/assets/{asset_id}/download")
+def download_asset(asset_id: int, db: Session = Depends(get_db)):
+    asset = db.get(Asset, asset_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Asset not found")
+    if not asset.source_id:
+        raise HTTPException(status_code=404, detail="Original file location is not recorded")
+    source_root = Path(asset.source_id).expanduser().resolve()
+    original = (source_root / asset.relative_path).resolve()
+    try:
+        original.relative_to(source_root)
+    except ValueError as exc:
+        raise HTTPException(status_code=403, detail="Invalid original file path") from exc
+    try:
+        approved = any(source_root == root or source_root.is_relative_to(root) for root in approved_roots())
+    except ValueError as exc:
+        raise HTTPException(status_code=500, detail="Approved archive roots are misconfigured") from exc
+    if not approved:
+        raise HTTPException(status_code=403, detail="Original file is outside approved archive roots")
+    if not original.is_file():
+        raise HTTPException(status_code=404, detail="Original file is unavailable")
+    return FileResponse(original, media_type=asset.media_type or "application/octet-stream", filename=asset.original_name)
+
+
+@app.post(settings.api_prefix + "/assets/{asset_id}/review")
+def send_asset_to_review(asset_id: int, db: Session = Depends(get_db)):
+    asset = db.get(Asset, asset_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Asset not found")
+    asset.status = "review_requested"
+    db.commit()
+    return {"id": asset.id, "status": asset.status, "message": "Asset added to the review queue"}
 
 
 @app.get(settings.api_prefix + "/assets/{asset_id}/thumbnail")
