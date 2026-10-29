@@ -50,7 +50,6 @@ function App() {
   const [metadata, setMetadata] = useState(true);
   const [thumbnails, setThumbnails] = useState(true);
   const [tags, setTags] = useState(true);
-  const [dryRun, setDryRun] = useState(true);
   const [scanState, setScanState] = useState<"idle" | "preview" | "running" | "complete">("idle");
   const [sourceName, setSourceName] = useState("");
   const [notice, setNotice] = useState("");
@@ -207,7 +206,7 @@ function App() {
               <input ref={folderInput} type="file" hidden multiple {...({webkitdirectory:""} as React.InputHTMLAttributes<HTMLInputElement>)} onChange={(e) => handleSourcePick(e.target.files)}/>
               {source === "drive" ? <div className="server-note"><ShieldCheck size={17}/><div><strong>Server storage is permission-controlled</strong><p>Select an administrator-approved mount in the connected backend. Arbitrary paths and full-disk scans are never accepted from the browser.</p></div></div> :
                 <button className="dropzone" onClick={() => (source === "folder" ? folderInput.current : fileInput.current)?.click()}><span className="drop-icon"><Upload size={21}/></span><strong>{sourceName || (source === "folder" ? "Choose a folder to scan" : "Choose files to add")}</strong><small>{sourceName ? "Selection staged locally in this browser" : source === "folder" ? "Folder picker · Recursive scanning can be enabled below" : "Select multiple media files at once"}</small><span className="browse-button">Browse {source === "folder" ? "folder" : "files"} <ArrowRight size={14}/></span></button>}
-              <div className="options-block"><div className="options-title"><div><h3>Processing preferences</h3><p>Use these defaults or adjust for this batch.</p></div><button className="quiet-icon" onClick={() => {setRecursive(true);setMetadata(true);setThumbnails(true);setTags(true);setDryRun(true);}} aria-label="Reset options"><RotateCcw size={15}/></button></div>
+              <div className="options-block"><div className="options-title"><div><h3>Processing preferences</h3><p>Use these defaults or adjust for this batch.</p></div><button className="quiet-icon" onClick={() => {setRecursive(true);setMetadata(true);setThumbnails(true);setTags(true);}} aria-label="Reset options"><RotateCcw size={15}/></button></div>
                 <Toggle title="Scan subfolders" description="Include nested directories" checked={recursive} onChange={setRecursive}/>
                 <Toggle title="Extract metadata" description="Capture timestamps, dimensions, EXIF, and file details" checked={metadata} onChange={setMetadata}/>
                 <Toggle title="Generate thumbnails" description="Create browse-friendly previews for supported media" checked={thumbnails} onChange={setThumbnails}/>
