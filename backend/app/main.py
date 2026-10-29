@@ -1,5 +1,6 @@
 from pathlib import Path
 from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select, or_
@@ -121,7 +122,76 @@ def list_assets(db: Session = Depends(get_db), q: str | None = None, limit: int 
     rows = db.scalars(stmt.limit(limit).offset(offset)).all()
     return [{"id": x.id, "name": x.original_name, "path": x.relative_path, "media_type": x.media_type, "size_bytes": x.size_bytes,
              "width": x.width, "height": x.height, "duration_seconds": x.duration_seconds, "thumbnail_path": x.thumbnail_path,
-             "tags": [{"label": t.label, "source": t.source, "confidence": t.confidence, "reviewed": t.reviewed} for t in x.tags]} for x in rows]
+             "thumbnail_url": f"{settings.api_prefix}/assets/{x.id}/thumbnail" if x.thumbnail_path else None,
+             "taken_at": x.taken_at.isoformat() if x.taken_at else None,
+             "ingested_at": x.created_at.isoformat() if x.created_at else None,
+             "metadata": x.metadata_json or {},
+             "tags": [{"label": t.label, "source": t.source, "confidence": t.confidence, "reviewed": t.reviewed} for t in x.tags],
+             "semantic_matches": [{"label": t.label, "score": t.confidence, "model": t.source} for t in x.tags if t.source == "embeddinggemma2" and t.confidence is not None],
+             "verified_employees": [], "status": x.status, "download_url": f"{settings.api_prefix}/assets/{x.id}/download"} for x in rows]
+
+
+@app.get(settings.api_prefix + "/assets/{asset_id}/download")
+def download_asset(asset_id: int, db: Session = Depends(get_db)):
+    asset = db.get(Asset, asset_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Asset not found")
+    if not asset.source_id:
+        raise HTTPException(status_code=404, detail="Original file location is not recorded")
+    source_root = Path(asset.source_id).expanduser().resolve()
+    original = (source_root / asset.relative_path).resolve()
+    try:
+        original.relative_to(source_root)
+    except ValueError as exc:
+        raise HTTPException(status_code=403, detail="Invalid original file path") from exc
+    try:
+        approved = any(source_root == root or source_root.is_relative_to(root) for root in approved_roots())
+    except ValueError as exc:
+        raise HTTPException(status_code=500, detail="Approved archive roots are misconfigured") from exc
+    if not approved:
+        raise HTTPException(status_code=403, detail="Original file is outside approved archive roots")
+    if not original.is_file():
+        raise HTTPException(status_code=404, detail="Original file is unavailable")
+    return FileResponse(original, media_type=asset.media_type or "application/octet-stream", filename=asset.original_name)
+
+
+@app.post(settings.api_prefix + "/assets/{asset_id}/review")
+def send_asset_to_review(asset_id: int, db: Session = Depends(get_db)):
+    asset = db.get(Asset, asset_id)
+    if not asset:
+        raise HTTPException(status_code=404, detail="Asset not found")
+    asset.status = "review_requested"
+    db.commit()
+    return {"id": asset.id, "status": asset.status, "message": "Asset added to the review queue"}
+
+
+@app.get(settings.api_prefix + "/review-queue")
+def list_review_queue(db: Session = Depends(get_db), limit: int = Query(100, ge=1, le=200), offset: int = Query(0, ge=0)):
+    """Return only assets explicitly submitted for human review; ingestion never requires review."""
+    rows = db.scalars(select(Asset).where(Asset.status == "review_requested").order_by(Asset.created_at.desc()).limit(limit).offset(offset)).all()
+    return [{"id": x.id, "name": x.original_name, "path": x.relative_path, "media_type": x.media_type,
+             "size_bytes": x.size_bytes, "width": x.width, "height": x.height,
+             "thumbnail_url": f"{settings.api_prefix}/assets/{x.id}/thumbnail" if x.thumbnail_path else None,
+             "taken_at": x.taken_at.isoformat() if x.taken_at else None,
+             "ingested_at": x.created_at.isoformat() if x.created_at else None,
+             "tags": [{"label": t.label, "source": t.source, "confidence": t.confidence, "reviewed": t.reviewed} for t in x.tags],
+             "status": x.status, "verified_employees": []} for x in rows]
+
+
+@app.get(settings.api_prefix + "/assets/{asset_id}/thumbnail")
+def get_asset_thumbnail(asset_id: int, db: Session = Depends(get_db)):
+    asset = db.get(Asset, asset_id)
+    if not asset or not asset.thumbnail_path:
+        raise HTTPException(status_code=404, detail="Thumbnail not available")
+    root = settings.derivatives_root.resolve()
+    thumbnail = (root / asset.thumbnail_path).resolve()
+    try:
+        thumbnail.relative_to(root)
+    except ValueError as exc:
+        raise HTTPException(status_code=403, detail="Invalid thumbnail path") from exc
+    if not thumbnail.is_file():
+        raise HTTPException(status_code=404, detail="Thumbnail file not found")
+    return FileResponse(thumbnail, media_type="image/webp", filename=thumbnail.name)
 
 
 @app.post(settings.api_prefix + "/assets/{asset_id}/tags")

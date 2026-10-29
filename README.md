@@ -13,9 +13,11 @@ A local-first media archive that brings together the strongest ideas from **DigU
 
 ## Status
 
-This repository started empty. The first delivery establishes the frontend foundation and interaction prototype using clearly labelled sample data. It does **not** yet claim to provide a production-connected backend, real filesystem scanning, actual embeddings, or live archive data. These require integration and testing against approved storage and model assets.
+The `feature/local-backend-pipeline` branch includes a local FastAPI/PostgreSQL ingestion scaffold, archive API integration, optional review-request status, and a review queue for explicitly submitted assets. Ingestion does **not** require human approval; indexed assets are visible immediately. This remains a development scaffold, not a complete production AI archive.
 
 ## Run the UI
+
+For the full local stack setup, ingestion smoke test, and current model-readiness matrix, see [docs/LOCAL_RUN_GUIDE.md](docs/LOCAL_RUN_GUIDE.md).
 
 Requirements: Node.js 20+ and npm.
 
