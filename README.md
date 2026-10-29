@@ -17,6 +17,8 @@ The `feature/local-backend-pipeline` branch includes a local FastAPI/PostgreSQL 
 
 ## Run the UI
 
+For the full local stack setup, ingestion smoke test, and current model-readiness matrix, see [docs/LOCAL_RUN_GUIDE.md](docs/LOCAL_RUN_GUIDE.md).
+
 Requirements: Node.js 20+ and npm.
 
 ```bash
