@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: iihs_archive_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: archive
+      POSTGRES_USER: archive
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-archive_local_only}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - archive_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U archive -d archive"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  api:
+    build: ./backend
+    container_name: iihs_archive_api
+    restart: unless-stopped
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+psycopg://archive:${POSTGRES_PASSWORD:-archive_local_only}@postgres:5432/archive
+      STORAGE_ROOT: /app/data/storage
+      DERIVATIVES_ROOT: /app/data/derivatives
+      PEOPLE_ROOT: /app/data/people
+      INGEST_ROOTS_JSON: '["/archive"]'
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models:ro
+      - ${IIHS_ARCHIVE_MOUNT:-./approved-archive}:/archive:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  archive_postgres:
