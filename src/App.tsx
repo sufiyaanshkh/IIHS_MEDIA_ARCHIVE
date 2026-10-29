@@ -63,6 +63,8 @@ function App() {
   const [liveAssets, setLiveAssets] = useState<Asset[] | null>(null);
   const [apiState, setApiState] = useState<"loading" | "connected" | "offline">("loading");
   const [reviewCount, setReviewCount] = useState(0);
+  const [previewData, setPreviewData] = useState<any>(null);
+  const [ingestJob, setIngestJob] = useState<any>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -112,22 +114,41 @@ function App() {
     showNotice("Selection loaded in preview mode. No files have been uploaded or processed.");
   };
 
-  const runPreview = () => {
-    if (source === "drive") {
-      showNotice("Drive scan requires a configured server mount or trusted local agent.");
-      return;
-    }
-    if (!sourceName) {
-      (source === "folder" ? folderInput.current : fileInput.current)?.click();
-      return;
-    }
-    setScanState("preview");
+  const runPreview = async () => {
+    try {
+      const sourcesResponse = await fetch("http://127.0.0.1:8000/api/v1/sources");
+      if (!sourcesResponse.ok) throw new Error("Could not load approved archive sources");
+      const sources = await sourcesResponse.json();
+      if (!sources.length) { showNotice("No approved source is configured. Set IIHS_ARCHIVE_MOUNT and restart Docker Compose."); return; }
+      const choices = sources.map((item: any, i: number) => String(i + 1) + ". " + item.name + " — " + item.path).join("\n");
+      const chosen = window.prompt("Choose an approved server source by number:\n" + choices, "1");
+      if (chosen === null) return;
+      const sourceItem = sources[Number(chosen) - 1];
+      if (!sourceItem) { showNotice("That source number is not valid."); return; }
+      const response = await fetch("http://127.0.0.1:8000/api/v1/ingest/preview", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ source_kind: "directory", source_ref: sourceItem.path, recursive, extract_metadata: metadata, generate_thumbnails: thumbnails, suggest_tags: tags, dry_run: true })
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.detail ?? "Preview request failed");
+      setPreviewData(result); setSourceName(sourceItem.path); setScanState("preview");
+      showNotice("Server-side preview completed. No files have been changed.");
+    } catch (error) { showNotice(error instanceof Error ? error.message : "Could not preview the approved source."); }
   };
 
-  const startIngestion = () => {
+  const startIngestion = async () => {
+    if (!sourceName || !previewData) { showNotice("Run a successful preview before ingestion."); return; }
     setScanState("running");
-    showNotice("Demo only: connect the ingestion API to process real media.");
-    window.setTimeout(() => setScanState("complete"), 1200);
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/v1/ingest/jobs", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ source_kind: "directory", source_ref: sourceName, recursive, extract_metadata: metadata, generate_thumbnails: thumbnails, suggest_tags: tags, dry_run: false })
+      });
+      const job = await response.json();
+      if (!response.ok) throw new Error(job.detail ?? "Could not queue ingestion job");
+      setIngestJob(job); setScanState("complete");
+      showNotice("Ingestion job queued: " + job.id + ". The worker will process it in the background.");
+    } catch (error) { setScanState("preview"); showNotice(error instanceof Error ? error.message : "Could not start ingestion."); }
   };
 
   const downloadAsset = (asset: Asset) => {
