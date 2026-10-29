@@ -100,10 +100,10 @@ def create_ingest_job(payload: IngestPreviewRequest, db: Session = Depends(get_d
         except (ValueError, PermissionError, FileNotFoundError) as exc:
             raise HTTPException(status_code=403, detail=str(exc)) from exc
     job = create_job(db, payload.source_kind, str(source), payload.model_dump())
-    # Durable record created; this scaffold intentionally doesn't pretend a worker has processed it.
-    job.status = "queued_no_worker"
+    # The separate worker polls this persisted queue and checkpoints per file.
+    job.status = "queued"
     db.commit()
-    return {"id": job.id, "status": job.status, "note": "Job is persisted but a production worker must be configured before processing."}
+    return {"id": job.id, "status": job.status, "note": "Queued for the local worker. Check /api/v1/ingest/jobs for persisted progress."}
 
 
 @app.get(settings.api_prefix + "/ingest/jobs")
