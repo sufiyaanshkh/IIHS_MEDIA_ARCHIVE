@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight, ArrowUpRight, Check, ChevronDown, ChevronRight, CircleHelp, Command,
   FileImage, FileText, FolderClosed, HardDrive, Image as ImageIcon, LayoutGrid,
@@ -16,6 +16,10 @@ type Asset = {
   tags: string[];
   src: string;
   width?: string;
+  filename?: string; sizeBytes?: number; widthPx?: number; heightPx?: number;
+  mediaType?: string; capturedAt?: string | null; ingestedAt?: string | null;
+  semanticMatches?: { label: string; score: number; model?: string }[];
+  employeeNames?: string[];
 };
 
 const demoAssets: Asset[] = [
@@ -55,17 +59,40 @@ function App() {
   const [notice, setNotice] = useState("");
   const [mobileNav, setMobileNav] = useState(false);
   const [view, setView] = useState<"grid" | "list">("grid");
+  const [liveAssets, setLiveAssets] = useState<Asset[] | null>(null);
+  const [apiState, setApiState] = useState<"loading" | "connected" | "offline">("loading");
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("http://127.0.0.1:8000/api/v1/assets?limit=100")
+      .then((response) => { if (!response.ok) throw new Error("API unavailable"); return response.json(); })
+      .then((rows: any[]) => {
+        if (cancelled) return;
+        setLiveAssets(rows.map((row) => ({
+          id: row.id, title: row.name, date: row.taken_at ? new Date(row.taken_at).toLocaleDateString() : "Capture date unknown",
+          kind: row.media_type?.startsWith("image/") ? "Photo" : row.media_type?.startsWith("video/") ? "Video" : "Document",
+          collection: row.path, tags: (row.tags ?? []).map((tag: any) => tag.label), src: row.thumbnail_url ? "http://127.0.0.1:8000" + row.thumbnail_url : "",
+          filename: row.name, sizeBytes: row.size_bytes, widthPx: row.width, heightPx: row.height, mediaType: row.media_type,
+          capturedAt: row.taken_at ?? null, ingestedAt: row.ingested_at ?? null,
+          semanticMatches: (row.semantic_matches ?? []).map((match: any) => ({ label: match.label, score: match.score, model: match.model })),
+          employeeNames: (row.verified_employees ?? []).map((person: any) => person.display_name),
+        })));
+        setApiState("connected");
+      })
+      .catch(() => { if (!cancelled) setApiState("offline"); });
+    return () => { cancelled = true; };
+  }, []);
   const fileInput = useRef<HTMLInputElement>(null);
   const folderInput = useRef<HTMLInputElement>(null);
 
   const filteredAssets = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    return demoAssets.filter((asset) => {
+    return (liveAssets ?? demoAssets).filter((asset) => {
       const matchesQuery = !normalized || [asset.title, asset.collection, asset.kind, ...asset.tags].join(" ").toLowerCase().includes(normalized);
       const matchesType = activeFilter === "All media" || (activeFilter === "Images" && asset.kind === "Photo") || (activeFilter === "Videos" && asset.kind === "Video") || (activeFilter === "Documents" && asset.kind === "Document");
       return matchesQuery && matchesType;
     });
-  }, [query, activeFilter]);
+  }, [query, activeFilter, liveAssets]);
 
   const showNotice = (message: string) => {
     setNotice(message);
@@ -164,7 +191,7 @@ function App() {
             <kbd><Command size={12}/> K</kbd>
             <button className="search-action" onClick={() => showNotice("Semantic search is shown as a design prototype; EmbeddingGemma 2 must be connected in the local backend.")}><ArrowRight size={18}/></button>
           </div>
-          <div className="search-hint"><Sparkles size={12}/> Designed for local semantic search with Google EmbeddingGemma 2 <span>·</span> <span className="muted">keyword search works on this demo data</span></div>
+          <div className="search-hint"><Sparkles size={12}/> Local archive API: {apiState === "connected" ? "connected" : apiState === "loading" ? "connecting…" : "offline"} <span>·</span> <span className="muted">{liveAssets ? "Showing indexed archive records" : "Showing clearly labelled illustrative sample data"}</span></div>
 
           <div className="stats-row">
             <div className="stat-item"><span className="stat-label">ARCHIVE ITEMS</span><div className="stat-value">12,486 <span className="stat-delta">+248 this month</span></div></div>
@@ -179,12 +206,12 @@ function App() {
           </div>
           <div className="filter-bar">
             <div className="filter-tabs">{["All media", "Images", "Videos", "Documents"].map((filter) => <button key={filter} onClick={() => setActiveFilter(filter)} className={activeFilter === filter ? "selected" : ""}>{filter}{filter === "All media" && <span className="filter-total">8</span>}</button>)}</div>
-            <div className="filter-actions"><span className="results-count">{filteredAssets.length} sample items</span><button className="filter-button" onClick={() => showNotice("Collection and date filters will be wired to the archive API.")}><SlidersHorizontal size={15}/> Filters</button><div className="view-toggle"><button className={view === "grid" ? "selected" : ""} onClick={() => setView("grid")} aria-label="Grid view"><LayoutGrid size={15}/></button><button className={view === "list" ? "selected" : ""} onClick={() => setView("list")} aria-label="List view"><ListFilter size={15}/></button></div></div>
+            <div className="filter-actions"><span className="results-count">{filteredAssets.length} {liveAssets ? "archive items" : "sample items"}</span><button className="filter-button" onClick={() => showNotice("Collection and date filters will be wired to the archive API.")}><SlidersHorizontal size={15}/> Filters</button><div className="view-toggle"><button className={view === "grid" ? "selected" : ""} onClick={() => setView("grid")} aria-label="Grid view"><LayoutGrid size={15}/></button><button className={view === "list" ? "selected" : ""} onClick={() => setView("list")} aria-label="List view"><ListFilter size={15}/></button></div></div>
           </div>
           <div className={`asset-grid ${view === "list" ? "asset-list" : ""}`}>
             {filteredAssets.map((asset, index) => <button key={asset.id} className="asset-card" onClick={() => setSelected(asset)}>
               <div className="asset-thumb"><img src={asset.src} alt="" loading="lazy"/><span className="asset-kind">{asset.kind === "Photo" ? <ImageIcon size={12}/> : asset.kind === "Video" ? <Video size={12}/> : <FileText size={12}/>} {asset.kind.toUpperCase()}</span><span className="asset-index">0{index + 1}</span><span className="asset-open"><ArrowUpRight size={17}/></span></div>
-              <div className="asset-info"><div className="asset-meta"><span>{asset.collection}</span><span>{asset.date}</span></div><h3>{asset.title}</h3><div className="tag-row">{asset.tags.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div></div>
+              <div className="asset-info"><div className="asset-meta"><span>{asset.collection}</span><span>{asset.date}</span></div><h3>{asset.title}</h3><div className="tag-row">{asset.tags.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div>{asset.sizeBytes !== undefined && <div className="asset-card-facts"><span>{asset.sizeBytes < 1048576 ? `${Math.round(asset.sizeBytes / 1024)} KB` : `${(asset.sizeBytes / 1048576).toFixed(1)} MB`}</span>{asset.widthPx && asset.heightPx && <span>{asset.widthPx} × {asset.heightPx}</span>}</div>}</div>
             </button>)}
           </div>
           <div className="archive-footer"><span>Showing a sample of the archive</span><span><span className="footer-dot"></span> All sample files are illustrative</span></div>
