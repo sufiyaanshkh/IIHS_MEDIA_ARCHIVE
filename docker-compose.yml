@@ -36,5 +36,24 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+  worker:
+    build: ./backend
+    container_name: iihs_archive_worker
+    restart: unless-stopped
+    command: ["python", "-m", "app.workers.runner"]
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+psycopg://archive:${POSTGRES_PASSWORD:-archive_local_only}@postgres:5432/archive
+      STORAGE_ROOT: /app/data/storage
+      DERIVATIVES_ROOT: /app/data/derivatives
+      PEOPLE_ROOT: /app/data/people
+      INGEST_ROOTS_JSON: '["/archive"]'
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models:ro
+      - ${IIHS_ARCHIVE_MOUNT:-./approved-archive}:/archive:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
 volumes:
   archive_postgres:
