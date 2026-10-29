@@ -1,5 +1,6 @@
 from pathlib import Path
 from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select, or_
@@ -128,6 +129,22 @@ def list_assets(db: Session = Depends(get_db), q: str | None = None, limit: int 
              "tags": [{"label": t.label, "source": t.source, "confidence": t.confidence, "reviewed": t.reviewed} for t in x.tags],
              "semantic_matches": [{"label": t.label, "score": t.confidence, "model": t.source} for t in x.tags if t.source == "embeddinggemma2" and t.confidence is not None],
              "verified_employees": []} for x in rows]
+
+
+@app.get(settings.api_prefix + "/assets/{asset_id}/thumbnail")
+def get_asset_thumbnail(asset_id: int, db: Session = Depends(get_db)):
+    asset = db.get(Asset, asset_id)
+    if not asset or not asset.thumbnail_path:
+        raise HTTPException(status_code=404, detail="Thumbnail not available")
+    root = settings.derivatives_root.resolve()
+    thumbnail = (root / asset.thumbnail_path).resolve()
+    try:
+        thumbnail.relative_to(root)
+    except ValueError as exc:
+        raise HTTPException(status_code=403, detail="Invalid thumbnail path") from exc
+    if not thumbnail.is_file():
+        raise HTTPException(status_code=404, detail="Thumbnail file not found")
+    return FileResponse(thumbnail, media_type="image/webp", filename=thumbnail.name)
 
 
 @app.post(settings.api_prefix + "/assets/{asset_id}/tags")
