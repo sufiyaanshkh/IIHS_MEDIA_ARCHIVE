@@ -1,21 +1,23 @@
 :root {
-  font-family: "DM Sans", sans-serif;
-  color: #252722;
-  background: #f6f5f1;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+  color: #222222;
+  background: #ffffff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --paper: #f6f5f1;
-  --white: #fffefa;
-  --ink: #252722;
-  --muted: #888980;
-  --line: #e4e3dc;
+  --paper: #ffffff;
+  --white: #ffffff;
+  --ink: #222222;
+  --muted: #5e5b52;
+  --line: #a7a7a7;
   --rust: #8c2914;
   --rust-dark: #6e2112;
   --sand: #e9e6d3;
+  --sand-deep: #d8d5c4;
+  --sand-light: #f2efde;
   --green: #687d58;
-  --mono: "DM Mono", monospace;
-  --display: "Manrope", sans-serif;
+  --mono: "Open Sans", Arial, Helvetica, sans-serif;
+  --display: "Open Sans", Arial, Helvetica, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -435,3 +437,8 @@ h1 em { font-style: normal; font-weight: 400; color: var(--rust); }
 .asset-action-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; padding-top:16px; border-top:1px solid #d8d5c4; }
 .asset-action-row .primary-button, .asset-action-row .secondary-button { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:38px; padding:9px 12px; font-size:11px; }
 @media (max-width: 560px) { .asset-action-row { display:grid; grid-template-columns:1fr; } .asset-action-row button { width:100%; } }
+
+/* IIHS design guideline: flat surfaces, warm sand, brick-red accents and restrained corners. */
+button, input, .workspace-pill, .storage-card, .search-panel, .primary-button, .secondary-button, .asset-thumb, .asset-card, .asset-modal, .nav-item, .dropzone, .source-option { border-radius: 2px !important; }
+.asset-card, .search-panel, .storage-card, .ingest-main-card, .side-card, .preview-panel { box-shadow: none !important; }
+.nav-item.active { background: var(--sand); border-color: var(--sand-deep); }
