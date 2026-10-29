@@ -431,3 +431,7 @@ h1 em { font-style: normal; font-weight: 400; color: var(--rust); }
 .semantic-match-list > div > small { grid-column:1 / -1; color:#77766f; font-size:10px; }
 .employee-chip { display:inline-flex; align-items:center; gap:6px; padding:7px 9px; margin:0 6px 6px 0; border:1px solid #d8d5c4; font-size:12px; }
 @media (max-width: 560px) { .asset-detail-grid { grid-template-columns:1fr; } }
+
+.asset-action-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; padding-top:16px; border-top:1px solid #d8d5c4; }
+.asset-action-row .primary-button, .asset-action-row .secondary-button { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:38px; padding:9px 12px; font-size:11px; }
+@media (max-width: 560px) { .asset-action-row { display:grid; grid-template-columns:1fr; } .asset-action-row button { width:100%; } }
