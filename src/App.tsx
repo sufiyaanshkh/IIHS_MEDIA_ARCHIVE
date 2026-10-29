@@ -1,12 +1,10 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  Archive, ArrowDownRight, ArrowLeft, ArrowRight, ArrowUpRight, AudioLines,
-  Bookmark, Check, ChevronDown, ChevronRight, CircleHelp, Command, FileImage,
-  FileText, Filter, FolderClosed, HardDrive, Image as ImageIcon, LayoutGrid,
-  ListFilter, LoaderCircle, Menu, MoreHorizontal, Pause, Play, Plus, Search,
-  Settings2, ShieldCheck, Sparkles, SlidersHorizontal, Upload, Video, X,
-  CalendarDays, Clock3, ScanSearch, Database, CircleCheck, AlertTriangle,
-  FolderOpen, ScanLine, RotateCcw, CheckCircle2
+  ArrowRight, ArrowUpRight, Check, ChevronDown, ChevronRight, CircleHelp, Command,
+  FileImage, FileText, FolderClosed, HardDrive, Image as ImageIcon, LayoutGrid,
+  ListFilter, LoaderCircle, Menu, MoreHorizontal, Plus, Settings2, ShieldCheck,
+  Sparkles, SlidersHorizontal, Upload, Video, X, ScanSearch, Database, CircleCheck,
+  AlertTriangle, FolderOpen, RotateCcw, CheckCircle2
 } from "lucide-react";
 
 type Asset = {
@@ -75,7 +73,7 @@ function App() {
     window.setTimeout(() => setNotice(""), 3600);
   };
 
-  const handleSourcePick = (files: FileList | null, fallback: string) => {
+  const handleSourcePick = (files: FileList | null) => {
     if (!files || files.length === 0) return;
     const first = files[0];
     setSourceName(files.length === 1 ? first.name : `${first.name} + ${files.length - 1} more`);
@@ -205,8 +203,8 @@ function App() {
                 <button className={`source-option ${source === "folder" ? "chosen" : ""}`} onClick={() => pickSource("folder")}><span className="source-icon"><FolderClosed size={20}/></span><strong>A folder</strong><small>Include subfolders if needed</small><span className="radio-circle">{source === "folder" && <span/>}</span></button>
                 <button className={`source-option ${source === "drive" ? "chosen" : ""}`} onClick={() => pickSource("drive")}><span className="source-icon"><HardDrive size={20}/></span><strong>Server drive</strong><small>Approved archive mounts</small><span className="radio-circle">{source === "drive" && <span/>}</span></button>
               </div>
-              <input ref={fileInput} type="file" multiple hidden accept="image/*,video/*,.pdf,.doc,.docx,.txt,.csv,.xlsx,.pptx,.mp3,.wav"/>
-              <input ref={folderInput} type="file" hidden multiple {...({webkitdirectory:""} as React.InputHTMLAttributes<HTMLInputElement>)} />
+              <input ref={fileInput} type="file" multiple hidden accept="image/*,video/*,.pdf,.doc,.docx,.txt,.csv,.xlsx,.pptx,.mp3,.wav" onChange={(e) => handleSourcePick(e.target.files)}/>
+              <input ref={folderInput} type="file" hidden multiple {...({webkitdirectory:""} as React.InputHTMLAttributes<HTMLInputElement>)} onChange={(e) => handleSourcePick(e.target.files)}/>
               {source === "drive" ? <div className="server-note"><ShieldCheck size={17}/><div><strong>Server storage is permission-controlled</strong><p>Select an administrator-approved mount in the connected backend. Arbitrary paths and full-disk scans are never accepted from the browser.</p></div></div> :
                 <button className="dropzone" onClick={() => (source === "folder" ? folderInput.current : fileInput.current)?.click()}><span className="drop-icon"><Upload size={21}/></span><strong>{sourceName || (source === "folder" ? "Choose a folder to scan" : "Choose files to add")}</strong><small>{sourceName ? "Selection staged locally in this browser" : source === "folder" ? "Folder picker · Recursive scanning can be enabled below" : "Select multiple media files at once"}</small><span className="browse-button">Browse {source === "folder" ? "folder" : "files"} <ArrowRight size={14}/></span></button>}
               <div className="options-block"><div className="options-title"><div><h3>Processing preferences</h3><p>Use these defaults or adjust for this batch.</p></div><button className="quiet-icon" onClick={() => {setRecursive(true);setMetadata(true);setThumbnails(true);setTags(true);setDryRun(true);}} aria-label="Reset options"><RotateCcw size={15}/></button></div>
