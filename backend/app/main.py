@@ -121,7 +121,13 @@ def list_assets(db: Session = Depends(get_db), q: str | None = None, limit: int 
     rows = db.scalars(stmt.limit(limit).offset(offset)).all()
     return [{"id": x.id, "name": x.original_name, "path": x.relative_path, "media_type": x.media_type, "size_bytes": x.size_bytes,
              "width": x.width, "height": x.height, "duration_seconds": x.duration_seconds, "thumbnail_path": x.thumbnail_path,
-             "tags": [{"label": t.label, "source": t.source, "confidence": t.confidence, "reviewed": t.reviewed} for t in x.tags]} for x in rows]
+             "thumbnail_url": f"{settings.api_prefix}/assets/{x.id}/thumbnail" if x.thumbnail_path else None,
+             "taken_at": x.taken_at.isoformat() if x.taken_at else None,
+             "ingested_at": x.created_at.isoformat() if x.created_at else None,
+             "metadata": x.metadata_json or {},
+             "tags": [{"label": t.label, "source": t.source, "confidence": t.confidence, "reviewed": t.reviewed} for t in x.tags],
+             "semantic_matches": [{"label": t.label, "score": t.confidence, "model": t.source} for t in x.tags if t.source == "embeddinggemma2" and t.confidence is not None],
+             "verified_employees": []} for x in rows]
 
 
 @app.post(settings.api_prefix + "/assets/{asset_id}/tags")
