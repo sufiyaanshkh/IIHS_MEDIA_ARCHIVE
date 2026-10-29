@@ -15,7 +15,7 @@ class Asset(Base):
     original_name: Mapped[str] = mapped_column(String(1024))
     relative_path: Mapped[str] = mapped_column(String(2048), index=True)
     media_type: Mapped[str] = mapped_column(String(100), index=True)
-    size_bytes: Mapped[int] = mapped_column(Integer)
+    size_bytes: Mapped[int] = mapped_column(BigInteger)
     width: Mapped[int | None] = mapped_column(Integer, nullable=True)
     height: Mapped[int | None] = mapped_column(Integer, nullable=True)
     duration_seconds: Mapped[float | None] = mapped_column(nullable=True)
