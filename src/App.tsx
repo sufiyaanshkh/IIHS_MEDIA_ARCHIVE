@@ -125,6 +125,43 @@ function App() {
     window.setTimeout(() => setScanState("complete"), 1200);
   };
 
+  const downloadAsset = (asset: Asset) => {
+    if (!liveAssets) { showNotice("Download is available for indexed archive records, not illustrative sample cards."); return; }
+    window.open(`http://127.0.0.1:8000/api/v1/assets/${asset.id}/download`, "_blank", "noopener,noreferrer");
+  };
+
+  const addAssetTag = async (asset: Asset) => {
+    if (!liveAssets) { showNotice("Add tag is available for indexed archive records only."); return; }
+    const label = window.prompt("Enter an IIHS keyword or tag:");
+    if (!label?.trim()) return;
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/v1/assets/${asset.id}/tags`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ label: label.trim(), source: "manual" })
+      });
+      if (!response.ok) throw new Error("Tag could not be saved");
+      const saved = await response.json();
+      const updated = { ...asset, tags: [...asset.tags, saved.label] };
+      setLiveAssets((items) => items?.map((item) => item.id === asset.id ? updated : item) ?? null);
+      setSelected(updated);
+      showNotice("Keyword saved to the archive record.");
+    } catch {
+      showNotice("Could not save the tag. Check that the local API is running.");
+    }
+  };
+
+  const sendAssetToReview = async (asset: Asset) => {
+    if (!liveAssets) { showNotice("Review submission is available for indexed archive records only."); return; }
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/v1/assets/${asset.id}/review`, { method: "POST" });
+      if (!response.ok) throw new Error("Review submission failed");
+      const result = await response.json();
+      showNotice(result.message ?? "Asset sent to review.");
+    } catch {
+      showNotice("Could not send this asset to review. Check that the local API is running.");
+    }
+  };
+
   const pickSource = (next: Source) => {
     setSource(next);
     setSourceName("");
@@ -255,7 +292,7 @@ function App() {
 
         <footer className="main-footer"><span>IIHS MEDIA ARCHIVE <span className="footer-sep">/</span> FIELD NOTES FOR THE FUTURE</span><span><span className="footer-dot"></span> Prototype · Sample data only</span></footer>
       </main>
-      {selected && <div className="modal-backdrop" onClick={() => setSelected(null)}><div className="asset-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setSelected(null)} aria-label="Close detail"><X size={18}/></button><img src={selected.src} alt=""/><div className="modal-content"><span className="card-kicker">{selected.kind} / {liveAssets ? "ARCHIVE RECORD" : "ILLUSTRATIVE SAMPLE"}</span><h2>{selected.filename ?? selected.title}</h2><p>{selected.collection}</p><div className="asset-detail-grid"><div><small>CAPTURE DATE</small><strong>{selected.capturedAt ? new Date(selected.capturedAt).toLocaleString() : "Not recorded"}</strong></div><div><small>INGESTED</small><strong>{selected.ingestedAt ? new Date(selected.ingestedAt).toLocaleString() : "Not available"}</strong></div><div><small>FILE TYPE</small><strong>{selected.mediaType ?? selected.kind}</strong></div><div><small>FILE SIZE</small><strong>{selected.sizeBytes === undefined ? "Not available" : `${(selected.sizeBytes / 1048576).toFixed(2)} MB`}</strong></div><div><small>DIMENSIONS</small><strong>{selected.widthPx && selected.heightPx ? `${selected.widthPx} × ${selected.heightPx}` : "Not available"}</strong></div><div><small>PATH</small><strong>{selected.collection}</strong></div></div><section className="asset-detail-section"><h3>IIHS keywords</h3><div className="tag-row modal-tags">{selected.tags.length ? selected.tags.map((tag) => <span key={tag}>{tag}</span>) : <span className="detail-empty">No keywords assigned</span>}</div></section><section className="asset-detail-section"><h3>EmbeddingGemma 2 semantic matches</h3>{selected.semanticMatches?.length ? <div className="semantic-match-list">{selected.semanticMatches.map((match) => <div key={match.label}><span>{match.label}</span><strong>{(match.score * 100).toFixed(1)}%</strong><small>{match.model ?? "Model recorded by backend"}</small></div>)}</div> : <p className="detail-empty">No EmbeddingGemma 2 matches stored for this asset.</p>}</section><section className="asset-detail-section"><h3>Verified employee associations</h3>{selected.employeeNames?.length ? selected.employeeNames.map((name) => <span className="employee-chip" key={name}><ShieldCheck size={13}/>{name}</span>) : <p className="detail-empty">No verified employee association recorded.</p>}</section><div className="modal-meta"><span><ShieldCheck size={15}/> Record source <strong>{liveAssets ? "Local API" : "Sample only"}</strong></span></div></div></div></div>}
+      {selected && <div className="modal-backdrop" onClick={() => setSelected(null)}><div className="asset-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setSelected(null)} aria-label="Close detail"><X size={18}/></button><img src={selected.src} alt=""/><div className="modal-content"><span className="card-kicker">{selected.kind} / {liveAssets ? "ARCHIVE RECORD" : "ILLUSTRATIVE SAMPLE"}</span><h2>{selected.filename ?? selected.title}</h2><p>{selected.collection}</p><div className="asset-detail-grid"><div><small>CAPTURE DATE</small><strong>{selected.capturedAt ? new Date(selected.capturedAt).toLocaleString() : "Not recorded"}</strong></div><div><small>INGESTED</small><strong>{selected.ingestedAt ? new Date(selected.ingestedAt).toLocaleString() : "Not available"}</strong></div><div><small>FILE TYPE</small><strong>{selected.mediaType ?? selected.kind}</strong></div><div><small>FILE SIZE</small><strong>{selected.sizeBytes === undefined ? "Not available" : `${(selected.sizeBytes / 1048576).toFixed(2)} MB`}</strong></div><div><small>DIMENSIONS</small><strong>{selected.widthPx && selected.heightPx ? `${selected.widthPx} × ${selected.heightPx}` : "Not available"}</strong></div><div><small>PATH</small><strong>{selected.collection}</strong></div></div><section className="asset-detail-section"><h3>IIHS keywords</h3><div className="tag-row modal-tags">{selected.tags.length ? selected.tags.map((tag) => <span key={tag}>{tag}</span>) : <span className="detail-empty">No keywords assigned</span>}</div></section><section className="asset-detail-section"><h3>EmbeddingGemma 2 semantic matches</h3>{selected.semanticMatches?.length ? <div className="semantic-match-list">{selected.semanticMatches.map((match) => <div key={match.label}><span>{match.label}</span><strong>{(match.score * 100).toFixed(1)}%</strong><small>{match.model ?? "Model recorded by backend"}</small></div>)}</div> : <p className="detail-empty">No EmbeddingGemma 2 matches stored for this asset.</p>}</section><section className="asset-detail-section"><h3>Verified employee associations</h3>{selected.employeeNames?.length ? selected.employeeNames.map((name) => <span className="employee-chip" key={name}><ShieldCheck size={13}/>{name}</span>) : <p className="detail-empty">No verified employee association recorded.</p>}</section><div className="modal-meta"><span><ShieldCheck size={15}/> Record source <strong>{liveAssets ? "Local API" : "Sample only"}</strong></span></div><div className="asset-action-row"><button className="secondary-button" onClick={() => downloadAsset(selected)}><ArrowUpRight size={15}/> Download original</button><button className="secondary-button" onClick={() => addAssetTag(selected)}><Plus size={15}/> Add a tag</button><button className="primary-button" onClick={() => sendAssetToReview(selected)}><ScanSearch size={15}/> Send to review</button></div></div></div></div>}
       {notice && <div role="status" className="toast"><span className="toast-mark"><Check size={14}/></span>{notice}<button onClick={() => setNotice("")} aria-label="Dismiss notification"><X size={14}/></button></div>}
     </div>
   );
