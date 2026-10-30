@@ -15,6 +15,7 @@ from app.config import settings
 from app.database import SessionLocal
 from app.models import AssetEmbedding, AuditEvent, IngestionJob, JobCandidate, JobState, MediaAsset, SourceDefinition, VideoFrame
 from app.services.embeddings import image_embedding, text_embeddings, transcribe_audio
+from app.services.contextual_metadata import infer_path_context
 from app.services.document_readers import SUPPORTED_DOCUMENT_EXTENSIONS, extract_document_text
 from app.services.media import MediaValidationError, copy_original, extract_audio, extract_image_text, image_thumbnail, inspect_media, resolve_under_root, sha256_file, video_frame
 
@@ -146,7 +147,7 @@ def _run_preview(job_id: str):
                 seen_hashes.add(digest)
                 state = "duplicate" if duplicate else "ready"
                 item = db.scalar(select(JobCandidate).where(JobCandidate.job_id == job_id, JobCandidate.source_relative_key == relative))
-                values = dict(original_filename=path.name, media_type=metadata["media_type"], size_bytes=metadata["size"], sha256=digest, state=state, message="Already catalogued or duplicated in this proposal." if duplicate else None, metadata_json=metadata)
+                values = dict(original_filename=path.name, media_type=metadata["media_type"], size_bytes=metadata["size"], sha256=digest, state=state, message="Already catalogued or duplicated in this proposal." if duplicate else None, metadata_json=metadata | {"context": infer_path_context(relative)})
                 if item:
                     for key, value in values.items():
                         setattr(item, key, value)
@@ -280,7 +281,7 @@ def _run_ingest(job_id: str):
                 stored_path = copy_original(path, storage_key)
                 if sha256_file(stored_path) != candidate.sha256:
                     raise MediaValidationError("source changed while it was being copied")
-                asset = MediaAsset(id=asset_id, source_id=source.id, source_relative_key=candidate.source_relative_key, original_filename=candidate.original_filename, media_type=metadata["media_type"], detected_mime=metadata["mime"], size_bytes=metadata["size"], sha256=candidate.sha256, storage_key=storage_key, width=metadata.get("width"), height=metadata.get("height"), duration_ms=metadata.get("duration_ms"), metadata_json={"ingestion_job_id": job_id})
+                asset = MediaAsset(id=asset_id, source_id=source.id, source_relative_key=candidate.source_relative_key, original_filename=candidate.original_filename, media_type=metadata["media_type"], detected_mime=metadata["mime"], size_bytes=metadata["size"], sha256=candidate.sha256, storage_key=storage_key, width=metadata.get("width"), height=metadata.get("height"), duration_ms=metadata.get("duration_ms"), metadata_json={"ingestion_job_id": job_id, "context": infer_path_context(candidate.source_relative_key)})
                 db.add(asset)
                 if asset.media_type == "image":
                     try:
@@ -295,6 +296,9 @@ def _run_ingest(job_id: str):
                     item_derivative_failures += frame_failures
                 item_derivative_failures += int(asset.metadata_json.get("derivative_status") == "thumbnail_unavailable")
                 db.flush()
+                context_text = (asset.metadata_json.get("context") or {}).get("context_text", "")
+                if context_text:
+                    _store_text_embeddings(db, asset, context_text, "context")
                 if not embedding_sources:
                     raise MediaValidationError("No image frame was available for semantic indexing")
                 for frame, image_path in embedding_sources:
