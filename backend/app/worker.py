@@ -14,6 +14,7 @@ from app.config import settings
 from app.database import SessionLocal
 from app.models import AssetEmbedding, AuditEvent, IngestionJob, JobCandidate, JobState, MediaAsset, SourceDefinition, VideoFrame
 from app.services.embeddings import image_embedding, text_embeddings, transcribe_audio
+from app.services.document_readers import SUPPORTED_DOCUMENT_EXTENSIONS, extract_document_text
 from app.services.media import MediaValidationError, copy_original, extract_audio, extract_image_text, image_thumbnail, inspect_media, resolve_under_root, sha256_file, video_frame
 
 logging.basicConfig(level=logging.INFO)
