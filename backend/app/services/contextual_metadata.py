@@ -33,7 +33,7 @@ def _contains_term(text: str, term: str) -> bool:
 
 def infer_path_context(relative_path: str) -> dict:
     """Return traceable IIHS vocabulary matches from path, filename and ancestors."""
-    path = Path(relative_path.replace("\\\\", "/"))
+    path = Path(relative_path.replace("\\", "/"))
     parts = [part for part in path.parts if part not in {"", ".", ".."}]
     filename = parts[-1] if parts else relative_path
     folders = parts[:-1]
