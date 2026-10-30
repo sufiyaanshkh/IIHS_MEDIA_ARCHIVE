@@ -25,7 +25,10 @@ class Settings:
     local_ml_token: str = os.getenv("LOCAL_ML_TOKEN", "")
     embedding_model: str = "google/embeddinggemma-2"
     embedding_revision: str = "bfcd298762cc34d0357ece5ebdd31791a3a374d8"
-    digup_executable: str = os.getenv("DIGUP_EXECUTABLE", "/Applications/DigUp.app/Contents/Helpers/digup")
+    embedding_query_prompt: str = os.getenv("EMBEDDING_QUERY_PROMPT", "task: search result | query: {query}")
+    embedding_document_prompt: str = os.getenv("EMBEDDING_DOCUMENT_PROMPT", "title: {title} | text: {text}")
+    document_chunk_chars: int = int(os.getenv("DOCUMENT_CHUNK_CHARS", "1200"))
+    document_chunk_overlap: int = int(os.getenv("DOCUMENT_CHUNK_OVERLAP", "180"))
     video_frame_interval_seconds: int = int(os.getenv("VIDEO_FRAME_INTERVAL_SECONDS", "5"))
     video_frame_max: int = int(os.getenv("VIDEO_FRAME_MAX", "120"))
     max_transcription_seconds: int = int(os.getenv("MAX_TRANSCRIPTION_SECONDS", "10800"))

@@ -5,6 +5,7 @@ import shutil
 import threading
 import time
 import uuid
+import zipfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from app.config import settings
 from app.database import SessionLocal
 from app.models import AssetEmbedding, AuditEvent, IngestionJob, JobCandidate, JobState, MediaAsset, SourceDefinition, VideoFrame
 from app.services.embeddings import image_embedding, text_embeddings, transcribe_audio
+from app.services.document_readers import SUPPORTED_DOCUMENT_EXTENSIONS, extract_document_text
 from app.services.media import MediaValidationError, copy_original, extract_audio, extract_image_text, image_thumbnail, inspect_media, resolve_under_root, sha256_file, video_frame
 
 logging.basicConfig(level=logging.INFO)
@@ -94,7 +96,8 @@ def _walk(root: Path, limit: int):
             candidate = Path(directory) / name
             if candidate.is_symlink():
                 continue
-            if candidate.suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".mp4", ".mov", ".m4v"}:
+            supported_media = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".mp4", ".mov", ".m4v"}
+            if candidate.suffix.lower() not in supported_media | SUPPORTED_DOCUMENT_EXTENSIONS:
                 continue
             if len(discovered) == limit:
                 truncated = True
@@ -211,11 +214,14 @@ def _store_video_frames(db, asset, original: Path, metadata, created_paths):
 
 
 def _store_text_embeddings(db, asset, text: str, modality: str):
-    chunks = [text[index:index + 500] for index in range(0, len(text), 500) if text[index:index + 500].strip()]
+    from app.services.search_segments import chunk_text
+    chunks = chunk_text(text, max_chars=settings.document_chunk_chars, overlap=settings.document_chunk_overlap)
     for offset in range(0, len(chunks), 32):
-        vectors = text_embeddings(chunks[offset:offset + 32])
+        prompts = [settings.embedding_document_prompt.format(title=asset.original_filename, text=chunk) for chunk in chunks[offset:offset + 32]]
+        vectors = text_embeddings(prompts)
         for vector, model_id, model_revision in vectors:
             db.add(AssetEmbedding(asset_id=asset.id, embedding=vector, modality=modality, model_id=model_id, model_revision=model_revision))
+
 
 
 def _run_ingest(job_id: str):
@@ -301,6 +307,23 @@ def _run_ingest(job_id: str):
                         if ocr_text:
                             _store_text_embeddings(db, asset, ocr_text, "ocr")
                     except MediaValidationError:
+                        asset.metadata_json = asset.metadata_json | {"text_extraction": {"status": "unavailable", "text": ""}}
+                elif path.suffix.lower() in SUPPORTED_DOCUMENT_EXTENSIONS:
+                    try:
+                        extracted = extract_document_text(stored_path)
+                        segments = extracted.get("segments", [])
+                        for segment in segments:
+                            text_value = (segment.get("text") or "").strip()
+                            if text_value:
+                                _store_text_embeddings(db, asset, text_value, f"document_{segment.get('kind', 'text')}")
+                        asset.metadata_json = asset.metadata_json | {
+                            "text_extraction": {
+                                "status": "ready" if extracted.get("text") else "no_text",
+                                "text": extracted.get("text", "")[:500000],
+                                "segments": [{"kind": item.get("kind"), "ordinal": item.get("ordinal"), "title": item.get("title")} for item in segments],
+                            }
+                        }
+                    except (OSError, ValueError, KeyError, zipfile.BadZipFile):
                         asset.metadata_json = asset.metadata_json | {"text_extraction": {"status": "unavailable", "text": ""}}
                 indexed += 1
                 if asset.media_type == "video":
