@@ -96,7 +96,8 @@ def _walk(root: Path, limit: int):
             candidate = Path(directory) / name
             if candidate.is_symlink():
                 continue
-            if candidate.suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".mp4", ".mov", ".m4v"}:
+            supported_media = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".mp4", ".mov", ".m4v"}
+            if candidate.suffix.lower() not in supported_media | SUPPORTED_DOCUMENT_EXTENSIONS:
                 continue
             if len(discovered) == limit:
                 truncated = True
