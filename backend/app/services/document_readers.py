@@ -38,6 +38,17 @@ def extract_document_text(path: Path, max_bytes: int = 64 * 1024 * 1024) -> dict
         value = re.sub(r"[{}]", " ", value)
         value = re.sub(r"\s+", " ", value).strip()
         return _result([{"kind": "document", "ordinal": 0, "title": path.name, "text": value}])
+
+    if suffix == ".pdf":
+        from pypdf import PdfReader
+        reader = PdfReader(str(path), strict=False)
+        segments = []
+        for page_no, page in enumerate(reader.pages[:5000], start=1):
+            value = (page.extract_text() or "").strip()
+            if value:
+                segments.append({"kind": "page", "ordinal": page_no, "title": f"{path.name} — page {page_no}", "text": value[:20000]})
+        return _result(segments)
+
     if suffix in {".docx", ".odt"}:
         entry = "word/document.xml" if suffix == ".docx" else "content.xml"
         with zipfile.ZipFile(path) as archive:
