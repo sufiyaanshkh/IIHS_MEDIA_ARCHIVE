@@ -23,18 +23,18 @@ def load_vocabulary() -> list[dict]:
 
 
 def _contains_term(text: str, term: str) -> bool:
-    # Phrase-aware matching; punctuation/underscores in archive paths act as separators.
-    haystack = re.sub(r"[^\\w]+", " ", text.casefold(), flags=re.UNICODE)
-    needle = re.sub(r"[^\\w]+", " ", term.casefold(), flags=re.UNICODE).strip()
+    # Treat underscores, punctuation and spaces as equivalent separators.
+    haystack = re.sub(r"[^\w]+", " ", text.casefold(), flags=re.UNICODE)
+    needle = re.sub(r"[^\w]+", " ", term.casefold(), flags=re.UNICODE).strip()
     if not needle:
         return False
-    return re.search(r"(?<!\\w)" + re.escape(needle) + r"(?!\\w)", haystack) is not None
+    return re.search(r"(?<!\w)" + re.escape(needle) + r"(?!\w)", haystack) is not None
 
 
 def infer_path_context(relative_path: str) -> dict:
     """Return traceable IIHS vocabulary matches from path, filename and ancestors."""
-    path = Path(relative_path.replace("\\", "/"))
-    parts = [part for part in path.parts if part not in {"", ".", ".."}]
+    normalized = relative_path.replace("\\", "/")
+    parts = [part for part in normalized.split("/") if part not in {"", ".", ".."}]
     filename = parts[-1] if parts else relative_path
     folders = parts[:-1]
     path_text = " / ".join(parts)
