@@ -39,7 +39,7 @@ def image_embedding(path: Path):
 
 
 def text_embedding(text: str):
-    return text_embeddings([text])[0]
+    return text_embeddings([settings.embedding_query_prompt.format(query=text)])[0]
 
 
 def text_embeddings(texts: list[str]):
