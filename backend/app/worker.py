@@ -211,11 +211,14 @@ def _store_video_frames(db, asset, original: Path, metadata, created_paths):
 
 
 def _store_text_embeddings(db, asset, text: str, modality: str):
-    chunks = [text[index:index + 500] for index in range(0, len(text), 500) if text[index:index + 500].strip()]
+    from app.services.search_segments import chunk_text
+    chunks = chunk_text(text, max_chars=settings.document_chunk_chars, overlap=settings.document_chunk_overlap)
     for offset in range(0, len(chunks), 32):
-        vectors = text_embeddings(chunks[offset:offset + 32])
+        prompts = [settings.embedding_document_prompt.format(title=asset.original_filename, text=chunk) for chunk in chunks[offset:offset + 32]]
+        vectors = text_embeddings(prompts)
         for vector, model_id, model_revision in vectors:
             db.add(AssetEmbedding(asset_id=asset.id, embedding=vector, modality=modality, model_id=model_id, model_revision=model_revision))
+
 
 
 def _run_ingest(job_id: str):
