@@ -5,6 +5,7 @@ import shutil
 import threading
 import time
 import uuid
+import zipfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -305,6 +306,23 @@ def _run_ingest(job_id: str):
                         if ocr_text:
                             _store_text_embeddings(db, asset, ocr_text, "ocr")
                     except MediaValidationError:
+                        asset.metadata_json = asset.metadata_json | {"text_extraction": {"status": "unavailable", "text": ""}}
+                elif path.suffix.lower() in SUPPORTED_DOCUMENT_EXTENSIONS:
+                    try:
+                        extracted = extract_document_text(stored_path)
+                        segments = extracted.get("segments", [])
+                        for segment in segments:
+                            text_value = (segment.get("text") or "").strip()
+                            if text_value:
+                                _store_text_embeddings(db, asset, text_value, f"document_{segment.get('kind', 'text')}")
+                        asset.metadata_json = asset.metadata_json | {
+                            "text_extraction": {
+                                "status": "ready" if extracted.get("text") else "no_text",
+                                "text": extracted.get("text", "")[:500000],
+                                "segments": [{"kind": item.get("kind"), "ordinal": item.get("ordinal"), "title": item.get("title")} for item in segments],
+                            }
+                        }
+                    except (OSError, ValueError, KeyError, zipfile.BadZipFile):
                         asset.metadata_json = asset.metadata_json | {"text_extraction": {"status": "unavailable", "text": ""}}
                 indexed += 1
                 if asset.media_type == "video":
