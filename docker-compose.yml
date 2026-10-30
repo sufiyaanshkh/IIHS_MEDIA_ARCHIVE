@@ -1,59 +1,91 @@
+x-app-environment: &app-environment
+  DEMO_MODE: ${DEMO_MODE:-true}
+  DATABASE_URL: postgresql+psycopg://iihs_demo:${POSTGRES_PASSWORD:-local-demo-only}@postgres:5432/iihs_demo
+  MEDIA_STORAGE_ROOT: /app/storage
+  DEMO_MEDIA_ROOT: /app/demo_media
+  APPROVED_SOURCE_ROOTS: ${APPROVED_SOURCE_ROOTS:-}
+  CORS_ORIGINS: ${CORS_ORIGINS:-http://127.0.0.1:5173}
+  COOKIE_SECURE: ${COOKIE_SECURE:-false}
+  SESSION_HOURS: ${SESSION_HOURS:-8}
+  INITIAL_ADMIN_TOKEN: ${INITIAL_ADMIN_TOKEN:-}
+  ALLOW_SELF_REGISTRATION: ${ALLOW_SELF_REGISTRATION:-true}
+  MAX_FILES_PER_JOB: ${MAX_FILES_PER_JOB:-0}
+  MAX_FILE_BYTES: ${MAX_FILE_BYTES:-0}
+  MAX_IMPORT_BYTES: ${MAX_IMPORT_BYTES:-0}
+  MIN_STORAGE_FREE_BYTES: ${MIN_STORAGE_FREE_BYTES:-1073741824}
+  VIDEO_FRAME_INTERVAL_SECONDS: ${VIDEO_FRAME_INTERVAL_SECONDS:-5}
+  VIDEO_FRAME_MAX: ${VIDEO_FRAME_MAX:-120}
+  MAX_TRANSCRIPTION_SECONDS: ${MAX_TRANSCRIPTION_SECONDS:-10800}
+  FACE_FEATURE_ENABLED: ${FACE_FEATURE_ENABLED:-false}
+  LOCAL_ML_URL: ${LOCAL_ML_URL:-http://host.docker.internal:8765}
+  LOCAL_ML_TOKEN: ${LOCAL_ML_TOKEN:-}
+
 services:
   postgres:
-    image: postgres:16
-    container_name: iihs_archive_postgres
-    restart: unless-stopped
+    image: pgvector/pgvector:0.8.7-pg16-bookworm
     environment:
-      POSTGRES_DB: archive
-      POSTGRES_USER: archive
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-archive_local_only}
-    ports:
-      - "127.0.0.1:5433:5432"
+      POSTGRES_DB: iihs_demo
+      POSTGRES_USER: iihs_demo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-demo-only}
     volumes:
-      - archive_postgres:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U archive -d archive"]
-      interval: 10s
-      timeout: 5s
+      test: ["CMD-SHELL", "pg_isready -U iihs_demo -d iihs_demo"]
+      interval: 5s
+      timeout: 3s
       retries: 10
+
+  migrate:
+    build: ./backend
+    command: ["alembic", "-c", "alembic.ini", "upgrade", "head"]
+    environment: *app-environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
   api:
     build: ./backend
-    container_name: iihs_archive_api
-    restart: unless-stopped
-    env_file: ./backend/.env
-    environment:
-      DATABASE_URL: postgresql+psycopg://archive:${POSTGRES_PASSWORD:-archive_local_only}@postgres:5432/archive
-      STORAGE_ROOT: /app/data/storage
-      DERIVATIVES_ROOT: /app/data/derivatives
-      PEOPLE_ROOT: /app/data/people
-      INGEST_ROOTS_JSON: '["/archive"]'
+    environment: *app-environment
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:${API_PORT:-8010}:8000"
     volumes:
-      - ./data:/app/data
-      - ./models:/app/models:ro
-      - ${IIHS_ARCHIVE_MOUNT:-./approved-archive}:/archive:ro
+      - media_data:/app/storage
+      - ./demo_media:/app/demo_media:ro
     depends_on:
-      postgres:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
   worker:
     build: ./backend
-    container_name: iihs_archive_worker
-    restart: unless-stopped
-    command: ["python", "-m", "app.workers.runner"]
-    env_file: ./backend/.env
-    environment:
-      DATABASE_URL: postgresql+psycopg://archive:${POSTGRES_PASSWORD:-archive_local_only}@postgres:5432/archive
-      STORAGE_ROOT: /app/data/storage
-      DERIVATIVES_ROOT: /app/data/derivatives
-      PEOPLE_ROOT: /app/data/people
-      INGEST_ROOTS_JSON: '["/archive"]'
+    command: ["python", "-m", "app.worker"]
+    environment: *app-environment
     volumes:
-      - ./data:/app/data
-      - ./models:/app/models:ro
-      - ${IIHS_ARCHIVE_MOUNT:-./approved-archive}:/archive:ro
+      - media_data:/app/storage
+      - ./demo_media:/app/demo_media:ro
     depends_on:
-      postgres:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  web:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:${WEB_PORT:-5174}:8080"
+    depends_on:
+      api:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
 volumes:
-  archive_postgres:
+  pgdata:
+  media_data:

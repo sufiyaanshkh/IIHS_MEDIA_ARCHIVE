@@ -1,0 +1,36 @@
+# Requirement-to-Implementation Matrix
+
+**Target:** `/Users/macbookair/Desktop/iihs_Projects/IIHS MEDIA ARCHIVE`  
+**Baseline audit:** 2026-10-29; target was empty before implementation.  
+**Current state:** Local demo/staging application; no production-pilot approval is claimed.  
+**Status key:** `verified` has code and a relevant successful check; `partial` has a working subset or an unverified runtime; `missing` is not implemented; `blocked` requires institutional approval or an owner decision.
+
+| Requirement | Source | Status | Evidence | Remaining gap or gate |
+|---|---|---|---|---|
+| Local-first React/TypeScript, FastAPI, PostgreSQL and Compose application | 02; 03; 12 | partial | `frontend/`, `backend/`, `docker-compose.yml`, backend Dockerfile and Nginx proxy | Frontend build, Python syntax and Compose configuration checked; full image build, Compose startup and browser flow not checked because Docker daemon is unavailable. |
+| Authentication, registration, role checks, sessions, CSRF and account revocation | 01 FR-01; 05; 08 | partial | `backend/app/api/auth.py`, `security.py`, `deps.py`; first-admin key setup; open rate-limited researcher registration; administrator-only role grants | Run new auth route tests in an environment with `pgvector`; open registration must be disabled before broader network exposure. |
+| Persisted image/video catalogue, provenance and authorized delivery | 01 FR-02; 04; 05 | partial | SQLAlchemy models/migration; `backend/app/api/assets.py`; protected media/thumbnail/frame routes | Postgres migration/runtime and end-to-end authorization checks await Docker/Postgres runtime. Catalog metadata is limited to extracted fields. |
+| No startup scan; approved roots, bounded preview, and explicit file-picker import | 01 FR-03; 06; 08 | partial | source list uses server configuration; explicit picker uploads queue durable jobs; file count, byte, type, content, duplicate, and storage limits enforced; folder preview remains explicit; loopback Compose | Test live browser upload and worker indexing against PostgreSQL; non-demo roots remain unset. |
+| Durable jobs, progress, cancellation, retry and restart recovery | 02; 04; 06; 12 Phase 4 | partial | `backend/app/worker.py`, job APIs and database constraints | Job race/recovery logic needs integration tests and multi-worker contention validation. |
+| File validation, traversal/symlink protection, checksums and safe storage | 06; 08 | partial | `backend/app/services/media.py`; worker revalidates files and hash before/after copy | Add adversarial parser/path tests and concurrent duplicate-ingestion test; review disk threshold for derivative writes. |
+| Human annotations remain optional after ingestion | 01 FR-04; 04; 05 | partial | Annotation APIs remain available; ingest auto-indexes and has no mandatory post-ingest review gate | Annotation workflow and role tests need broader coverage. |
+| Keyword and semantic search with authorization | 01 FR-05; 05; 07 | partial | `backend/app/api/assets.py`; separate Search and Media catalogue menus; visual/text search, media type and added-year filters; OCR, transcript and annotation keyword matching | PostgreSQL/pgvector runtime and representative relevance evaluation remain unverified; added year is ingestion record date. |
+| Local video metadata and bounded frame sampling | 01 FR-06; 04; 06 | partial | FFprobe/FFmpeg wrappers and `video_frames` persistence | Container execution, fixture coverage, package pinning and resource-limit validation remain. |
+| Face enrollment/matching safeguards | 01 FR-07; 04; 07; 08 | blocked | Feature flag is rejected; no model weights or face routes | Keep disabled pending written IIHS privacy/legal/governance approval, a lawful and defined purpose, employee notice/consent basis, access and retention/deletion rules, representative false-match evaluation, human confirmation, and a model license suitable for institutional use. |
+| Operations visibility, audit and capability reporting | 01 FR-08; 05; 11 | partial | Operations APIs/UI and audit events | No alerts, backup/restore workflow, worker liveness, metrics or incident owner. |
+| Data model, migration, integrity and retention | 04; 12 Phase 3 | partial | `backend/app/models.py`, initial Alembic migration | Migration has not run against a real PostgreSQL service; institutional retention/deletion policy is undecided. |
+| Design tokens, responsive UI and accessibility states | 10; 12 Phase 2 | partial | `frontend/src/style.css`, semantic controls, skip link, focus/reduced-motion and loading/error/empty states | One live desktop browser flow was exercised; human accessibility, device and production-browser reviews remain outstanding. |
+| Local visual indexing, OCR, and video transcript/English translation | 07; user instruction | partial | Worker embeds each ingested image/frame, extracts bounded English OCR via Tesseract, and embeds OCR/transcript text; local bridge uses DigUp EmbeddingGemma 2 and Whisper small; migration 0004 allows OCR vectors | Live image upload, visual semantic retrieval, stored EmbeddingGemma 2 image/OCR vectors and completed job verified for one image; video transcription/translation and representative relevance evaluation remain outstanding. OCR does not identify people or generate descriptive visual tags. |
+| Security/release gates and operational readiness | 08; 09; 11 | partial | restrictive defaults, password bootstrap, server-side role checks, CSRF, audit, loopback ports, non-root container; frontend dependency lockfile generated | npm audit could not reach registry.npmjs.org in this environment; dependency vulnerability review, secrets scan, backup restore, incident ownership and production security sign-off remain outstanding. |
+| Production pilot and real archive intake | 01 §6; 06 §9; 12 Phase 9 | blocked | No real roots configured by default | Requires written scoped authorization, named operator, measured inventory, owner sign-off and passed security/backup/recovery gates. |
+
+## Checks recorded for this revision
+
+- Frontend: `npm run build` — passed in the requested destination after final integration.
+- Backend pytest — 9 passed in a disposable Python 3.12 container; three upstream deprecation warnings.
+- Compose: `docker compose config --quiet` — passed; resolved configuration is valid.
+- Local ML bridge: manual synthetic DigUp text/image embedding and Whisper speech transcription/English translation checks passed.
+- PostgreSQL migration 0004 applied to the local demo database; OCR modality constraint verified. One live image upload completed (1 ingested, 1 indexed, 0 failed), stored image and OCR vectors with the pinned EmbeddingGemma 2 revision, and a natural-language visual search returned that image. Local Docker app and UI are running.
+- Full security/dependency audit, multi-file/video throughput, backup restore, accessibility review and production rollout remain outstanding.
+
+Automatic indexing and semantic retrieval are implemented, but the unverified runtime and institutional gates mean this is not production-ready or pilot-approved. Keep the demo source synthetic, face processing disabled, and do not ingest real archive content until approval gates are met.

@@ -1,0 +1,3506 @@
+{
+ "source": "IIHS_photo_tag_keywords_extracted_from_Institutional_book.xlsx",
+ "excluded_place_names": 161,
+ "keywords": [
+  {
+   "keyword": "IIHS",
+   "category": "Institution & Identity",
+   "notes": "Institutional abbreviation; use on any photo of the institution, its people or sites"
+  },
+  {
+   "keyword": "Indian Institute for Human Settlements",
+   "category": "Institution & Identity",
+   "notes": "Full institutional name"
+  },
+  {
+   "keyword": "IIHS at 15",
+   "category": "Institution & Identity",
+   "notes": "15-year anniversary / milestone imagery"
+  },
+  {
+   "keyword": "IIHS@15",
+   "category": "Institution & Identity",
+   "notes": "Anniversary hashtag and branding"
+  },
+  {
+   "keyword": "Urban transformation",
+   "category": "Institution & Identity",
+   "notes": "Core mission theme"
+  },
+  {
+   "keyword": "Knowledge institution",
+   "category": "Institution & Identity",
+   "notes": "Institutional character"
+  },
+  {
+   "keyword": "Interdisciplinary university",
+   "category": "Institution & Identity",
+   "notes": "Institutional character"
+  },
+  {
+   "keyword": "Institution building",
+   "category": "Institution & Identity",
+   "notes": "Photos of governance, milestones, foundational moments"
+  },
+  {
+   "keyword": "Board members",
+   "category": "Institution & Identity",
+   "notes": "Board and governance group photos"
+  },
+  {
+   "keyword": "International Advisory Committee",
+   "category": "Institution & Identity",
+   "notes": "IAC meetings and member portraits"
+  },
+  {
+   "keyword": "Promoters and shareholders",
+   "category": "Institution & Identity",
+   "notes": "Founder and promoter imagery"
+  },
+  {
+   "keyword": "Donors and supporters",
+   "category": "Institution & Identity",
+   "notes": "Donor events, recognition, plaques"
+  },
+  {
+   "keyword": "Founders",
+   "category": "Institution & Identity",
+   "notes": "Founding group of the institution"
+  },
+  {
+   "keyword": "Leadership",
+   "category": "Institution & Identity",
+   "notes": "Leadership meetings, portraits"
+  },
+  {
+   "keyword": "Director",
+   "category": "Institution & Identity",
+   "notes": "Director portraits and addresses"
+  },
+  {
+   "keyword": "Governance",
+   "category": "Institution & Identity",
+   "notes": "Board meetings, committee sittings"
+  },
+  {
+   "keyword": "Institutional milestone",
+   "category": "Institution & Identity",
+   "notes": "Anniversaries, launches, foundation stones"
+  },
+  {
+   "keyword": "Constitutional values",
+   "category": "Institution & Identity",
+   "notes": "Thematic tag for values-related imagery"
+  },
+  {
+   "keyword": "Inclusion and diversity",
+   "category": "Institution & Identity",
+   "notes": "Diverse groups, inclusive settings"
+  },
+  {
+   "keyword": "Gender balance",
+   "category": "Institution & Identity",
+   "notes": "Photos illustrating gender parity at the institution"
+  },
+  {
+   "keyword": "IIHS Bengaluru City Campus",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Main city campus in Sadashivanagar, Bengaluru"
+  },
+  {
+   "keyword": "IIHS Kengeri Campus",
+   "category": "Campuses, Offices & Sites",
+   "notes": "54-acre campus under development at Kengeri"
+  },
+  {
+   "keyword": "Campus development",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Construction and phased development of the campus"
+  },
+  {
+   "keyword": "Campus master plan",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Master plan drawings, models, site plans"
+  },
+  {
+   "keyword": "Campus site",
+   "category": "Campuses, Offices & Sites",
+   "notes": "General site and landscape views"
+  },
+  {
+   "keyword": "North Valley",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Campus valley and pond system"
+  },
+  {
+   "keyword": "South Valley",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Campus valley and pond system"
+  },
+  {
+   "keyword": "Riparian Zone",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Western edge of the campus along the lake"
+  },
+  {
+   "keyword": "Project office",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Field and project offices across India"
+  },
+  {
+   "keyword": "Residential campus",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Student and faculty residences"
+  },
+  {
+   "keyword": "Learners' Hostel",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Student residence building on campus"
+  },
+  {
+   "keyword": "Living lab",
+   "category": "Campuses, Offices & Sites",
+   "notes": "Campus as an experimental site"
+  },
+  {
+   "keyword": "Practice Programme",
+   "category": "Programmes",
+   "notes": "IIHS Practice Programme work and teams"
+  },
+  {
+   "keyword": "Research Programme",
+   "category": "Programmes",
+   "notes": "IIHS Research Programme work and teams"
+  },
+  {
+   "keyword": "Academic Programme",
+   "category": "Programmes",
+   "notes": "IIHS Academic Programme"
+  },
+  {
+   "keyword": "Urban Practitioners' Programme",
+   "category": "Programmes",
+   "notes": "Capacity development programme (UPP)"
+  },
+  {
+   "keyword": "UPP",
+   "category": "Programmes",
+   "notes": "Abbreviation for Urban Practitioners' Programme"
+  },
+  {
+   "keyword": "Digital Blended Learning Programme",
+   "category": "Programmes",
+   "notes": "Online and blended learning programme (DBL)"
+  },
+  {
+   "keyword": "DBL",
+   "category": "Programmes",
+   "notes": "Abbreviation for Digital Blended Learning"
+  },
+  {
+   "keyword": "Urban Fellows Programme",
+   "category": "Programmes",
+   "notes": "Flagship nine-month residential academic programme"
+  },
+  {
+   "keyword": "UFP",
+   "category": "Programmes",
+   "notes": "Abbreviation for Urban Fellows Programme"
+  },
+  {
+   "keyword": "Capacity development",
+   "category": "Programmes",
+   "notes": "Training and capacity-building activity"
+  },
+  {
+   "keyword": "Applied research",
+   "category": "Programmes",
+   "notes": "Research applied to practice and policy"
+  },
+  {
+   "keyword": "Academics",
+   "category": "Programmes",
+   "notes": "Teaching and learning activity"
+  },
+  {
+   "keyword": "Practice",
+   "category": "Programmes",
+   "notes": "Implementation and advisory work"
+  },
+  {
+   "keyword": "School of Governance",
+   "category": "Schools",
+   "notes": "IIHS School of Governance (SoG)"
+  },
+  {
+   "keyword": "School of Economic Development",
+   "category": "Schools",
+   "notes": "IIHS School of Economic Development (SED)"
+  },
+  {
+   "keyword": "School of Human Development",
+   "category": "Schools",
+   "notes": "IIHS School of Human Development (SHD)"
+  },
+  {
+   "keyword": "School of Systems and Infrastructure",
+   "category": "Schools",
+   "notes": "IIHS School of Systems & Infrastructure (SSI)"
+  },
+  {
+   "keyword": "School of Environment and Sustainability",
+   "category": "Schools",
+   "notes": "IIHS School of Environment & Sustainability (SES)"
+  },
+  {
+   "keyword": "Geospatial Lab",
+   "category": "Labs",
+   "notes": "Spatial analysis, mapping and GIS lab"
+  },
+  {
+   "keyword": "Media Lab",
+   "category": "Labs",
+   "notes": "Film, photography and sound production lab"
+  },
+  {
+   "keyword": "Word Lab",
+   "category": "Labs",
+   "notes": "Editorial, writing and language lab"
+  },
+  {
+   "keyword": "Urban Informatics Lab",
+   "category": "Labs",
+   "notes": "Data science and urban analytics lab"
+  },
+  {
+   "keyword": "Internet of Things Lab",
+   "category": "Labs",
+   "notes": "IoT systems and sensor engineering lab"
+  },
+  {
+   "keyword": "IoT Lab",
+   "category": "Labs",
+   "notes": "Short form of Internet of Things Lab"
+  },
+  {
+   "keyword": "Sustainable Energy Lab",
+   "category": "Labs",
+   "notes": "Net-zero and climate-resilient buildings lab"
+  },
+  {
+   "keyword": "Environmental Lab",
+   "category": "Labs",
+   "notes": "Environmental monitoring lab"
+  },
+  {
+   "keyword": "Skill Lab",
+   "category": "Labs",
+   "notes": "Teaching skill labs across programmes"
+  },
+  {
+   "keyword": "Language Lab",
+   "category": "Labs",
+   "notes": "Language teaching sessions"
+  },
+  {
+   "keyword": "Media studio",
+   "category": "Labs",
+   "notes": "Filming, sound and editing studio"
+  },
+  {
+   "keyword": "IIHS Library",
+   "category": "Library & Collections",
+   "notes": "Library spaces, staff, users and events"
+  },
+  {
+   "keyword": "Library reading room",
+   "category": "Library & Collections",
+   "notes": "Interior views of the reading space"
+  },
+  {
+   "keyword": "Book stacks",
+   "category": "Library & Collections",
+   "notes": "Shelving and collections"
+  },
+  {
+   "keyword": "Library exhibition",
+   "category": "Library & Collections",
+   "notes": "Curated thematic exhibitions in the library"
+  },
+  {
+   "keyword": "Book launch",
+   "category": "Library & Collections",
+   "notes": "Launch events and readings"
+  },
+  {
+   "keyword": "Read Aloud",
+   "category": "Library & Collections",
+   "notes": "Reading sessions with neighbourhood schools"
+  },
+  {
+   "keyword": "Children's collection",
+   "category": "Library & Collections",
+   "notes": "Children's books and young readers"
+  },
+  {
+   "keyword": "Special collections",
+   "category": "Library & Collections",
+   "notes": "Donor and archival collections"
+  },
+  {
+   "keyword": "Donor collection",
+   "category": "Library & Collections",
+   "notes": "Named personal collections gifted to the library"
+  },
+  {
+   "keyword": "Archives",
+   "category": "Library & Collections",
+   "notes": "Archival material and repositories"
+  },
+  {
+   "keyword": "Maps and atlases",
+   "category": "Library & Collections",
+   "notes": "Cartographic collections"
+  },
+  {
+   "keyword": "Journals",
+   "category": "Library & Collections",
+   "notes": "Print and archived journal collections"
+  },
+  {
+   "keyword": "eBooks",
+   "category": "Library & Collections",
+   "notes": "Digital collections"
+  },
+  {
+   "keyword": "Film collection",
+   "category": "Library & Collections",
+   "notes": "Films held by the library"
+  },
+  {
+   "keyword": "Librarian",
+   "category": "Library & Collections",
+   "notes": "Library staff at work"
+  },
+  {
+   "keyword": "Reference desk",
+   "category": "Library & Collections",
+   "notes": "Reference and circulation services"
+  },
+  {
+   "keyword": "Urban Glossaries",
+   "category": "Library & Collections",
+   "notes": "IIHS glossary series"
+  },
+  {
+   "keyword": "Knowledge Gateway",
+   "category": "Library & Collections",
+   "notes": "IIHS institutional knowledge repository"
+  },
+  {
+   "keyword": "People function",
+   "category": "Functions & Operations",
+   "notes": "Human resources and learning team"
+  },
+  {
+   "keyword": "Finance function",
+   "category": "Functions & Operations",
+   "notes": "Finance and accounts team"
+  },
+  {
+   "keyword": "Legal and Regulation",
+   "category": "Functions & Operations",
+   "notes": "Legal team and work"
+  },
+  {
+   "keyword": "Administration",
+   "category": "Functions & Operations",
+   "notes": "Administration and facilities team"
+  },
+  {
+   "keyword": "Information and Communications Technology",
+   "category": "Functions & Operations",
+   "notes": "ICT team and infrastructure"
+  },
+  {
+   "keyword": "Communications and Design",
+   "category": "Functions & Operations",
+   "notes": "Communications, design and outreach team"
+  },
+  {
+   "keyword": "Resource Development",
+   "category": "Functions & Operations",
+   "notes": "Fundraising and donor relations team"
+  },
+  {
+   "keyword": "Facilities management",
+   "category": "Functions & Operations",
+   "notes": "Maintenance, upkeep and security"
+  },
+  {
+   "keyword": "Procurement",
+   "category": "Functions & Operations",
+   "notes": "Vendor management and purchasing"
+  },
+  {
+   "keyword": "Health, safety and environment",
+   "category": "Functions & Operations",
+   "notes": "HSE practices and signage"
+  },
+  {
+   "keyword": "Cafeteria",
+   "category": "Functions & Operations",
+   "notes": "Food and beverage operations"
+  },
+  {
+   "keyword": "Kitchen",
+   "category": "Functions & Operations",
+   "notes": "Campus kitchen operations"
+  },
+  {
+   "keyword": "Event management",
+   "category": "Functions & Operations",
+   "notes": "Internal and external event operations"
+  },
+  {
+   "keyword": "Recruitment",
+   "category": "Functions & Operations",
+   "notes": "Hiring and onboarding"
+  },
+  {
+   "keyword": "Staff wellbeing",
+   "category": "Functions & Operations",
+   "notes": "Wellbeing and workplace culture"
+  },
+  {
+   "keyword": "Faculty",
+   "category": "People & Roles",
+   "notes": "Teaching and research faculty"
+  },
+  {
+   "keyword": "Staff",
+   "category": "People & Roles",
+   "notes": "Institutional staff"
+  },
+  {
+   "keyword": "Urban Fellows",
+   "category": "People & Roles",
+   "notes": "Students of the Urban Fellows Programme"
+  },
+  {
+   "keyword": "Learners",
+   "category": "People & Roles",
+   "notes": "General term for students and participants"
+  },
+  {
+   "keyword": "Students",
+   "category": "People & Roles",
+   "notes": "Students in any setting"
+  },
+  {
+   "keyword": "Researchers",
+   "category": "People & Roles",
+   "notes": "Research staff and scholars"
+  },
+  {
+   "keyword": "Scholars",
+   "category": "People & Roles",
+   "notes": "Academic scholars"
+  },
+  {
+   "keyword": "Early career researchers",
+   "category": "People & Roles",
+   "notes": "Junior research staff"
+  },
+  {
+   "keyword": "PhD candidates",
+   "category": "People & Roles",
+   "notes": "Doctoral researchers, e.g. at PhD Workshops"
+  },
+  {
+   "keyword": "Practitioners",
+   "category": "People & Roles",
+   "notes": "Urban practitioners"
+  },
+  {
+   "keyword": "Interns",
+   "category": "People & Roles",
+   "notes": "Students on internship placements"
+  },
+  {
+   "keyword": "Alumni",
+   "category": "People & Roles",
+   "notes": "Programme graduates"
+  },
+  {
+   "keyword": "Government officials",
+   "category": "People & Roles",
+   "notes": "Officers in training or consultation"
+  },
+  {
+   "keyword": "IAS officers",
+   "category": "People & Roles",
+   "notes": "Indian Administrative Service officers in training"
+  },
+  {
+   "keyword": "Municipal functionaries",
+   "category": "People & Roles",
+   "notes": "Urban local body staff"
+  },
+  {
+   "keyword": "Elected representatives",
+   "category": "People & Roles",
+   "notes": "Councillors and elected officials"
+  },
+  {
+   "keyword": "Panchayat officials",
+   "category": "People & Roles",
+   "notes": "Rural local government officers"
+  },
+  {
+   "keyword": "Frontline workers",
+   "category": "People & Roles",
+   "notes": "Service delivery workers"
+  },
+  {
+   "keyword": "Sanitation workers",
+   "category": "People & Roles",
+   "notes": "Workers in the sanitation sector"
+  },
+  {
+   "keyword": "Waste workers",
+   "category": "People & Roles",
+   "notes": "Waste pickers and processors"
+  },
+  {
+   "keyword": "Construction workers",
+   "category": "People & Roles",
+   "notes": "Building site workers"
+  },
+  {
+   "keyword": "Domestic workers",
+   "category": "People & Roles",
+   "notes": "Household workers"
+  },
+  {
+   "keyword": "Gig workers",
+   "category": "People & Roles",
+   "notes": "Platform and app-based workers"
+  },
+  {
+   "keyword": "Home-based workers",
+   "category": "People & Roles",
+   "notes": "Informal home-based work"
+  },
+  {
+   "keyword": "Farmers",
+   "category": "People & Roles",
+   "notes": "Farmers and cultivators"
+  },
+  {
+   "keyword": "Artisans",
+   "category": "People & Roles",
+   "notes": "Craft-based building artisans"
+  },
+  {
+   "keyword": "Community members",
+   "category": "People & Roles",
+   "notes": "Residents and community participants"
+  },
+  {
+   "keyword": "Community organisers",
+   "category": "People & Roles",
+   "notes": "Mobilisers and advocates"
+  },
+  {
+   "keyword": "Filmmakers",
+   "category": "People & Roles",
+   "notes": "Directors and crew at festivals and screenings"
+  },
+  {
+   "keyword": "Authors and writers",
+   "category": "People & Roles",
+   "notes": "Writers at festivals and readings"
+  },
+  {
+   "keyword": "Artists",
+   "category": "People & Roles",
+   "notes": "Artists and performers"
+  },
+  {
+   "keyword": "Journalists",
+   "category": "People & Roles",
+   "notes": "Media professionals"
+  },
+  {
+   "keyword": "Speakers and panellists",
+   "category": "People & Roles",
+   "notes": "Event speakers"
+  },
+  {
+   "keyword": "Guest lecturer",
+   "category": "People & Roles",
+   "notes": "Visiting faculty and speakers"
+  },
+  {
+   "keyword": "Trainers",
+   "category": "People & Roles",
+   "notes": "Capacity development trainers"
+  },
+  {
+   "keyword": "Support staff",
+   "category": "People & Roles",
+   "notes": "Housekeeping, security, kitchen and site staff"
+  },
+  {
+   "keyword": "Women professionals",
+   "category": "People & Roles",
+   "notes": "Women staff and leaders"
+  },
+  {
+   "keyword": "Children",
+   "category": "People & Roles",
+   "notes": "Children in outreach and community settings"
+  },
+  {
+   "keyword": "Classroom",
+   "category": "Teaching & Learning",
+   "notes": "Formal classroom setting"
+  },
+  {
+   "keyword": "Lecture",
+   "category": "Teaching & Learning",
+   "notes": "Lecture in progress"
+  },
+  {
+   "keyword": "Seminar",
+   "category": "Teaching & Learning",
+   "notes": "Seminar session"
+  },
+  {
+   "keyword": "Workshop",
+   "category": "Teaching & Learning",
+   "notes": "Hands-on workshop"
+  },
+  {
+   "keyword": "Masterclass",
+   "category": "Teaching & Learning",
+   "notes": "Masterclass sessions in the UFP"
+  },
+  {
+   "keyword": "Studio session",
+   "category": "Teaching & Learning",
+   "notes": "Design or planning studio work"
+  },
+  {
+   "keyword": "Group work",
+   "category": "Teaching & Learning",
+   "notes": "Small group discussion or teamwork"
+  },
+  {
+   "keyword": "Student presentation",
+   "category": "Teaching & Learning",
+   "notes": "Learners presenting work"
+  },
+  {
+   "keyword": "Discussion",
+   "category": "Teaching & Learning",
+   "notes": "Open discussion or dialogue"
+  },
+  {
+   "keyword": "Whiteboard",
+   "category": "Teaching & Learning",
+   "notes": "Teaching with a board"
+  },
+  {
+   "keyword": "Projector screen",
+   "category": "Teaching & Learning",
+   "notes": "Presentation in progress"
+  },
+  {
+   "keyword": "Experiential learning",
+   "category": "Teaching & Learning",
+   "notes": "Learning by doing"
+  },
+  {
+   "keyword": "Hands-on learning",
+   "category": "Teaching & Learning",
+   "notes": "Practical, tactile learning"
+  },
+  {
+   "keyword": "Field-based learning",
+   "category": "Teaching & Learning",
+   "notes": "Learning outside the classroom"
+  },
+  {
+   "keyword": "Fieldwork",
+   "category": "Teaching & Learning",
+   "notes": "Data collection or observation in the field"
+  },
+  {
+   "keyword": "Practica",
+   "category": "Teaching & Learning",
+   "notes": "Neighbourhood-based field enquiry in the UFP"
+  },
+  {
+   "keyword": "Exposure visit",
+   "category": "Teaching & Learning",
+   "notes": "Site visits for learners"
+  },
+  {
+   "keyword": "Immersion visit",
+   "category": "Teaching & Learning",
+   "notes": "Deep-dive site visits with practitioners"
+  },
+  {
+   "keyword": "Site visit",
+   "category": "Teaching & Learning",
+   "notes": "Any visit to a project or field site"
+  },
+  {
+   "keyword": "Live project",
+   "category": "Teaching & Learning",
+   "notes": "IIHS Live Projects undertaken by Fellows"
+  },
+  {
+   "keyword": "Independent project",
+   "category": "Teaching & Learning",
+   "notes": "Learner-led projects"
+  },
+  {
+   "keyword": "Internship",
+   "category": "Teaching & Learning",
+   "notes": "Placement with partner organisations"
+  },
+  {
+   "keyword": "Core Curriculum",
+   "category": "Teaching & Learning",
+   "notes": "IIHS experiential Core Curriculum"
+  },
+  {
+   "keyword": "Commons Term",
+   "category": "Teaching & Learning",
+   "notes": "First term of the UFP curriculum"
+  },
+  {
+   "keyword": "Electives Term",
+   "category": "Teaching & Learning",
+   "notes": "Elective courses term"
+  },
+  {
+   "keyword": "Practice Term",
+   "category": "Teaching & Learning",
+   "notes": "Applied term of the UFP"
+  },
+  {
+   "keyword": "Grow, Cook and Eat",
+   "category": "Teaching & Learning",
+   "notes": "Core course on agriculture, food and nutrition"
+  },
+  {
+   "keyword": "Build",
+   "category": "Teaching & Learning",
+   "notes": "Core course on sustainable building"
+  },
+  {
+   "keyword": "Play",
+   "category": "Teaching & Learning",
+   "notes": "Core course on physical culture and teamwork"
+  },
+  {
+   "keyword": "Peer learning",
+   "category": "Teaching & Learning",
+   "notes": "Learning between participants"
+  },
+  {
+   "keyword": "Mentoring",
+   "category": "Teaching & Learning",
+   "notes": "One-on-one guidance"
+  },
+  {
+   "keyword": "Training session",
+   "category": "Teaching & Learning",
+   "notes": "Capacity development training"
+  },
+  {
+   "keyword": "Online course",
+   "category": "Teaching & Learning",
+   "notes": "MOOC or digital learning"
+  },
+  {
+   "keyword": "Webinar",
+   "category": "Teaching & Learning",
+   "notes": "Online seminar"
+  },
+  {
+   "keyword": "Convocation",
+   "category": "Teaching & Learning",
+   "notes": "Graduation and closing ceremonies"
+  },
+  {
+   "keyword": "Orientation",
+   "category": "Teaching & Learning",
+   "notes": "Programme induction"
+  },
+  {
+   "keyword": "Cohort",
+   "category": "Teaching & Learning",
+   "notes": "A programme batch or group"
+  },
+  {
+   "keyword": "Batch photo",
+   "category": "Teaching & Learning",
+   "notes": "Group portrait of a cohort"
+  },
+  {
+   "keyword": "Urban Lens Film Festival",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "IIHS international film festival on the urban"
+  },
+  {
+   "keyword": "City Scripts",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "IIHS annual urban writings festival"
+  },
+  {
+   "keyword": "Urban ARC",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "IIHS annual research conference"
+  },
+  {
+   "keyword": "PhD Workshop",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "IIHS annual doctoral workshop"
+  },
+  {
+   "keyword": "Research Week",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Annual IIHS research week"
+  },
+  {
+   "keyword": "Urban Policy Dialogues",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Flagship annual policy event (UPD)"
+  },
+  {
+   "keyword": "Capacity Development Forum",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Annual CDF convening"
+  },
+  {
+   "keyword": "Annual Sports Day",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "IIHS sports day"
+  },
+  {
+   "keyword": "Film screening",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Public screenings and post-screening discussions"
+  },
+  {
+   "keyword": "Exhibition",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Curated exhibitions and installations"
+  },
+  {
+   "keyword": "Multimedia exhibition",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Exhibitions drawing on research and practice"
+  },
+  {
+   "keyword": "Panel discussion",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Panels at events and festivals"
+  },
+  {
+   "keyword": "Keynote address",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Keynote speeches"
+  },
+  {
+   "keyword": "Public lecture",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Open lectures"
+  },
+  {
+   "keyword": "Conference",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Conferences and convenings"
+  },
+  {
+   "keyword": "Consultation",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Stakeholder and government consultations"
+  },
+  {
+   "keyword": "Roundtable",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Closed-door discussions"
+  },
+  {
+   "keyword": "Book reading",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Author readings"
+  },
+  {
+   "keyword": "Walks and talks",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Participatory city walks"
+  },
+  {
+   "keyword": "Performance",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Music, theatre and performance at events"
+  },
+  {
+   "keyword": "Installation",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Art and design installations"
+  },
+  {
+   "keyword": "Bookstore",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Festival bookstores"
+  },
+  {
+   "keyword": "Audience",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Audiences at events"
+  },
+  {
+   "keyword": "Networking",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Informal interaction at events"
+  },
+  {
+   "keyword": "Award ceremony",
+   "category": "Events, Festivals & Public Engagement",
+   "notes": "Recognition and honours"
+  },
+  {
+   "keyword": "Experimental Building",
+   "category": "Campus Architecture & Construction",
+   "notes": "Campus experimental building project"
+  },
+  {
+   "keyword": "Riparian Amphitheatre",
+   "category": "Campus Architecture & Construction",
+   "notes": "Amphitheatre in the riparian zone"
+  },
+  {
+   "keyword": "Multipurpose Shed",
+   "category": "Campus Architecture & Construction",
+   "notes": "Campus multipurpose structure"
+  },
+  {
+   "keyword": "Machan",
+   "category": "Campus Architecture & Construction",
+   "notes": "Raised observation platform on campus"
+  },
+  {
+   "keyword": "Construction site",
+   "category": "Campus Architecture & Construction",
+   "notes": "Active building work"
+  },
+  {
+   "keyword": "Building prototype",
+   "category": "Campus Architecture & Construction",
+   "notes": "Prototype building systems built by Fellows"
+  },
+  {
+   "keyword": "Masonry",
+   "category": "Campus Architecture & Construction",
+   "notes": "Brick and stone work"
+  },
+  {
+   "keyword": "Scaffolding",
+   "category": "Campus Architecture & Construction",
+   "notes": "Construction scaffolding"
+  },
+  {
+   "keyword": "Bricks",
+   "category": "Campus Architecture & Construction",
+   "notes": "Building material"
+  },
+  {
+   "keyword": "Building materials",
+   "category": "Campus Architecture & Construction",
+   "notes": "Sustainable and local materials"
+  },
+  {
+   "keyword": "Craft-based building",
+   "category": "Campus Architecture & Construction",
+   "notes": "Traditional Indian building crafts"
+  },
+  {
+   "keyword": "High-performance building",
+   "category": "Campus Architecture & Construction",
+   "notes": "Energy-efficient building design"
+  },
+  {
+   "keyword": "Net-zero building",
+   "category": "Campus Architecture & Construction",
+   "notes": "Net-zero energy building"
+  },
+  {
+   "keyword": "Green building",
+   "category": "Campus Architecture & Construction",
+   "notes": "Sustainable building practices"
+  },
+  {
+   "keyword": "Passive design",
+   "category": "Campus Architecture & Construction",
+   "notes": "Natural ventilation and passive cooling"
+  },
+  {
+   "keyword": "Solar photovoltaic",
+   "category": "Campus Architecture & Construction",
+   "notes": "Rooftop and site solar PV"
+  },
+  {
+   "keyword": "Solar micro-grid",
+   "category": "Campus Architecture & Construction",
+   "notes": "Campus solar PV smart micro-grid"
+  },
+  {
+   "keyword": "Retrofit",
+   "category": "Campus Architecture & Construction",
+   "notes": "Building retrofit work"
+  },
+  {
+   "keyword": "Architectural model",
+   "category": "Campus Architecture & Construction",
+   "notes": "Physical models and mock-ups"
+  },
+  {
+   "keyword": "Architectural drawing",
+   "category": "Campus Architecture & Construction",
+   "notes": "Plans, sections and elevations"
+  },
+  {
+   "keyword": "Landscape design",
+   "category": "Campus Architecture & Construction",
+   "notes": "Campus landscaping"
+  },
+  {
+   "keyword": "Playground",
+   "category": "Campus Architecture & Construction",
+   "notes": "Campus playground area"
+  },
+  {
+   "keyword": "Pathway",
+   "category": "Campus Architecture & Construction",
+   "notes": "Campus paths and circulation"
+  },
+  {
+   "keyword": "Signage",
+   "category": "Campus Architecture & Construction",
+   "notes": "Wayfinding and interpretive signage"
+  },
+  {
+   "keyword": "Water systems",
+   "category": "Campus Water Systems",
+   "notes": "Campus water infrastructure overall"
+  },
+  {
+   "keyword": "Surface water pond",
+   "category": "Campus Water Systems",
+   "notes": "Five interlinked campus ponds"
+  },
+  {
+   "keyword": "Bioswale",
+   "category": "Campus Water Systems",
+   "notes": "Vegetated channels for groundwater recharge"
+  },
+  {
+   "keyword": "Borewell",
+   "category": "Campus Water Systems",
+   "notes": "Deep and shallow borewells on site"
+  },
+  {
+   "keyword": "Open well",
+   "category": "Campus Water Systems",
+   "notes": "Restored open well in the riparian zone"
+  },
+  {
+   "keyword": "DEWATS",
+   "category": "Campus Water Systems",
+   "notes": "Decentralised wastewater treatment system"
+  },
+  {
+   "keyword": "Piezometer",
+   "category": "Campus Water Systems",
+   "notes": "Groundwater level instrument"
+  },
+  {
+   "keyword": "Monitoring well",
+   "category": "Campus Water Systems",
+   "notes": "Observation well for the water table"
+  },
+  {
+   "keyword": "Rainwater harvesting",
+   "category": "Campus Water Systems",
+   "notes": "Roof and surface rainwater collection"
+  },
+  {
+   "keyword": "Groundwater recharge",
+   "category": "Campus Water Systems",
+   "notes": "Recharge structures and practice"
+  },
+  {
+   "keyword": "Sediment pond",
+   "category": "Campus Water Systems",
+   "notes": "Sediment settling pond"
+  },
+  {
+   "keyword": "Dyke",
+   "category": "Campus Water Systems",
+   "notes": "Earthwork retaining structure"
+  },
+  {
+   "keyword": "Water tank",
+   "category": "Campus Water Systems",
+   "notes": "Storage tanks"
+  },
+  {
+   "keyword": "Flow sensor",
+   "category": "Campus Water Systems",
+   "notes": "Ultrasonic water flow measurement"
+  },
+  {
+   "keyword": "Depth sensor",
+   "category": "Campus Water Systems",
+   "notes": "Water level measurement"
+  },
+  {
+   "keyword": "Soil moisture sensor",
+   "category": "Campus Water Systems",
+   "notes": "Root-zone moisture monitoring"
+  },
+  {
+   "keyword": "Tensiometer",
+   "category": "Campus Water Systems",
+   "notes": "Analog soil moisture instrument"
+  },
+  {
+   "keyword": "Rain gauge",
+   "category": "Campus Water Systems",
+   "notes": "Rainfall measurement"
+  },
+  {
+   "keyword": "Weather station",
+   "category": "Campus Water Systems",
+   "notes": "Campus weather instrumentation"
+  },
+  {
+   "keyword": "Water dashboard",
+   "category": "Campus Water Systems",
+   "notes": "Digital water monitoring dashboard"
+  },
+  {
+   "keyword": "Water quality testing",
+   "category": "Campus Water Systems",
+   "notes": "Sampling and lab testing"
+  },
+  {
+   "keyword": "Hydrogeological survey",
+   "category": "Campus Water Systems",
+   "notes": "Site water investigations"
+  },
+  {
+   "keyword": "Water conservation",
+   "category": "Campus Water Systems",
+   "notes": "On-site conservation measures"
+  },
+  {
+   "keyword": "Urban agriculture",
+   "category": "Urban Agriculture & Food",
+   "notes": "Farming within the campus and city"
+  },
+  {
+   "keyword": "Peri-urban agriculture",
+   "category": "Urban Agriculture & Food",
+   "notes": "Farming at the city edge"
+  },
+  {
+   "keyword": "Sustainable agriculture",
+   "category": "Urban Agriculture & Food",
+   "notes": "Low-input, ecological farming"
+  },
+  {
+   "keyword": "Organic agriculture",
+   "category": "Urban Agriculture & Food",
+   "notes": "Organic cultivation practice"
+  },
+  {
+   "keyword": "Mixed cropping",
+   "category": "Urban Agriculture & Food",
+   "notes": "Two or more crops grown together"
+  },
+  {
+   "keyword": "Cover crop",
+   "category": "Urban Agriculture & Food",
+   "notes": "Green manure crop"
+  },
+  {
+   "keyword": "Crop field",
+   "category": "Urban Agriculture & Food",
+   "notes": "Cultivated plots"
+  },
+  {
+   "keyword": "Paddy",
+   "category": "Urban Agriculture & Food",
+   "notes": "Rice cultivation on campus"
+  },
+  {
+   "keyword": "Rice nursery",
+   "category": "Urban Agriculture & Food",
+   "notes": "Raised seedbeds for paddy"
+  },
+  {
+   "keyword": "Transplanting",
+   "category": "Urban Agriculture & Food",
+   "notes": "Moving seedlings to the main plot"
+  },
+  {
+   "keyword": "Sowing",
+   "category": "Urban Agriculture & Food",
+   "notes": "Seed sowing"
+  },
+  {
+   "keyword": "Harvesting",
+   "category": "Urban Agriculture & Food",
+   "notes": "Crop harvest"
+  },
+  {
+   "keyword": "Threshing",
+   "category": "Urban Agriculture & Food",
+   "notes": "Post-harvest processing"
+  },
+  {
+   "keyword": "Mulching",
+   "category": "Urban Agriculture & Food",
+   "notes": "Soil moisture retention practice"
+  },
+  {
+   "keyword": "Ploughing",
+   "category": "Urban Agriculture & Food",
+   "notes": "Land preparation"
+  },
+  {
+   "keyword": "Tractor",
+   "category": "Urban Agriculture & Food",
+   "notes": "Farm machinery"
+  },
+  {
+   "keyword": "Livestock",
+   "category": "Urban Agriculture & Food",
+   "notes": "Farm animals"
+  },
+  {
+   "keyword": "Finger millet",
+   "category": "Urban Agriculture & Food",
+   "notes": "Ragi; campus crop"
+  },
+  {
+   "keyword": "Little millet",
+   "category": "Urban Agriculture & Food",
+   "notes": "Campus millet crop"
+  },
+  {
+   "keyword": "Barnyard millet",
+   "category": "Urban Agriculture & Food",
+   "notes": "Campus millet crop"
+  },
+  {
+   "keyword": "Sorghum",
+   "category": "Urban Agriculture & Food",
+   "notes": "Campus crop"
+  },
+  {
+   "keyword": "Groundnut",
+   "category": "Urban Agriculture & Food",
+   "notes": "Campus oilseed crop"
+  },
+  {
+   "keyword": "Red gram",
+   "category": "Urban Agriculture & Food",
+   "notes": "Pulse crop"
+  },
+  {
+   "keyword": "Green gram",
+   "category": "Urban Agriculture & Food",
+   "notes": "Pulse crop"
+  },
+  {
+   "keyword": "Cow pea",
+   "category": "Urban Agriculture & Food",
+   "notes": "Pulse crop, red and white varieties"
+  },
+  {
+   "keyword": "Flat beans",
+   "category": "Urban Agriculture & Food",
+   "notes": "Indian flat beans, red and white"
+  },
+  {
+   "keyword": "Horsegram",
+   "category": "Urban Agriculture & Food",
+   "notes": "Pulse crop"
+  },
+  {
+   "keyword": "Niger",
+   "category": "Urban Agriculture & Food",
+   "notes": "Oilseed crop"
+  },
+  {
+   "keyword": "Castor",
+   "category": "Urban Agriculture & Food",
+   "notes": "Oilseed crop"
+  },
+  {
+   "keyword": "Wheat",
+   "category": "Urban Agriculture & Food",
+   "notes": "Campus crop trial"
+  },
+  {
+   "keyword": "Millets",
+   "category": "Urban Agriculture & Food",
+   "notes": "Dryland grain crops"
+  },
+  {
+   "keyword": "Oilseeds",
+   "category": "Urban Agriculture & Food",
+   "notes": "Oil-bearing crops"
+  },
+  {
+   "keyword": "Pulses",
+   "category": "Urban Agriculture & Food",
+   "notes": "Legume crops"
+  },
+  {
+   "keyword": "Soil health",
+   "category": "Urban Agriculture & Food",
+   "notes": "Soil fertility and testing"
+  },
+  {
+   "keyword": "Composting",
+   "category": "Urban Agriculture & Food",
+   "notes": "Converting organic waste to compost"
+  },
+  {
+   "keyword": "Pit composting",
+   "category": "Urban Agriculture & Food",
+   "notes": "Pit-based composting on campus"
+  },
+  {
+   "keyword": "Organic compost",
+   "category": "Urban Agriculture & Food",
+   "notes": "Finished compost"
+  },
+  {
+   "keyword": "Cow dung slurry",
+   "category": "Urban Agriculture & Food",
+   "notes": "Bio-culture used in composting"
+  },
+  {
+   "keyword": "Panchagavya",
+   "category": "Urban Agriculture & Food",
+   "notes": "Traditional organic input"
+  },
+  {
+   "keyword": "Jeevamruta",
+   "category": "Urban Agriculture & Food",
+   "notes": "Traditional organic input"
+  },
+  {
+   "keyword": "Natural pest control",
+   "category": "Urban Agriculture & Food",
+   "notes": "Non-chemical pest management"
+  },
+  {
+   "keyword": "Kitchen garden",
+   "category": "Urban Agriculture & Food",
+   "notes": "Small-scale food growing"
+  },
+  {
+   "keyword": "Food farm",
+   "category": "Urban Agriculture & Food",
+   "notes": "Campus food-growing plots"
+  },
+  {
+   "keyword": "Cooking",
+   "category": "Urban Agriculture & Food",
+   "notes": "Preparing food, part of Grow Cook Eat"
+  },
+  {
+   "keyword": "Shared meal",
+   "category": "Urban Agriculture & Food",
+   "notes": "Eating together"
+  },
+  {
+   "keyword": "Food systems",
+   "category": "Urban Agriculture & Food",
+   "notes": "Production, distribution and consumption of food"
+  },
+  {
+   "keyword": "Food security",
+   "category": "Urban Agriculture & Food",
+   "notes": "Access to adequate food"
+  },
+  {
+   "keyword": "Nutrition",
+   "category": "Urban Agriculture & Food",
+   "notes": "Dietary and nutritional themes"
+  },
+  {
+   "keyword": "Biodiversity",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Species diversity on campus and beyond"
+  },
+  {
+   "keyword": "Native species",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "250+ native flora and fauna on campus"
+  },
+  {
+   "keyword": "Invasive species",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Invasive plants recorded on campus"
+  },
+  {
+   "keyword": "Flora",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Plant life"
+  },
+  {
+   "keyword": "Fauna",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Animal life"
+  },
+  {
+   "keyword": "Scrubland",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Campus vegetation type"
+  },
+  {
+   "keyword": "Grassland",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Campus vegetation type"
+  },
+  {
+   "keyword": "Herb species",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Herbaceous vegetation"
+  },
+  {
+   "keyword": "Trees",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Tree cover"
+  },
+  {
+   "keyword": "Banyan tree",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Landmark tree on campus"
+  },
+  {
+   "keyword": "Birds",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "123 bird species recorded on campus"
+  },
+  {
+   "keyword": "Butterflies",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "About 70 butterfly species on campus"
+  },
+  {
+   "keyword": "Bats",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "8 bat species recorded"
+  },
+  {
+   "keyword": "Bees",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Pollinators"
+  },
+  {
+   "keyword": "Pollinators",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Bees, butterflies and birds"
+  },
+  {
+   "keyword": "Raptors",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Birds of prey, natural pest control"
+  },
+  {
+   "keyword": "Owl",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Nocturnal bird on campus"
+  },
+  {
+   "keyword": "Nightjar",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Nocturnal bird on campus"
+  },
+  {
+   "keyword": "Grey slender loris",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Nocturnal primate on campus"
+  },
+  {
+   "keyword": "Civet",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Nocturnal mammal on campus"
+  },
+  {
+   "keyword": "Leopard",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Large carnivore recorded near campus"
+  },
+  {
+   "keyword": "Wild boar",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Mammal recorded on campus"
+  },
+  {
+   "keyword": "Indian mongoose",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Mammal recorded on campus"
+  },
+  {
+   "keyword": "Black-naped hare",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Mammal recorded on campus"
+  },
+  {
+   "keyword": "Indian bush rat",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Small mammal on campus"
+  },
+  {
+   "keyword": "Indian black turtle",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Reptile recorded on campus"
+  },
+  {
+   "keyword": "Indian tree frog",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Amphibian recorded on campus"
+  },
+  {
+   "keyword": "Scorpion",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Nocturnal arthropod on campus"
+  },
+  {
+   "keyword": "Nocturnal wildlife",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Animals active at night"
+  },
+  {
+   "keyword": "Camera trap",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Wildlife monitoring device and its images"
+  },
+  {
+   "keyword": "Citizen science",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Public participation in biodiversity monitoring"
+  },
+  {
+   "keyword": "Biodiversity survey",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Species assessment fieldwork"
+  },
+  {
+   "keyword": "Long-Term Urban Ecological Observatory",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "LTUEO on the Kengeri Campus"
+  },
+  {
+   "keyword": "LTUEO",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Abbreviation for the ecological observatory"
+  },
+  {
+   "keyword": "Wetland",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Aquatic habitat"
+  },
+  {
+   "keyword": "Lake",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Urban and peri-urban lakes"
+  },
+  {
+   "keyword": "River",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "River ecosystems"
+  },
+  {
+   "keyword": "Forest",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Forest ecosystems"
+  },
+  {
+   "keyword": "Ecological restoration",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Restoring degraded ecosystems"
+  },
+  {
+   "keyword": "Nature-based solutions",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "NbS interventions"
+  },
+  {
+   "keyword": "Blue-green infrastructure",
+   "category": "Biodiversity, Flora & Fauna",
+   "notes": "Water and green infrastructure"
+  },
+  {
+   "keyword": "Southern birdwing",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Largest butterfly on campus; Western Ghats endemic"
+  },
+  {
+   "keyword": "Jewelled grass blue",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Smallest butterfly recorded on campus"
+  },
+  {
+   "keyword": "Common crow",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Migratory species seen April to June"
+  },
+  {
+   "keyword": "Blue tiger",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Migratory species seen April to June"
+  },
+  {
+   "keyword": "Plain tiger",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Danaus chrysippus"
+  },
+  {
+   "keyword": "Common grass yellow",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Eurema hecabe; grassland specialist"
+  },
+  {
+   "keyword": "Spotless grass yellow",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Eurema laeta"
+  },
+  {
+   "keyword": "Common fourring",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Ypthima huebneri; grassland specialist"
+  },
+  {
+   "keyword": "Apefly",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Spalgis epius"
+  },
+  {
+   "keyword": "Baronet",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Euthalia nais"
+  },
+  {
+   "keyword": "Chocolate pansy",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Junonia iphita"
+  },
+  {
+   "keyword": "Blue pansy",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Junonia orithya"
+  },
+  {
+   "keyword": "Lemon pansy",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Junonia lemonias"
+  },
+  {
+   "keyword": "Peacock pansy",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Junonia almana"
+  },
+  {
+   "keyword": "Yellow pansy",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Junonia hierta"
+  },
+  {
+   "keyword": "Common banded peacock",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Papilio crino"
+  },
+  {
+   "keyword": "Common emigrant",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Catopsilia pomona"
+  },
+  {
+   "keyword": "Lemon emigrant",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Catopsilia pomona"
+  },
+  {
+   "keyword": "Common evening brown",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Melanitis leda"
+  },
+  {
+   "keyword": "Common lascar",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Pantoporia hordonia"
+  },
+  {
+   "keyword": "Common castor",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Ariadne merione"
+  },
+  {
+   "keyword": "Common cerulean",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Jamides celeno"
+  },
+  {
+   "keyword": "Dark cerulean",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Jamides bochus"
+  },
+  {
+   "keyword": "Common pierrot",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Castalius rosimon"
+  },
+  {
+   "keyword": "Red pierrot",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Talicada nyseus"
+  },
+  {
+   "keyword": "Common redeye",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Matapa aria"
+  },
+  {
+   "keyword": "Crimson tip",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Colotis danae"
+  },
+  {
+   "keyword": "Crimson rose",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Atrophaneura hector"
+  },
+  {
+   "keyword": "Danaid eggfly",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Hypolimnas misippus"
+  },
+  {
+   "keyword": "Common mormon",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Papilio polytes"
+  },
+  {
+   "keyword": "Dark grass blue",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Zizeeria karsandra"
+  },
+  {
+   "keyword": "Pea blue",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Lampides boeticus"
+  },
+  {
+   "keyword": "Bright babul blue",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Azanus ubaldus"
+  },
+  {
+   "keyword": "Pointed ciliate blue",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Anthene lycaenina"
+  },
+  {
+   "keyword": "Common gull",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Cepora nerissa"
+  },
+  {
+   "keyword": "Common silverline",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Spindasis vulcanus"
+  },
+  {
+   "keyword": "Plumbeous silverline",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Aphnaeus schistacea"
+  },
+  {
+   "keyword": "Dark band bushbrown",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Mycalesis mineus"
+  },
+  {
+   "keyword": "Slate flash",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Rapala manea"
+  },
+  {
+   "keyword": "White orangetip",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Ixias marianne"
+  },
+  {
+   "keyword": "Yellow orangetip",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Ixias pyrene"
+  },
+  {
+   "keyword": "Plain orangetip",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Colotis aurora"
+  },
+  {
+   "keyword": "Common wanderer",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Pareronia valeria"
+  },
+  {
+   "keyword": "Lime swallowtail",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Papilio demoleus"
+  },
+  {
+   "keyword": "Indian skipper",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Spialia galba"
+  },
+  {
+   "keyword": "Dart",
+   "category": "Butterfly Species (Campus)",
+   "notes": "Potanthus species"
+  },
+  {
+   "keyword": "Hero stone",
+   "category": "Kengeri History & Heritage",
+   "notes": "14th-century memorial stone near the campus"
+  },
+  {
+   "keyword": "Inscription stone",
+   "category": "Kengeri History & Heritage",
+   "notes": "Inscribed stone near Ramasagara Lake"
+  },
+  {
+   "keyword": "Epigraphy",
+   "category": "Kengeri History & Heritage",
+   "notes": "Historical inscriptions"
+  },
+  {
+   "keyword": "Epigraphia Carnatica",
+   "category": "Kengeri History & Heritage",
+   "notes": "1905 source on regional inscriptions"
+  },
+  {
+   "keyword": "Archaeology",
+   "category": "Kengeri History & Heritage",
+   "notes": "Archaeological features and study"
+  },
+  {
+   "keyword": "Archival map",
+   "category": "Kengeri History & Heritage",
+   "notes": "Historic survey and boundary maps"
+  },
+  {
+   "keyword": "Historical photograph",
+   "category": "Kengeri History & Heritage",
+   "notes": "Archival imagery"
+  },
+  {
+   "keyword": "Hoysala",
+   "category": "Kengeri History & Heritage",
+   "notes": "Kingdom ruling the region in 1340 CE"
+  },
+  {
+   "keyword": "Vijayanagara Empire",
+   "category": "Kengeri History & Heritage",
+   "notes": "16th-century regional rule"
+  },
+  {
+   "keyword": "Kempe Gowda",
+   "category": "Kengeri History & Heritage",
+   "notes": "Founder figure of modern Bengaluru"
+  },
+  {
+   "keyword": "Chola",
+   "category": "Kengeri History & Heritage",
+   "notes": "Rajendra Chola I and the 1050 CE temple record"
+  },
+  {
+   "keyword": "Mysore Kingdom",
+   "category": "Kengeri History & Heritage",
+   "notes": "Regional kingdom"
+  },
+  {
+   "keyword": "Hyder Ali",
+   "category": "Kengeri History & Heritage",
+   "notes": "18th-century ruler of Mysore"
+  },
+  {
+   "keyword": "Tipu Sultan",
+   "category": "Kengeri History & Heritage",
+   "notes": "18th-century ruler of Mysore"
+  },
+  {
+   "keyword": "Bound Hedge",
+   "category": "Kengeri History & Heritage",
+   "notes": "Defensive thorn hedge around Bengaluru"
+  },
+  {
+   "keyword": "Mysore thorn",
+   "category": "Kengeri History & Heritage",
+   "notes": "Caesalpinia sepiaria, the hedge plant"
+  },
+  {
+   "keyword": "Anglo-Mysore War",
+   "category": "Kengeri History & Heritage",
+   "notes": "Third Anglo-Mysore War history"
+  },
+  {
+   "keyword": "Battle for Bangalore",
+   "category": "Kengeri History & Heritage",
+   "notes": "1791 siege of the city"
+  },
+  {
+   "keyword": "Sericulture",
+   "category": "Kengeri History & Heritage",
+   "notes": "Silk rearing tradition in Kengeri"
+  },
+  {
+   "keyword": "Silk filature",
+   "category": "Kengeri History & Heritage",
+   "notes": "19th-century steam silk factories"
+  },
+  {
+   "keyword": "Temple",
+   "category": "Kengeri History & Heritage",
+   "notes": "Eshwara temple record at Kengeri"
+  },
+  {
+   "keyword": "Satellite town",
+   "category": "Kengeri History & Heritage",
+   "notes": "Post-1990s development of Kengeri"
+  },
+  {
+   "keyword": "Rocky outcrop",
+   "category": "Kengeri History & Heritage",
+   "notes": "Landscape feature of the region"
+  },
+  {
+   "keyword": "Urbanisation",
+   "category": "Urban Themes & Sectors",
+   "notes": "India's urban transition"
+  },
+  {
+   "keyword": "Urban planning",
+   "category": "Urban Themes & Sectors",
+   "notes": "Planning practice and processes"
+  },
+  {
+   "keyword": "Master plan",
+   "category": "Urban Themes & Sectors",
+   "notes": "City master planning"
+  },
+  {
+   "keyword": "Land governance",
+   "category": "Urban Themes & Sectors",
+   "notes": "Land systems, records and administration"
+  },
+  {
+   "keyword": "Land records modernisation",
+   "category": "Urban Themes & Sectors",
+   "notes": "Digitisation and reform of land records"
+  },
+  {
+   "keyword": "Real estate",
+   "category": "Urban Themes & Sectors",
+   "notes": "Property markets and development"
+  },
+  {
+   "keyword": "Housing",
+   "category": "Urban Themes & Sectors",
+   "notes": "Housing policy and practice"
+  },
+  {
+   "keyword": "Affordable housing",
+   "category": "Urban Themes & Sectors",
+   "notes": "Low-cost and subsidised housing"
+  },
+  {
+   "keyword": "Rental housing",
+   "category": "Urban Themes & Sectors",
+   "notes": "Rental markets and policy"
+  },
+  {
+   "keyword": "Housing justice",
+   "category": "Urban Themes & Sectors",
+   "notes": "Rights-based housing agenda"
+  },
+  {
+   "keyword": "Informal settlement",
+   "category": "Urban Themes & Sectors",
+   "notes": "Unplanned and self-built settlements"
+  },
+  {
+   "keyword": "Slum",
+   "category": "Urban Themes & Sectors",
+   "notes": "Low-income settlement"
+  },
+  {
+   "keyword": "Slum upgradation",
+   "category": "Urban Themes & Sectors",
+   "notes": "In-situ improvement of settlements"
+  },
+  {
+   "keyword": "Resettlement",
+   "category": "Urban Themes & Sectors",
+   "notes": "Relocation of communities"
+  },
+  {
+   "keyword": "Eviction",
+   "category": "Urban Themes & Sectors",
+   "notes": "Displacement from housing"
+  },
+  {
+   "keyword": "Water supply",
+   "category": "Urban Themes & Sectors",
+   "notes": "Drinking water systems"
+  },
+  {
+   "keyword": "Sanitation",
+   "category": "Urban Themes & Sectors",
+   "notes": "Toilets, sewerage and services"
+  },
+  {
+   "keyword": "Faecal sludge management",
+   "category": "Urban Themes & Sectors",
+   "notes": "FSM systems and treatment"
+  },
+  {
+   "keyword": "Septage",
+   "category": "Urban Themes & Sectors",
+   "notes": "Septic tank waste management"
+  },
+  {
+   "keyword": "Wastewater treatment",
+   "category": "Urban Themes & Sectors",
+   "notes": "Treatment plants and processes"
+  },
+  {
+   "keyword": "Toilet",
+   "category": "Urban Themes & Sectors",
+   "notes": "Public and household sanitation facilities"
+  },
+  {
+   "keyword": "WASH",
+   "category": "Urban Themes & Sectors",
+   "notes": "Water, sanitation and hygiene"
+  },
+  {
+   "keyword": "Hygiene promotion",
+   "category": "Urban Themes & Sectors",
+   "notes": "Behaviour change on hygiene"
+  },
+  {
+   "keyword": "Solid waste management",
+   "category": "Urban Themes & Sectors",
+   "notes": "Waste collection, processing and disposal"
+  },
+  {
+   "keyword": "Legacy waste",
+   "category": "Urban Themes & Sectors",
+   "notes": "Old dumped waste and bioremediation"
+  },
+  {
+   "keyword": "Construction and demolition waste",
+   "category": "Urban Themes & Sectors",
+   "notes": "C&D waste handling"
+  },
+  {
+   "keyword": "Circular economy",
+   "category": "Urban Themes & Sectors",
+   "notes": "Circular waste and resource systems"
+  },
+  {
+   "keyword": "Micro-composting centre",
+   "category": "Urban Themes & Sectors",
+   "notes": "Decentralised waste processing facility"
+  },
+  {
+   "keyword": "Waste collection vehicle",
+   "category": "Urban Themes & Sectors",
+   "notes": "Trucks, carts and collection equipment"
+  },
+  {
+   "keyword": "Energy",
+   "category": "Urban Themes & Sectors",
+   "notes": "Energy systems and access"
+  },
+  {
+   "keyword": "Renewable energy",
+   "category": "Urban Themes & Sectors",
+   "notes": "Solar, wind and clean energy"
+  },
+  {
+   "keyword": "Clean energy transition",
+   "category": "Urban Themes & Sectors",
+   "notes": "Shift to low-carbon energy"
+  },
+  {
+   "keyword": "Just energy transition",
+   "category": "Urban Themes & Sectors",
+   "notes": "Socially equitable energy shift"
+  },
+  {
+   "keyword": "Energy access",
+   "category": "Urban Themes & Sectors",
+   "notes": "Household energy provision"
+  },
+  {
+   "keyword": "Electric mobility",
+   "category": "Urban Themes & Sectors",
+   "notes": "Emissions-free transport"
+  },
+  {
+   "keyword": "Transport and mobility",
+   "category": "Urban Themes & Sectors",
+   "notes": "Movement systems in cities"
+  },
+  {
+   "keyword": "Public transport",
+   "category": "Urban Themes & Sectors",
+   "notes": "Buses, trains and shared transport"
+  },
+  {
+   "keyword": "Metro rail",
+   "category": "Urban Themes & Sectors",
+   "notes": "Urban rail systems"
+  },
+  {
+   "keyword": "Namma Metro",
+   "category": "Urban Themes & Sectors",
+   "notes": "Bengaluru metro system"
+  },
+  {
+   "keyword": "Transit-oriented development",
+   "category": "Urban Themes & Sectors",
+   "notes": "TOD around transit corridors"
+  },
+  {
+   "keyword": "Road safety",
+   "category": "Urban Themes & Sectors",
+   "notes": "Safety on roads and highways"
+  },
+  {
+   "keyword": "Infrastructure corridor",
+   "category": "Urban Themes & Sectors",
+   "notes": "Industrial and transport corridors"
+  },
+  {
+   "keyword": "Urban finance",
+   "category": "Urban Themes & Sectors",
+   "notes": "Municipal and city financing"
+  },
+  {
+   "keyword": "Municipal finance",
+   "category": "Urban Themes & Sectors",
+   "notes": "Local government revenue and spending"
+  },
+  {
+   "keyword": "Infrastructure finance",
+   "category": "Urban Themes & Sectors",
+   "notes": "Investment in infrastructure"
+  },
+  {
+   "keyword": "Climate finance",
+   "category": "Urban Themes & Sectors",
+   "notes": "Financing climate action"
+  },
+  {
+   "keyword": "Urban governance",
+   "category": "Urban Themes & Sectors",
+   "notes": "How cities are run"
+  },
+  {
+   "keyword": "Decentralisation",
+   "category": "Urban Themes & Sectors",
+   "notes": "Devolution to local government"
+  },
+  {
+   "keyword": "Urban local body",
+   "category": "Urban Themes & Sectors",
+   "notes": "ULBs; municipal corporations and councils"
+  },
+  {
+   "keyword": "Panchayati Raj institution",
+   "category": "Urban Themes & Sectors",
+   "notes": "Rural local government"
+  },
+  {
+   "keyword": "Rural-urban continuum",
+   "category": "Urban Themes & Sectors",
+   "notes": "Linked rural and urban geographies"
+  },
+  {
+   "keyword": "Peri-urban",
+   "category": "Urban Themes & Sectors",
+   "notes": "City fringe areas"
+  },
+  {
+   "keyword": "Metropolitan development",
+   "category": "Urban Themes & Sectors",
+   "notes": "Large city-region growth"
+  },
+  {
+   "keyword": "Megacity",
+   "category": "Urban Themes & Sectors",
+   "notes": "Very large urban agglomeration"
+  },
+  {
+   "keyword": "Small town",
+   "category": "Urban Themes & Sectors",
+   "notes": "Smaller urban centres"
+  },
+  {
+   "keyword": "Village",
+   "category": "Urban Themes & Sectors",
+   "notes": "Rural settlements"
+  },
+  {
+   "keyword": "Street",
+   "category": "Urban Themes & Sectors",
+   "notes": "Streets and public space"
+  },
+  {
+   "keyword": "Market",
+   "category": "Urban Themes & Sectors",
+   "notes": "Urban markets and trade"
+  },
+  {
+   "keyword": "Neighbourhood",
+   "category": "Urban Themes & Sectors",
+   "notes": "Local area, ward or settlement"
+  },
+  {
+   "keyword": "Ward",
+   "category": "Urban Themes & Sectors",
+   "notes": "Municipal ward boundary"
+  },
+  {
+   "keyword": "Climate change",
+   "category": "Climate, Environment & Risk",
+   "notes": "Climate science, policy and impacts"
+  },
+  {
+   "keyword": "Climate adaptation",
+   "category": "Climate, Environment & Risk",
+   "notes": "Adjusting to climate impacts"
+  },
+  {
+   "keyword": "Climate mitigation",
+   "category": "Climate, Environment & Risk",
+   "notes": "Reducing emissions"
+  },
+  {
+   "keyword": "Climate resilience",
+   "category": "Climate, Environment & Risk",
+   "notes": "Ability to withstand climate shocks"
+  },
+  {
+   "keyword": "Climate-resilient development",
+   "category": "Climate, Environment & Risk",
+   "notes": "CRD framework"
+  },
+  {
+   "keyword": "Climate action",
+   "category": "Climate, Environment & Risk",
+   "notes": "Interventions on climate"
+  },
+  {
+   "keyword": "Decarbonisation",
+   "category": "Climate, Environment & Risk",
+   "notes": "Reducing carbon in systems"
+  },
+  {
+   "keyword": "Net-zero",
+   "category": "Climate, Environment & Risk",
+   "notes": "Net-zero energy, carbon and water goals"
+  },
+  {
+   "keyword": "Carbon",
+   "category": "Climate, Environment & Risk",
+   "notes": "Embodied and operational carbon"
+  },
+  {
+   "keyword": "Climate migration",
+   "category": "Climate, Environment & Risk",
+   "notes": "Movement driven by climate"
+  },
+  {
+   "keyword": "Heat",
+   "category": "Climate, Environment & Risk",
+   "notes": "Urban heat and thermal comfort"
+  },
+  {
+   "keyword": "Urban flooding",
+   "category": "Climate, Environment & Risk",
+   "notes": "Flood events in cities"
+  },
+  {
+   "keyword": "Drought",
+   "category": "Climate, Environment & Risk",
+   "notes": "Water scarcity conditions"
+  },
+  {
+   "keyword": "Semi-arid region",
+   "category": "Climate, Environment & Risk",
+   "notes": "Dryland geographies of research"
+  },
+  {
+   "keyword": "Disaster risk reduction",
+   "category": "Climate, Environment & Risk",
+   "notes": "DRR policy and practice"
+  },
+  {
+   "keyword": "Disaster management",
+   "category": "Climate, Environment & Risk",
+   "notes": "Preparedness and response"
+  },
+  {
+   "keyword": "Post-disaster recovery",
+   "category": "Climate, Environment & Risk",
+   "notes": "Rebuilding after disasters"
+  },
+  {
+   "keyword": "Reconstruction",
+   "category": "Climate, Environment & Risk",
+   "notes": "Rebuilding housing and infrastructure"
+  },
+  {
+   "keyword": "Multi-hazard risk",
+   "category": "Climate, Environment & Risk",
+   "notes": "Compound hazard exposure"
+  },
+  {
+   "keyword": "Vulnerability",
+   "category": "Climate, Environment & Risk",
+   "notes": "Exposure and susceptibility to risk"
+  },
+  {
+   "keyword": "Resilient infrastructure",
+   "category": "Climate, Environment & Risk",
+   "notes": "Infrastructure that withstands shocks"
+  },
+  {
+   "keyword": "Environmental governance",
+   "category": "Climate, Environment & Risk",
+   "notes": "Rules and institutions for the environment"
+  },
+  {
+   "keyword": "Ecosystem services",
+   "category": "Climate, Environment & Risk",
+   "notes": "Benefits from ecosystems"
+  },
+  {
+   "keyword": "Biodiversity conservation",
+   "category": "Climate, Environment & Risk",
+   "notes": "Protecting species and habitats"
+  },
+  {
+   "keyword": "Urban ecology",
+   "category": "Climate, Environment & Risk",
+   "notes": "Ecology of city environments"
+  },
+  {
+   "keyword": "Sustainability science",
+   "category": "Climate, Environment & Risk",
+   "notes": "Interdisciplinary sustainability research"
+  },
+  {
+   "keyword": "Sustainable development",
+   "category": "Climate, Environment & Risk",
+   "notes": "Development within ecological limits"
+  },
+  {
+   "keyword": "Air quality",
+   "category": "Climate, Environment & Risk",
+   "notes": "Air pollution monitoring"
+  },
+  {
+   "keyword": "Forest management",
+   "category": "Climate, Environment & Risk",
+   "notes": "Participatory forestry and policy"
+  },
+  {
+   "keyword": "Fish conservation zone",
+   "category": "Climate, Environment & Risk",
+   "notes": "Community-managed river conservation"
+  },
+  {
+   "keyword": "Informal work",
+   "category": "Society, Work & Equity",
+   "notes": "Work outside formal regulation"
+  },
+  {
+   "keyword": "Informal economy",
+   "category": "Society, Work & Equity",
+   "notes": "Unregistered economic activity"
+  },
+  {
+   "keyword": "Decent work",
+   "category": "Society, Work & Equity",
+   "notes": "Quality and dignity of employment"
+  },
+  {
+   "keyword": "Employment",
+   "category": "Society, Work & Equity",
+   "notes": "Jobs and labour markets"
+  },
+  {
+   "keyword": "Livelihoods",
+   "category": "Society, Work & Equity",
+   "notes": "Means of making a living"
+  },
+  {
+   "keyword": "Social protection",
+   "category": "Society, Work & Equity",
+   "notes": "Safety nets and entitlements"
+  },
+  {
+   "keyword": "Employment guarantee",
+   "category": "Society, Work & Equity",
+   "notes": "Public employment programmes"
+  },
+  {
+   "keyword": "Childcare",
+   "category": "Society, Work & Equity",
+   "notes": "Childcare centres for informal workers"
+  },
+  {
+   "keyword": "Migration",
+   "category": "Society, Work & Equity",
+   "notes": "Movement of people for work and safety"
+  },
+  {
+   "keyword": "Urban inequality",
+   "category": "Society, Work & Equity",
+   "notes": "Unequal access and outcomes"
+  },
+  {
+   "keyword": "Gender",
+   "category": "Society, Work & Equity",
+   "notes": "Gender relations and equity"
+  },
+  {
+   "keyword": "Caste",
+   "category": "Society, Work & Equity",
+   "notes": "Caste-based inequality"
+  },
+  {
+   "keyword": "Social identity",
+   "category": "Society, Work & Equity",
+   "notes": "Identity and belonging"
+  },
+  {
+   "keyword": "Spatial justice",
+   "category": "Society, Work & Equity",
+   "notes": "Fairness in spatial outcomes"
+  },
+  {
+   "keyword": "Citizenship",
+   "category": "Society, Work & Equity",
+   "notes": "Rights and civic membership"
+  },
+  {
+   "keyword": "Community mobilisation",
+   "category": "Society, Work & Equity",
+   "notes": "Collective organising"
+  },
+  {
+   "keyword": "Citizens' campaign",
+   "category": "Society, Work & Equity",
+   "notes": "Public campaigns such as Main Bhi Dilli"
+  },
+  {
+   "keyword": "Social movement",
+   "category": "Society, Work & Equity",
+   "notes": "Organised collective action"
+  },
+  {
+   "keyword": "Worker organisation",
+   "category": "Society, Work & Equity",
+   "notes": "Unions and worker collectives"
+  },
+  {
+   "keyword": "Public health",
+   "category": "Society, Work & Equity",
+   "notes": "Population health systems"
+  },
+  {
+   "keyword": "Urban health",
+   "category": "Society, Work & Equity",
+   "notes": "Health in city contexts"
+  },
+  {
+   "keyword": "Health systems",
+   "category": "Society, Work & Equity",
+   "notes": "Delivery and governance of health care"
+  },
+  {
+   "keyword": "Non-communicable disease",
+   "category": "Society, Work & Equity",
+   "notes": "NCD care and treatment"
+  },
+  {
+   "keyword": "Maternal health",
+   "category": "Society, Work & Equity",
+   "notes": "Maternal and child health"
+  },
+  {
+   "keyword": "Education",
+   "category": "Society, Work & Equity",
+   "notes": "Schooling and pedagogy"
+  },
+  {
+   "keyword": "Teachers",
+   "category": "Society, Work & Equity",
+   "notes": "Teachers and teacher education"
+  },
+  {
+   "keyword": "Pedagogy",
+   "category": "Society, Work & Equity",
+   "notes": "Teaching methods"
+  },
+  {
+   "keyword": "COVID-19",
+   "category": "Society, Work & Equity",
+   "notes": "Pandemic period work and imagery"
+  },
+  {
+   "keyword": "Food relief",
+   "category": "Society, Work & Equity",
+   "notes": "Emergency feeding programmes"
+  },
+  {
+   "keyword": "Community kitchen",
+   "category": "Society, Work & Equity",
+   "notes": "Collective food provision"
+  },
+  {
+   "keyword": "Photography",
+   "category": "Media, Documentation & Data",
+   "notes": "Still photography practice and output"
+  },
+  {
+   "keyword": "Videography",
+   "category": "Media, Documentation & Data",
+   "notes": "Video recording"
+  },
+  {
+   "keyword": "Film production",
+   "category": "Media, Documentation & Data",
+   "notes": "Making films for research and practice"
+  },
+  {
+   "keyword": "Documentary film",
+   "category": "Media, Documentation & Data",
+   "notes": "Non-fiction film"
+  },
+  {
+   "keyword": "Sound recording",
+   "category": "Media, Documentation & Data",
+   "notes": "Audio capture"
+  },
+  {
+   "keyword": "Camera",
+   "category": "Media, Documentation & Data",
+   "notes": "Cameras and photographic equipment"
+  },
+  {
+   "keyword": "Film editing",
+   "category": "Media, Documentation & Data",
+   "notes": "Post-production work"
+  },
+  {
+   "keyword": "Studio",
+   "category": "Media, Documentation & Data",
+   "notes": "Recording and production studio"
+  },
+  {
+   "keyword": "Drone mapping",
+   "category": "Media, Documentation & Data",
+   "notes": "Aerial survey using drones"
+  },
+  {
+   "keyword": "Aerial view",
+   "category": "Media, Documentation & Data",
+   "notes": "Photographs from above"
+  },
+  {
+   "keyword": "Remote sensing",
+   "category": "Media, Documentation & Data",
+   "notes": "Satellite and earth observation imagery"
+  },
+  {
+   "keyword": "Satellite imagery",
+   "category": "Media, Documentation & Data",
+   "notes": "Earth observation data"
+  },
+  {
+   "keyword": "GIS",
+   "category": "Media, Documentation & Data",
+   "notes": "Geographic information systems"
+  },
+  {
+   "keyword": "Cartography",
+   "category": "Media, Documentation & Data",
+   "notes": "Map-making"
+  },
+  {
+   "keyword": "Map",
+   "category": "Media, Documentation & Data",
+   "notes": "Printed and digital maps"
+  },
+  {
+   "keyword": "Geospatial data",
+   "category": "Media, Documentation & Data",
+   "notes": "Spatial datasets and analysis"
+  },
+  {
+   "keyword": "Spatial analysis",
+   "category": "Media, Documentation & Data",
+   "notes": "Analytical mapping work"
+  },
+  {
+   "keyword": "Data visualisation",
+   "category": "Media, Documentation & Data",
+   "notes": "Charts, graphs and visual data"
+  },
+  {
+   "keyword": "Dashboard",
+   "category": "Media, Documentation & Data",
+   "notes": "Live monitoring dashboards"
+  },
+  {
+   "keyword": "Survey",
+   "category": "Media, Documentation & Data",
+   "notes": "Household and field surveys"
+  },
+  {
+   "keyword": "Data collection",
+   "category": "Media, Documentation & Data",
+   "notes": "Fieldwork with forms and devices"
+  },
+  {
+   "keyword": "Statistical analysis",
+   "category": "Media, Documentation & Data",
+   "notes": "Quantitative research work"
+  },
+  {
+   "keyword": "Machine learning",
+   "category": "Media, Documentation & Data",
+   "notes": "Advanced analytical methods"
+  },
+  {
+   "keyword": "Internet of Things",
+   "category": "Media, Documentation & Data",
+   "notes": "Networked sensors and devices"
+  },
+  {
+   "keyword": "Sensors",
+   "category": "Media, Documentation & Data",
+   "notes": "Field and building sensors"
+  },
+  {
+   "keyword": "Digital twin",
+   "category": "Media, Documentation & Data",
+   "notes": "Campus OS digital replica"
+  },
+  {
+   "keyword": "Campus OS",
+   "category": "Media, Documentation & Data",
+   "notes": "IIHS campus operating system"
+  },
+  {
+   "keyword": "Edge computing",
+   "category": "Media, Documentation & Data",
+   "notes": "Local data processing"
+  },
+  {
+   "keyword": "Server room",
+   "category": "Media, Documentation & Data",
+   "notes": "ICT infrastructure"
+  },
+  {
+   "keyword": "Publication",
+   "category": "Media, Documentation & Data",
+   "notes": "Books, papers and reports"
+  },
+  {
+   "keyword": "Book",
+   "category": "Media, Documentation & Data",
+   "notes": "Printed books"
+  },
+  {
+   "keyword": "Journal",
+   "category": "Media, Documentation & Data",
+   "notes": "Peer-reviewed journals"
+  },
+  {
+   "keyword": "Urbanisation journal",
+   "category": "Media, Documentation & Data",
+   "notes": "IIHS peer-reviewed journal"
+  },
+  {
+   "keyword": "Ecology, Economy and Society",
+   "category": "Media, Documentation & Data",
+   "notes": "INSEE journal managed by IIHS"
+  },
+  {
+   "keyword": "Report",
+   "category": "Media, Documentation & Data",
+   "notes": "Institutional and project reports"
+  },
+  {
+   "keyword": "Grey literature",
+   "category": "Media, Documentation & Data",
+   "notes": "Non-peer-reviewed public writing"
+  },
+  {
+   "keyword": "Op-ed",
+   "category": "Media, Documentation & Data",
+   "notes": "Opinion writing"
+  },
+  {
+   "keyword": "Poster",
+   "category": "Media, Documentation & Data",
+   "notes": "Event and campaign posters"
+  },
+  {
+   "keyword": "Graphic design",
+   "category": "Media, Documentation & Data",
+   "notes": "Design output"
+  },
+  {
+   "keyword": "Illustration",
+   "category": "Media, Documentation & Data",
+   "notes": "Drawn and illustrated material"
+  },
+  {
+   "keyword": "Brochure",
+   "category": "Media, Documentation & Data",
+   "notes": "Print collateral"
+  },
+  {
+   "keyword": "Social media",
+   "category": "Media, Documentation & Data",
+   "notes": "Digital outreach"
+  },
+  {
+   "keyword": "AMRUT",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Atal Mission for Rejuvenation and Urban Transformation"
+  },
+  {
+   "keyword": "PMAY-U",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Pradhan Mantri Awas Yojana - Urban"
+  },
+  {
+   "keyword": "Swachh Bharat Mission",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "National sanitation mission (SBM)"
+  },
+  {
+   "keyword": "Jal Jeevan Mission",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "National drinking water mission (JJM)"
+  },
+  {
+   "keyword": "NULM",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "National Urban Livelihoods Mission"
+  },
+  {
+   "keyword": "Smart Cities Mission",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "SCM"
+  },
+  {
+   "keyword": "HRIDAY",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "National Heritage City Development and Augmentation Yojana"
+  },
+  {
+   "keyword": "Integrated Capacity Building Programme",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "ICBP for municipal training"
+  },
+  {
+   "keyword": "Jaga Mission",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Odisha Liveable Habitat Mission"
+  },
+  {
+   "keyword": "TNUSSP",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Tamil Nadu Urban Sanitation Support Programme"
+  },
+  {
+   "keyword": "Namami Gange",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "National river rejuvenation programme"
+  },
+  {
+   "keyword": "Solar Decathlon India",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "World's largest net-zero building challenge"
+  },
+  {
+   "keyword": "ASSURE",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "High Performance Buildings initiative"
+  },
+  {
+   "keyword": "Main Bhi Dilli",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Citizens' campaign on the Delhi Master Plan"
+  },
+  {
+   "keyword": "City Water Resilience Framework",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Global water resilience framework"
+  },
+  {
+   "keyword": "PEAK Urban",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "International urban research programme"
+  },
+  {
+   "keyword": "RESET",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Reconfiguring Energy for Social Equity"
+  },
+  {
+   "keyword": "ASSAR",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Adaptation at Scale in Semi-Arid Regions"
+  },
+  {
+   "keyword": "Indira Gandhi Shehri Rozgar Yojana",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Rajasthan urban employment scheme"
+  },
+  {
+   "keyword": "iGOT",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "Government online training platform"
+  },
+  {
+   "keyword": "Moodle",
+   "category": "National Missions, Programmes & Projects",
+   "notes": "IIHS learning management system"
+  },
+  {
+   "keyword": "Sustainable Development Goals",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN 2030 Agenda"
+  },
+  {
+   "keyword": "SDG 11",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Goal on sustainable cities and communities"
+  },
+  {
+   "keyword": "SDG 6",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Goal on water and sanitation"
+  },
+  {
+   "keyword": "SDG 7",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Goal on affordable and clean energy"
+  },
+  {
+   "keyword": "Paris Climate Agreement",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Global climate accord"
+  },
+  {
+   "keyword": "New Urban Agenda",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Habitat III outcome"
+  },
+  {
+   "keyword": "Habitat III",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN conference on housing and urban development"
+  },
+  {
+   "keyword": "Sendai Framework",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Global disaster risk reduction framework"
+  },
+  {
+   "keyword": "IPCC",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Intergovernmental Panel on Climate Change"
+  },
+  {
+   "keyword": "IPBES",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Biodiversity and ecosystem services platform"
+  },
+  {
+   "keyword": "COP",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN climate conference of parties"
+  },
+  {
+   "keyword": "UN-Habitat",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN human settlements programme"
+  },
+  {
+   "keyword": "UNDP",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN Development Programme"
+  },
+  {
+   "keyword": "UNDRR",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN Office for Disaster Risk Reduction"
+  },
+  {
+   "keyword": "UNEP",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN Environment Programme"
+  },
+  {
+   "keyword": "UNESCO",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN education, science and culture body"
+  },
+  {
+   "keyword": "UNICEF",
+   "category": "Global Frameworks & Bodies",
+   "notes": "UN children's fund"
+  },
+  {
+   "keyword": "WHO",
+   "category": "Global Frameworks & Bodies",
+   "notes": "World Health Organization"
+  },
+  {
+   "keyword": "ILO",
+   "category": "Global Frameworks & Bodies",
+   "notes": "International Labour Organization"
+  },
+  {
+   "keyword": "World Bank",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Multilateral development bank"
+  },
+  {
+   "keyword": "Asian Development Bank",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Regional development bank"
+  },
+  {
+   "keyword": "Green Climate Fund",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Climate finance institution"
+  },
+  {
+   "keyword": "CDRI",
+   "category": "Global Frameworks & Bodies",
+   "notes": "Coalition for Disaster Resilient Infrastructure"
+  },
+  {
+   "keyword": "Global Commission on the Economics of Water",
+   "category": "Global Frameworks & Bodies",
+   "notes": "GCEW"
+  },
+  {
+   "keyword": "Summary for Urban Policymakers",
+   "category": "Global Frameworks & Bodies",
+   "notes": "SUP climate science series"
+  },
+  {
+   "keyword": "Ministry of Housing and Urban Affairs",
+   "category": "Partners & Institutions",
+   "notes": "MoHUA, Government of India"
+  },
+  {
+   "keyword": "Ministry of Jal Shakti",
+   "category": "Partners & Institutions",
+   "notes": "Water ministry, Government of India"
+  },
+  {
+   "keyword": "Ministry of Road Transport and Highways",
+   "category": "Partners & Institutions",
+   "notes": "MoRTH"
+  },
+  {
+   "keyword": "Department of Personnel and Training",
+   "category": "Partners & Institutions",
+   "notes": "DoPT, Government of India"
+  },
+  {
+   "keyword": "Department of Land Resources",
+   "category": "Partners & Institutions",
+   "notes": "Land ministry department"
+  },
+  {
+   "keyword": "NITI Aayog",
+   "category": "Partners & Institutions",
+   "notes": "National policy think tank"
+  },
+  {
+   "keyword": "Finance Commission",
+   "category": "Partners & Institutions",
+   "notes": "XV and XVI Finance Commissions"
+  },
+  {
+   "keyword": "LBSNAA",
+   "category": "Partners & Institutions",
+   "notes": "Lal Bahadur Shastri National Academy of Administration"
+  },
+  {
+   "keyword": "NIUA",
+   "category": "Partners & Institutions",
+   "notes": "National Institute of Urban Affairs"
+  },
+  {
+   "keyword": "BMRCL",
+   "category": "Partners & Institutions",
+   "notes": "Bangalore Metro Rail Corporation Limited"
+  },
+  {
+   "keyword": "CMDA",
+   "category": "Partners & Institutions",
+   "notes": "Chennai Metropolitan Development Authority"
+  },
+  {
+   "keyword": "BBMP",
+   "category": "Partners & Institutions",
+   "notes": "Bruhat Bengaluru Mahanagara Palike"
+  },
+  {
+   "keyword": "TNUIFSL",
+   "category": "Partners & Institutions",
+   "notes": "Tamil Nadu Urban Infrastructure Financial Services"
+  },
+  {
+   "keyword": "SIUD Karnataka",
+   "category": "Partners & Institutions",
+   "notes": "State Institute of Urban Development"
+  },
+  {
+   "keyword": "YASHADA",
+   "category": "Partners & Institutions",
+   "notes": "Maharashtra development administration academy"
+  },
+  {
+   "keyword": "Bill & Melinda Gates Foundation",
+   "category": "Partners & Institutions",
+   "notes": "Philanthropic partner"
+  },
+  {
+   "keyword": "Ford Foundation",
+   "category": "Partners & Institutions",
+   "notes": "Philanthropic partner"
+  },
+  {
+   "keyword": "Rockefeller Foundation",
+   "category": "Partners & Institutions",
+   "notes": "Philanthropic partner"
+  },
+  {
+   "keyword": "Omidyar Network",
+   "category": "Partners & Institutions",
+   "notes": "Philanthropic partner"
+  },
+  {
+   "keyword": "GIZ",
+   "category": "Partners & Institutions",
+   "notes": "German development agency"
+  },
+  {
+   "keyword": "USAID",
+   "category": "Partners & Institutions",
+   "notes": "US development agency"
+  },
+  {
+   "keyword": "IDRC",
+   "category": "Partners & Institutions",
+   "notes": "International Development Research Centre"
+  },
+  {
+   "keyword": "FCDO",
+   "category": "Partners & Institutions",
+   "notes": "UK foreign and development office"
+  },
+  {
+   "keyword": "SEWA",
+   "category": "Partners & Institutions",
+   "notes": "Self Employed Women's Association"
+  },
+  {
+   "keyword": "Mahila Housing Trust",
+   "category": "Partners & Institutions",
+   "notes": "Partner organisation on housing and sanitation"
+  },
+  {
+   "keyword": "Hasiru Dala",
+   "category": "Partners & Institutions",
+   "notes": "Waste worker organisation, Bengaluru"
+  },
+  {
+   "keyword": "WIEGO",
+   "category": "Partners & Institutions",
+   "notes": "Global network on informal employment"
+  },
+  {
+   "keyword": "TISS",
+   "category": "Partners & Institutions",
+   "notes": "Tata Institute of Social Sciences"
+  },
+  {
+   "keyword": "IIT",
+   "category": "Partners & Institutions",
+   "notes": "Indian Institutes of Technology partners"
+  },
+  {
+   "keyword": "IISc",
+   "category": "Partners & Institutions",
+   "notes": "Indian Institute of Science, Bengaluru"
+  },
+  {
+   "keyword": "CEPT University",
+   "category": "Partners & Institutions",
+   "notes": "Academic partner, Ahmedabad"
+  },
+  {
+   "keyword": "African Centre for Cities",
+   "category": "Partners & Institutions",
+   "notes": "University of Cape Town partner"
+  },
+  {
+   "keyword": "University of Cape Town",
+   "category": "Partners & Institutions",
+   "notes": "International academic partner"
+  },
+  {
+   "keyword": "University of Oxford",
+   "category": "Partners & Institutions",
+   "notes": "International academic partner"
+  },
+  {
+   "keyword": "Peking University",
+   "category": "Partners & Institutions",
+   "notes": "International academic partner"
+  },
+  {
+   "keyword": "EAFIT University",
+   "category": "Partners & Institutions",
+   "notes": "Colombian academic partner"
+  },
+  {
+   "keyword": "Coursera",
+   "category": "Partners & Institutions",
+   "notes": "Digital learning platform"
+  },
+  {
+   "keyword": "edX",
+   "category": "Partners & Institutions",
+   "notes": "Digital learning platform"
+  },
+  {
+   "keyword": "SDG Academy",
+   "category": "Partners & Institutions",
+   "notes": "Digital learning platform"
+  },
+  {
+   "keyword": "Goethe-Institut",
+   "category": "Partners & Institutions",
+   "notes": "Cultural partner, event venue"
+  },
+  {
+   "keyword": "Sage Publications",
+   "category": "Partners & Institutions",
+   "notes": "Publisher of the Urbanisation journal"
+  },
+  {
+   "keyword": "Sustainable Cities",
+   "category": "Courses & Learning Products",
+   "notes": "Flagship MOOC on urban sustainability"
+  },
+  {
+   "keyword": "Shaping Urban Futures",
+   "category": "Courses & Learning Products",
+   "notes": "MOOC with global university partners"
+  },
+  {
+   "keyword": "Housing Justice: A View from Indian Cities",
+   "category": "Courses & Learning Products",
+   "notes": "MOOC on housing and justice"
+  },
+  {
+   "keyword": "Net-Zero Building Fundamentals",
+   "category": "Courses & Learning Products",
+   "notes": "MOOC on low-carbon buildings"
+  },
+  {
+   "keyword": "The Art and Science of Economic Policy",
+   "category": "Courses & Learning Products",
+   "notes": "MOOC on policymaking"
+  },
+  {
+   "keyword": "Reimagining Education for Equity",
+   "category": "Courses & Learning Products",
+   "notes": "MOOC on education and equity"
+  },
+  {
+   "keyword": "Writing and Disseminating Grey Literature",
+   "category": "Courses & Learning Products",
+   "notes": "MOOC on public writing"
+  },
+  {
+   "keyword": "Urban Governance (course)",
+   "category": "Courses & Learning Products",
+   "notes": "Commons course in the Urban Fellows Programme"
+  },
+  {
+   "keyword": "Urban Economy",
+   "category": "Courses & Learning Products",
+   "notes": "Commons course"
+  },
+  {
+   "keyword": "Urban Ecology and Climate Change",
+   "category": "Courses & Learning Products",
+   "notes": "Commons course"
+  },
+  {
+   "keyword": "Urban Systems and Infrastructure",
+   "category": "Courses & Learning Products",
+   "notes": "Commons course"
+  },
+  {
+   "keyword": "Identity and Social Practice",
+   "category": "Courses & Learning Products",
+   "notes": "Commons course"
+  },
+  {
+   "keyword": "Built Environment and Planning",
+   "category": "Courses & Learning Products",
+   "notes": "Commons course"
+  },
+  {
+   "keyword": "Infrastructure and Services",
+   "category": "Courses & Learning Products",
+   "notes": "Commons course"
+  },
+  {
+   "keyword": "Cinema and the City",
+   "category": "Courses & Learning Products",
+   "notes": "Media Lab elective"
+  },
+  {
+   "keyword": "Working with Spatial Data",
+   "category": "Courses & Learning Products",
+   "notes": "Geospatial Lab commons course"
+  },
+  {
+   "keyword": "Short learning module",
+   "category": "Courses & Learning Products",
+   "notes": "Bite-sized digital learning content"
+  },
+  {
+   "keyword": "MOOC",
+   "category": "Courses & Learning Products",
+   "notes": "Massive open online course"
+  },
+  {
+   "keyword": "Swimming",
+   "category": "Sports & Wellbeing",
+   "notes": "Core Play activity"
+  },
+  {
+   "keyword": "Cycling",
+   "category": "Sports & Wellbeing",
+   "notes": "Core Play activity"
+  },
+  {
+   "keyword": "Walking",
+   "category": "Sports & Wellbeing",
+   "notes": "Core Play activity"
+  },
+  {
+   "keyword": "Yoga",
+   "category": "Sports & Wellbeing",
+   "notes": "Core Play activity"
+  },
+  {
+   "keyword": "Table tennis",
+   "category": "Sports & Wellbeing",
+   "notes": "Team sport in the Play course"
+  },
+  {
+   "keyword": "Volleyball",
+   "category": "Sports & Wellbeing",
+   "notes": "Team sport in the Play course"
+  },
+  {
+   "keyword": "Football",
+   "category": "Sports & Wellbeing",
+   "notes": "Team sport in the Play course"
+  },
+  {
+   "keyword": "Ultimate frisbee",
+   "category": "Sports & Wellbeing",
+   "notes": "Team sport in the Play course"
+  },
+  {
+   "keyword": "Team sport",
+   "category": "Sports & Wellbeing",
+   "notes": "Group physical activity"
+  },
+  {
+   "keyword": "First aid",
+   "category": "Sports & Wellbeing",
+   "notes": "Safety and injury prevention training"
+  },
+  {
+   "keyword": "Physical culture",
+   "category": "Sports & Wellbeing",
+   "notes": "Fitness and movement practice"
+  },
+  {
+   "keyword": "Wellness",
+   "category": "Sports & Wellbeing",
+   "notes": "Health and wellbeing activity"
+  },
+  {
+   "keyword": "Portrait",
+   "category": "Photo Composition & Context",
+   "notes": "Single-person photograph"
+  },
+  {
+   "keyword": "Group photo",
+   "category": "Photo Composition & Context",
+   "notes": "Multiple people posed together"
+  },
+  {
+   "keyword": "Candid",
+   "category": "Photo Composition & Context",
+   "notes": "Unposed, in-the-moment shot"
+  },
+  {
+   "keyword": "Wide shot",
+   "category": "Photo Composition & Context",
+   "notes": "Broad establishing view"
+  },
+  {
+   "keyword": "Close-up",
+   "category": "Photo Composition & Context",
+   "notes": "Detail or macro shot"
+  },
+  {
+   "keyword": "Aerial",
+   "category": "Photo Composition & Context",
+   "notes": "Drone or elevated view"
+  },
+  {
+   "keyword": "Interior",
+   "category": "Photo Composition & Context",
+   "notes": "Indoor setting"
+  },
+  {
+   "keyword": "Exterior",
+   "category": "Photo Composition & Context",
+   "notes": "Outdoor setting"
+  },
+  {
+   "keyword": "Landscape",
+   "category": "Photo Composition & Context",
+   "notes": "Landscape orientation or scene"
+  },
+  {
+   "keyword": "Black and white",
+   "category": "Photo Composition & Context",
+   "notes": "Monochrome image"
+  },
+  {
+   "keyword": "Archival image",
+   "category": "Photo Composition & Context",
+   "notes": "Historic or scanned material"
+  },
+  {
+   "keyword": "Screenshot",
+   "category": "Photo Composition & Context",
+   "notes": "Screen capture of digital output"
+  },
+  {
+   "keyword": "Infographic",
+   "category": "Photo Composition & Context",
+   "notes": "Designed information graphic"
+  },
+  {
+   "keyword": "Illustrated diagram",
+   "category": "Photo Composition & Context",
+   "notes": "Explanatory drawing"
+  },
+  {
+   "keyword": "Signage and branding",
+   "category": "Photo Composition & Context",
+   "notes": "Logos, boards and identity elements"
+  },
+  {
+   "keyword": "Speaker at podium",
+   "category": "Photo Composition & Context",
+   "notes": "Person addressing an audience"
+  },
+  {
+   "keyword": "Seated audience",
+   "category": "Photo Composition & Context",
+   "notes": "Rows of listeners"
+  },
+  {
+   "keyword": "Hands at work",
+   "category": "Photo Composition & Context",
+   "notes": "Detail of manual activity"
+  },
+  {
+   "keyword": "Night",
+   "category": "Photo Composition & Context",
+   "notes": "Photograph taken after dark"
+  },
+  {
+   "keyword": "Monsoon",
+   "category": "Photo Composition & Context",
+   "notes": "Rainy season conditions"
+  },
+  {
+   "keyword": "Golden hour",
+   "category": "Photo Composition & Context",
+   "notes": "Early or late daylight"
+  }
+ ]
+}

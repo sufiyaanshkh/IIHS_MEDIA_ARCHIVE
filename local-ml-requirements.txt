@@ -1,0 +1,4 @@
+# Host-side inference bridge dependencies (the EmbeddingGemma weights stay in DigUp).
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+openai-whisper==20250625

@@ -1,0 +1,22 @@
+{
+  "title": "IIHS Visual Intelligence Documentation Pack",
+  "created_date": "2026-10-29",
+  "documents": [
+    "README.md",
+    "docs/01_PRODUCT_SCOPE_AND_REQUIREMENTS.md",
+    "docs/02_SYSTEM_ARCHITECTURE.md",
+    "docs/03_DEVELOPMENT_AND_LOCAL_RUNBOOK.md",
+    "docs/04_DATA_MODEL_AND_RETENTION.md",
+    "docs/05_API_CONTRACT_GUIDE.md",
+    "docs/06_INGESTION_AND_MEDIA_PIPELINE.md",
+    "docs/07_AI_TAGGING_SEARCH_AND_EVALUATION.md",
+    "docs/08_SECURITY_THREAT_MODEL.md",
+    "docs/09_TESTING_AND_RELEASE_GATES.md",
+    "docs/10_UI_UX_DESIGN_SYSTEM.md",
+    "docs/11_OPERATIONS_BACKUP_AND_RECOVERY.md",
+    "docs/12_IMPLEMENTATION_PLAN_AND_ACCEPTANCE.md",
+    "docs/13_DECISIONS_AND_OPEN_QUESTIONS.md",
+    "CODING_AGENT_HANDOFF.md"
+  ],
+  "note": "Target specifications; reconcile against repository before claiming implementation status."
+}

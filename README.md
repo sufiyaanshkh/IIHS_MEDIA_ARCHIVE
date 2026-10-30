@@ -1,130 +1,67 @@
-# IIHS Media Archive
+# IIHS Visual Intelligence
 
-A local-first media archive that brings together the strongest ideas from **DigUp** (on-device semantic search with Google EmbeddingGemma 2) and **IIHS Visual Intelligence** (visual tagging, human review, and dataset workflows).
+A local-first media archive workspace built with React, FastAPI, PostgreSQL and a separate ingestion worker. It supports authenticated catalogue and operator workflows, explicit bounded ingestion previews, automatic local visual indexing, and video transcription with English translation. It does not scan a source on startup or page load.
 
-## Product direction
+## Run the local demo
 
-- Beautiful, editorial archive UI designed for research teams and institutional collections.
-- Search by meaning with locally generated EmbeddingGemma 2 vectors; keep keyword search available when embeddings are unavailable.
-- Ingest selected files, folders, or administrator-approved server mounts through a safe, auditable pipeline.
-- Preserve originals and provenance; generate metadata, thumbnails, AI suggestions, and review tasks.
-- Keep human review and dataset export as first-class workflows.
-- Keep processing local-first. No cloud AI API is required for the target architecture.
+Requirements: Docker with Compose.
 
-## Status
-
-The `feature/local-backend-pipeline` branch includes a local FastAPI/PostgreSQL ingestion scaffold, archive API integration, optional review-request status, and a review queue for explicitly submitted assets. Ingestion does **not** require human approval; indexed assets are visible immediately. This remains a development scaffold, not a complete production AI archive.
-
-## Run the UI
-
-For the full local stack setup, ingestion smoke test, and current model-readiness matrix, see [docs/LOCAL_RUN_GUIDE.md](docs/LOCAL_RUN_GUIDE.md).
-
-Requirements: Node.js 20+ and npm.
-
-```bash
-npm install
-npm run dev
+```sh
+cp .env.example .env
+python3.12 -c 'import secrets; print(secrets.token_urlsafe(32))'
+# Put a generated value in LOCAL_ML_TOKEN in .env.
+python3.12 -c 'import secrets; print(secrets.token_urlsafe(32))'
+# Put a second generated value in INITIAL_ADMIN_TOKEN in .env.
 ```
 
-For a production build:
+Start the model bridge first (steps below), then run `docker compose up --build -d`. Open <http://127.0.0.1:5174>, choose **Create admin**, and enter the `INITIAL_ADMIN_TOKEN` to create the first administrator. This one-time setup is disabled after the first account. After setup, anyone who can reach the app can choose **Create account** and sign up as a researcher; administrators can grant other roles in **Admin**. Public sign-up can be disabled with `ALLOW_SELF_REGISTRATION=false`. The CLI bootstrap remains available as an alternative. The initial schema is applied by the `migrate` service. In **Ingestion**, choose **Browse files…** to open the computer’s file picker, select the media to import, and choose **Import & index files**. The app validates and indexes each selected file automatically; no per-image review is required. The computer’s folder paths are not stored. The generated demo image is available under `demo_media/` for a local smoke run.
 
-```bash
-npm run build
-npm run preview
+Before starting Compose, set the same random `LOCAL_ML_TOKEN` in `.env` and start DigUp’s installed local model bridge in a separate terminal:
+
+```sh
+cd "/Users/macbookair/Desktop/iihs_Projects/IIHS MEDIA ARCHIVE"
+python3.12 -m venv .venv-ml
+.venv-ml/bin/python -m pip install -r local-ml-requirements.txt
+set -a; source .env; set +a
+.venv-ml/bin/uvicorn local_ml_service:app --host 0.0.0.0 --port 8765
 ```
 
-## Reference projects
+Install `ffmpeg` on the Mac (`brew install ffmpeg`) if it is not already present. The bridge runs `/Applications/DigUp.app/Contents/Helpers/digup worker` and uses the existing `EmbeddingGemma 2` model files in `~/Library/Application Support/DigUp/Models`; it downloads no embedding weights. Whisper `small` must exist in `~/.cache/whisper/small.pt` and is used for transcription and English translation. Keep the bearer token private and stop the bridge when the app is not in use. Docker Desktop reaches the bridge through `host.docker.internal`; the token is required and macOS firewall rules should restrict access to this local app.
 
-- [DigUp](https://github.com/ARahim3/DigUp) — local-first semantic search over files with EmbeddingGemma 2.
-- [IIHS Visual Intelligence](https://github.com/sufiyaanshkh/IIHS-Visual-Intelligence) — visual tagging, human-in-the-loop review, and dataset workflows.
+In another terminal, start the app:
 
-This project is an integration target inspired by their capabilities; it does not copy either project wholesale. Respect each project's license and model-weight terms when integrating implementation or assets.
-
-## Planned architecture
-
-```text
-React UI
-  ├─ Archive browse / filters / item detail
-  ├─ Semantic search UI
-  ├─ Ingestion wizard + dry-run review
-  └─ Human review + dataset workspace
-          │ HTTPS / typed API
-          ▼
-FastAPI API + authentication
-  ├─ Ingestion jobs (durable queue and persisted progress)
-  ├─ Media validation, metadata and thumbnail workers
-  ├─ Local tagging / OCR / sampled video frames
-  ├─ Local EmbeddingGemma 2 embedding worker
-  └─ Review and dataset APIs
-          │
-          ├─ Media storage (originals + derived assets)
-          ├─ PostgreSQL (assets, tags, jobs, users, audit trail)
-          └─ Vector index (embedding storage and similarity search)
+```sh
+docker compose up --build -d
 ```
 
-## Important ingestion boundary
+If using the terminal bootstrap instead, run `docker compose exec api python -m app.bootstrap_admin`.
 
-A web browser cannot silently enumerate every drive on a user's computer. Browser selection is appropriate for selected files and supported folder pickers. Whole-drive scanning must be performed by a trusted local agent, or by a server worker against explicitly configured and permission-checked mount roots. The UI must never accept arbitrary filesystem paths from untrusted clients.
+The worker embeds each image and sampled video frame automatically and stores the model revision with the vector. Video audio is transcribed and translated into English when speech is available. Successfully ingested items become searchable immediately; there is no mandatory human review stage. Human annotation remains optional. Choose **Search** in the main menu to search by natural-language meaning or exact text, then refine by media type and added year. OCR extracts printed English text from images during ingestion; transcripts from videos are also searchable. OCR text can be wrong and is never treated as verified names or identity. **Media catalogue** is the browse-only menu.
 
-## License
+The API is available through the same-origin web proxy at `/api`; readiness is at <http://127.0.0.1:5174/readyz>. Host ports are configurable with `API_PORT` and `WEB_PORT` in `.env`; defaults are 8010 and 5174 to avoid common local-service conflicts. Stop with `docker compose down`; named database and media volumes remain. `docker compose down -v` removes them.
 
-No license has been added yet. Set a project license before redistributing this repository.
+## Local development checks
 
-
-## Local backend (development scaffold)
-
-Prerequisites: Docker Desktop / Docker Engine with Compose, and Node.js 20+ if running the frontend outside Docker.
-
-1. Clone and enter the repository:
-   ```bash
-   git clone https://github.com/sufiyaanshkh/IIHS_MEDIA_ARCHIVE.git
-   cd IIHS_MEDIA_ARCHIVE
-   git checkout feature/local-backend-pipeline
-   ```
-2. Create your local environment file:
-   ```bash
-   cp backend/.env.example backend/.env
-   mkdir -p approved-archive data/people data/storage data/derivatives models
-   ```
-3. Put a **small test corpus** into `approved-archive/` first. The compose mount is read-only inside the containers.
-4. Start the database, API and worker:
-   ```bash
-   docker compose up --build -d
-   docker compose logs -f api worker
-   ```
-5. Check health and interactive API docs:
-   - `http://127.0.0.1:8000/health`
-   - `http://127.0.0.1:8000/docs`
-6. Stop services with `docker compose down`. Do not use `docker compose down -v` unless you intend to delete the database volume.
-
-### People / employee profile images
-
-The local-only folder is `data/people/`. Example structure:
-
-```text
-data/people/
-  EMP001/
-    profile.jpg
-  EMP002/
-    profile.png
+```sh
+python -m venv .venv
+. .venv/bin/activate
+pip install -r backend/requirements-dev.txt
+DATABASE_URL=sqlite:///./test.db PYTHONPATH=backend python -m pytest backend/tests -q
+cd frontend && npm ci && npm run build
+cd .. && docker compose config --quiet
 ```
 
-Do not commit actual staff images. Use local employee identifiers and maintain appropriate authorization, notice/consent where required, retention and access controls. The API's employee-profile registration requires a consent/authorization flag. This is currently an administrative profile registry only: face embeddings and biometric identity matching are **not enabled**.
+The backend dependencies include PostgreSQL, Alembic, Pillow and password hashing support. Run migrations with `cd backend && alembic upgrade head` after setting a PostgreSQL `DATABASE_URL`.
 
-### Configure the approved archive source
+## Configuration and safety
 
-The Compose file mounts `IIHS_ARCHIVE_MOUNT` (defaults to `./approved-archive`) read-only at `/archive` and registers only that mount for ingestion. To use a different directory, set `IIHS_ARCHIVE_MOUNT` in your shell or a local untracked environment file before starting Compose. Inspect the final resolved mounts with `docker compose config` before starting any scan.
+- Compose binds published ports to loopback. Keep this stack on a trusted machine and do not expose it directly to a network.
+- Self-registration creates active researcher accounts that can browse the catalogue; disable it before exposing a restricted archive to a broader network.
+- `DEMO_MODE=true` is the default. In demo mode, only `DEMO_MEDIA_ROOT` is eligible for an explicitly requested preview. In restricted mode, `APPROVED_SOURCE_ROOTS` must list absolute, operator-approved roots and `COOKIE_SECURE=true` must be set behind HTTPS.
+- `FACE_FEATURE_ENABLED=true` is rejected. Image and sampled-frame vectors power semantic search; printed English image text is extracted by Tesseract and indexed alongside video transcripts. The app does not infer person identities or generate descriptive visual tags. The bridge reports whether local models are reachable.
+- Upload defaults allow up to 500 files per job, 100 MiB per file, and 1 GiB per batch. Adjust `MAX_FILES_PER_JOB`, `MAX_FILE_BYTES`, and `MAX_IMPORT_BYTES` together with the reverse-proxy body limit. Failed imports retain only retryable staged files; successful imports clear their staging copies.
+- Configure a strong `POSTGRES_PASSWORD` and a durable protected storage volume before any non-demo use. Keep `INITIAL_ADMIN_TOKEN` private and remove it from `.env` after the first administrator is created. Do not put credentials or real archive paths in source control.
 
-### Current backend scope — read before using real data
+This is a local demo/staging deliverable, not a production pilot sign-off. Production use still needs institutional approval, an approved source scope and operator, security review, backup/restore verification, retention policy and operational ownership. Face workflows stay disabled.
 
-The backend currently provides PostgreSQL-backed asset/tag/job/profile tables, source-root validation, a dry-run directory preview, a separate polling worker, chunked SHA-256 hashing, duplicate skipping, image metadata and thumbnails, basic PDF text extraction, FFprobe video metadata, lexical search, and a local embedding adapter boundary.
-
-**This is not yet a complete production archive pipeline.** In particular:
-- Video frame sampling and speech transcription are not implemented.
-- OCR, AI image captioning/tagging, Qwen3-VL, YOLO inference, and actual vector similarity search are not wired end-to-end.
-- EmbeddingGemma 2 is disabled by default; the local runtime, task-prefix handling, durable vector index and relevance tests must be completed before enabling semantic search.
-- Browser upload batches, employee folder auto-enrollment, authentication/roles, Alembic migrations, cancellation/retry, and robust multi-worker job leasing are not yet implemented.
-- The polling worker currently handles one job at a time and must be stress-tested before very large corpora. Begin with a small representative sample, monitor disk space, and verify backups.
-- The frontend is not yet connected to these API endpoints.
-
-Never point this scaffold at the full institutional archive until the remaining features, access controls, backups, throughput and recovery tests are completed.
+See [the requirement matrix](docs/00_REQUIREMENT_TO_IMPLEMENTATION_MATRIX.md), [design system](docs/10_UI_UX_DESIGN_SYSTEM.md), [release gates](docs/09_TESTING_AND_RELEASE_GATES.md), and [takeover status](docs/ai_takeover_current_status.md).
