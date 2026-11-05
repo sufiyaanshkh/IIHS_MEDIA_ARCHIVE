@@ -1,23 +1,26 @@
-"""Integrated Hybrid Semantic + Lexical Search Pipeline with Reciprocal Rank Fusion (RRF).
+"""Integrated Multimodal Search Engine with Query Intent Classification,
+Isolated Retrieval Channels, and Intent-Aware Rank Fusion.
 
-Combines:
-1. Semantic vector retrieval (SearchSegment + AssetEmbedding fallback)
-2. PostgreSQL full-text / lexical keyword retrieval
-3. Filename and folder path matching
-4. IIHS controlled vocabulary and alias matching
-5. OCR and multi-format document segment retrieval (page/sheet/slide/chunk)
-6. Visual tags, annotations and visual descriptions
-7. Timestamped audio/video transcript retrieval
-8. Sampled video frame retrieval with timestamp localization
+Architecture & Channels:
+1. Visual Embedding Channel (image & video-frame vectors with query-relative z-gating)
+2. Caption & Scene Description Channel (VLM captions, visual profiles, scene understanding)
+3. Object & Tag Channel (verified annotations, AI object tags, IIHS taxonomy keywords)
+4. OCR & Multi-format Document Channel (text in images, PDF pages, office documents, transcripts)
+5. Metadata & Lexical Channel (filename, folder hierarchy, project context, temporal years)
+6. Authorized Face Biometrics Channel (human-verified InsightFace matches)
 
-Enforces the IIHS archival rule: folder-derived contextual metadata is never treated
-as visual detection or proof of visual content.
+Enforces institutional archival rules:
+- Visual searches are driven primarily by visual evidence and scene understanding.
+- Folder-derived contextual metadata is never treated as visual detection or proof of visual content.
+- Unverified AI suggestions are clearly labeled and separated from human-verified annotations.
+- Authorized face recognition requires active enrollment and human verification.
 """
 from __future__ import annotations
 
 import math
 import re
 from datetime import datetime, timezone
+from typing import Any
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session, joinedload
 
@@ -32,9 +35,19 @@ from app.models import (
     SearchSegment,
     VideoFrame,
 )
-from app.services.contextual_metadata import _contains_term, _match_item_in_text, _normalize_text, load_vocabulary
+from app.services.contextual_metadata import (
+    _contains_term,
+    _match_item_in_text,
+    _normalize_text,
+    load_vocabulary,
+)
 from app.services.embeddings import text_embedding
 from app.services.media import MediaValidationError
+from app.services.query_intent import (
+    QueryIntent,
+    classify_query_intent,
+    is_identifier_query,
+)
 
 RRF_K = 60
 STOPWORDS = {
@@ -62,41 +75,19 @@ def _cosine_similarity(vec_a: list[float], vec_b: list[float]) -> float:
 
 
 def parse_query_intent(query: str) -> dict:
-    """Extract query tokens, years, IIHS vocabulary terms, and modality hints."""
-    norm = _normalize_text(query)
-    raw_tokens = [t for t in norm.split() if t]
-    content_tokens = [t for t in raw_tokens if t not in STOPWORDS and len(t) >= 2]
-    if not content_tokens:
-        content_tokens = raw_tokens
-
-    years = sorted({int(m.group(1)) for m in re.finditer(r"(?<!\d)(19[89]\d|20[0-3]\d)(?!\d)", query)})
-
-    matched_vocab = []
-    for item in load_vocabulary():
-        kw = item["keyword"]
-        hit, via_alias = _match_item_in_text(query, kw)
-        if hit:
-            matched_vocab.append({"keyword": kw, "category": item["category"], "via_alias": via_alias})
-
-    modality_hint = None
-    if re.search(r"\b(images?|photos?|photographs?|pictures?)\b", norm):
-        modality_hint = "image"
-    elif re.search(r"\b(videos?|clips?|footage|movies?)\b", norm):
-        modality_hint = "video"
-    elif re.search(r"\b(documents?|pdfs?|reports?|spreadsheets?|slides?|presentations?)\b", norm):
-        modality_hint = "document"
-    elif re.search(r"\b(audio|recordings?|podcasts?|interviews?)\b", norm):
-        modality_hint = "audio"
-
+    """Backward-compatible helper returning query parsing dictionary."""
+    intent = classify_query_intent(query)
     return {
-        "raw": query.strip(),
-        "normalized": norm,
-        "tokens": content_tokens,
-        "years": years,
-        "matched_vocab": matched_vocab,
-        "modality_hint": modality_hint,
+        "raw": intent.raw,
+        "normalized": intent.normalized,
+        "tokens": intent.content_tokens,
+        "years": intent.years,
+        "matched_vocab": intent.matched_vocab,
+        "modality_hint": intent.modality_hint,
+        "intent_type": intent.intent_type,
+        "channel_weights": intent.channel_weights,
+        "is_exact_lookup": intent.is_exact_lookup,
     }
-
 
 
 def _semantic_z_scores(scores: list[float]) -> list[float]:
@@ -137,11 +128,8 @@ def _token_coverage(text: str, tokens: list[str]) -> float:
 
 
 def _is_identifier_query(query: str) -> bool:
-    """Detect likely archive identifiers, filenames and codes where lexical precision matters."""
-    q = (query or "").strip()
-    return bool(q and (re.search(r"(?i)\b[A-Z]{2,}[-_/]?\d{2,}\b", q)
-                       or re.search(r"\b\d{4,}\b", q)
-                       or re.search(r"\.[A-Za-z0-9]{2,5}$", q)))
+    """Backward-compatible identifier query check."""
+    return is_identifier_query(query)
 
 
 def _year_bounds(year: int | None):
@@ -150,7 +138,11 @@ def _year_bounds(year: int | None):
     return datetime(year, 1, 1, tzinfo=timezone.utc), datetime(year + 1, 1, 1, tzinfo=timezone.utc)
 
 
-def _SemanticChannel(
+# ==============================================================================
+# CHANNEL 1: Visual Embedding Retrieval (Image & Video Frames)
+# ==============================================================================
+
+def _VisualEmbeddingChannel(
     db: Session,
     query_vector: list[float],
     model_id: str,
@@ -158,17 +150,21 @@ def _SemanticChannel(
     media_type: str | None,
     added_year: int | None,
     candidate_limit: int = 200,
-) -> tuple[dict[str, dict], dict[str, dict]]:
-    """Return (content_semantic_hits, context_semantic_hits) keyed by asset_id."""
-    content_hits: dict[str, dict] = {}
-    context_hits: dict[str, dict] = {}
+) -> dict[str, dict]:
+    """Retrieve visual embeddings (image vectors and video keyframes)."""
+    visual_hits: dict[str, dict] = {}
     is_postgres = db.bind is not None and db.bind.dialect.name == "postgresql"
 
-    # 1. Search persistent SearchSegment rows
-    seg_query = select(SearchSegment).join(MediaAsset, MediaAsset.id == SearchSegment.asset_id).where(
-        SearchSegment.embedding.is_not(None),
-        SearchSegment.model_id == model_id,
-        SearchSegment.model_revision == model_revision,
+    # Search persistent SearchSegment rows of visual types
+    seg_query = (
+        select(SearchSegment)
+        .join(MediaAsset, MediaAsset.id == SearchSegment.asset_id)
+        .where(
+            SearchSegment.embedding.is_not(None),
+            SearchSegment.segment_type.in_(("image_visual", "video_frame")),
+            SearchSegment.model_id == model_id,
+            SearchSegment.model_revision == model_revision,
+        )
     )
     if media_type:
         seg_query = seg_query.where(MediaAsset.media_type == media_type)
@@ -182,13 +178,14 @@ def _SemanticChannel(
             .join(MediaAsset, MediaAsset.id == SearchSegment.asset_id)
             .where(
                 SearchSegment.embedding.is_not(None),
+                SearchSegment.segment_type.in_(("image_visual", "video_frame")),
                 SearchSegment.model_id == model_id,
                 SearchSegment.model_revision == model_revision,
                 *([MediaAsset.media_type == media_type] if media_type else []),
                 *([MediaAsset.created_at >= _year_bounds(added_year)[0], MediaAsset.created_at < _year_bounds(added_year)[1]] if added_year else []),
             )
             .order_by(dist_expr.asc())
-            .limit(candidate_limit * 3)
+            .limit(candidate_limit * 2)
         ).all()
         scored_segments = [(row[0], max(-1.0, min(1.0, 1.0 - float(row[1])))) for row in rows]
     else:
@@ -201,27 +198,31 @@ def _SemanticChannel(
         scored_segments.sort(key=lambda item: item[1], reverse=True)
 
     for seg, sim in scored_segments:
-        target = context_hits if seg.segment_type == "contextual_metadata" or seg.modality == "context" else content_hits
-        existing = target.get(seg.asset_id)
+        existing = visual_hits.get(seg.asset_id)
         if existing is None or sim > existing["score"]:
-            target[seg.asset_id] = {
+            visual_hits[seg.asset_id] = {
                 "score": round(sim, 4),
                 "segment_id": seg.id,
                 "segment_type": seg.segment_type,
                 "modality": seg.modality,
                 "title": seg.title,
-                "excerpt": (seg.text_content or "")[:240] or None,
-                "page_number": seg.page_number,
+                "excerpt": f"Visual match ({round(sim * 100)}%)",
+                "page_number": None,
                 "start_ms": seg.start_ms,
                 "end_ms": seg.end_ms,
                 "frame_id": seg.frame_id,
-                "is_visual_claim": bool((seg.metadata_json or {}).get("is_visual_claim", seg.segment_type in VISUAL_SEGMENT_TYPES)),
+                "is_visual_claim": True,
             }
 
-    # 2. Fallback/supplement from AssetEmbedding for any assets without SearchSegment rows
-    emb_query = select(AssetEmbedding).join(MediaAsset, MediaAsset.id == AssetEmbedding.asset_id).where(
-        AssetEmbedding.model_id == model_id,
-        AssetEmbedding.model_revision == model_revision,
+    # Supplement from AssetEmbedding if SearchSegments were not yet populated
+    emb_query = (
+        select(AssetEmbedding)
+        .join(MediaAsset, MediaAsset.id == AssetEmbedding.asset_id)
+        .where(
+            AssetEmbedding.model_id == model_id,
+            AssetEmbedding.model_revision == model_revision,
+            AssetEmbedding.modality.in_(("image", "image_frame")),
+        )
     )
     if media_type:
         emb_query = emb_query.where(MediaAsset.media_type == media_type)
@@ -236,6 +237,7 @@ def _SemanticChannel(
             .where(
                 AssetEmbedding.model_id == model_id,
                 AssetEmbedding.model_revision == model_revision,
+                AssetEmbedding.modality.in_(("image", "image_frame")),
                 *([MediaAsset.media_type == media_type] if media_type else []),
                 *([MediaAsset.created_at >= _year_bounds(added_year)[0], MediaAsset.created_at < _year_bounds(added_year)[1]] if added_year else []),
             )
@@ -258,208 +260,341 @@ def _SemanticChannel(
         frames_by_id = {f.id: f for f in db.scalars(select(VideoFrame).where(VideoFrame.id.in_(frame_ids))).all()}
 
     for emb, sim in scored_embs:
-        target = context_hits if emb.modality == "context" else content_hits
-        existing = target.get(emb.asset_id)
+        existing = visual_hits.get(emb.asset_id)
         frame = frames_by_id.get(emb.frame_id) if emb.frame_id else None
         if existing is None or sim > existing["score"]:
-            target[emb.asset_id] = {
+            visual_hits[emb.asset_id] = {
                 "score": round(sim, 4),
                 "segment_id": None,
-                "segment_type": "video_frame" if frame else ("contextual_metadata" if emb.modality == "context" else "image_visual"),
+                "segment_type": "video_frame" if frame else "image_visual",
                 "modality": emb.modality,
                 "title": None,
-                "excerpt": None,
+                "excerpt": f"Visual match ({round(sim * 100)}%)",
                 "page_number": None,
                 "start_ms": frame.timestamp_ms if frame else None,
                 "end_ms": frame.timestamp_ms if frame else None,
                 "frame_id": frame.id if frame else None,
-                "is_visual_claim": emb.modality in {"image", "image_frame"},
+                "is_visual_claim": True,
             }
-        elif frame and existing.get("frame_id") is None and emb.modality == "image_frame":
-            existing["frame_id"] = frame.id
-            existing["start_ms"] = frame.timestamp_ms
 
-    return content_hits, context_hits
+    return visual_hits
 
 
-def _LexicalAndContextChannels(
+# ==============================================================================
+# CHANNEL 2: Caption & Scene Description Retrieval
+# ==============================================================================
+
+def _CaptionDescriptionChannel(
     db: Session,
-    intent: dict,
+    query_vector: list[float] | None,
+    intent: QueryIntent,
     media_type: str | None,
     added_year: int | None,
-) -> tuple[dict[str, dict], dict[str, dict]]:
-    """Evaluate lexical content matches (OCR, docs, transcripts, tags) and contextual matches (path, filename, IIHS vocab, years)."""
-    asset_query = select(MediaAsset).options(joinedload(MediaAsset.annotations), joinedload(MediaAsset.segments))
+    candidate_limit: int = 150,
+) -> dict[str, dict]:
+    """Retrieve visual descriptions, VLM scene captions, and semantic profiles."""
+    caption_hits: dict[str, dict] = {}
+    is_postgres = db.bind is not None and db.bind.dialect.name == "postgresql"
+
+    # Search visual_description segments
+    seg_query = (
+        select(SearchSegment)
+        .join(MediaAsset, MediaAsset.id == SearchSegment.asset_id)
+        .where(
+            SearchSegment.segment_type == "visual_description",
+        )
+    )
+    if media_type:
+        seg_query = seg_query.where(MediaAsset.media_type == media_type)
+    if bounds := _year_bounds(added_year):
+        seg_query = seg_query.where(MediaAsset.created_at >= bounds[0], MediaAsset.created_at < bounds[1])
+
+    if query_vector is not None and is_postgres:
+        dist_expr = SearchSegment.embedding.cosine_distance(query_vector)
+        rows = db.execute(
+            select(SearchSegment, dist_expr.label("distance"))
+            .join(MediaAsset, MediaAsset.id == SearchSegment.asset_id)
+            .where(
+                SearchSegment.segment_type == "visual_description",
+                SearchSegment.embedding.is_not(None),
+                *([MediaAsset.media_type == media_type] if media_type else []),
+                *([MediaAsset.created_at >= _year_bounds(added_year)[0], MediaAsset.created_at < _year_bounds(added_year)[1]] if added_year else []),
+            )
+            .order_by(dist_expr.asc())
+            .limit(candidate_limit)
+        ).all()
+        for row in rows:
+            seg = row[0]
+            sim = max(-1.0, min(1.0, 1.0 - float(row[1])))
+            caption_hits[seg.asset_id] = {
+                "score": round(sim, 4),
+                "segment_id": seg.id,
+                "segment_type": "visual_description",
+                "modality": "visual_description",
+                "excerpt": (seg.text_content or "")[:200],
+                "is_visual_claim": True,
+            }
+    else:
+        # Lexical and cosine evaluation for caption segments
+        segments = db.scalars(seg_query.limit(candidate_limit * 3)).all()
+        for seg in segments:
+            sim = 0.0
+            if query_vector is not None and seg.embedding is not None:
+                sim = _cosine_similarity(list(seg.embedding), query_vector)
+            text_cov = _token_coverage(seg.text_content or "", intent.content_tokens)
+            combined = max(sim, text_cov)
+            if combined > 0.20:
+                caption_hits[seg.asset_id] = {
+                    "score": round(combined, 4),
+                    "segment_id": seg.id,
+                    "segment_type": "visual_description",
+                    "modality": "visual_description",
+                    "excerpt": (seg.text_content or "")[:200],
+                    "is_visual_claim": True,
+                }
+
+    return caption_hits
+
+
+# ==============================================================================
+# CHANNEL 3: Object & Tag Retrieval
+# ==============================================================================
+
+def _ObjectAndTagChannel(
+    db: Session,
+    intent: QueryIntent,
+    media_type: str | None,
+    added_year: int | None,
+) -> dict[str, dict]:
+    """Retrieve assets matching query objects, tags, and IIHS visual concepts."""
+    object_hits: dict[str, dict] = {}
+    content_tokens = intent.content_tokens
+    object_terms = intent.object_terms
+    if not content_tokens and not object_terms:
+        return {}
+
+    asset_query = select(MediaAsset).options(joinedload(MediaAsset.annotations))
     if media_type:
         asset_query = asset_query.where(MediaAsset.media_type == media_type)
     if bounds := _year_bounds(added_year):
         asset_query = asset_query.where(MediaAsset.created_at >= bounds[0], MediaAsset.created_at < bounds[1])
 
     assets = db.scalars(asset_query).unique().all()
-    lexical_hits: dict[str, dict] = {}
-    context_hits: dict[str, dict] = {}
+    for asset in assets:
+        matched_labels = []
+        score = 0.0
 
-    tokens = intent["tokens"]
-    raw_phrase = intent["normalized"]
-    query_years = set(intent["years"])
-    query_vocab = {v["keyword"].casefold() for v in intent["matched_vocab"]}
+        # 1. Verified human & model annotations
+        for ann in asset.annotations:
+            if ann.status in {"accepted", "corrected"}:
+                ann_lower = (ann.label or "").lower()
+                for token in (object_terms or content_tokens):
+                    if _contains_term(ann_lower, token):
+                        matched_labels.append(f"{ann.label} (verified)")
+                        score += 2.0
 
+        # 2. AI visual analysis suggestions from metadata_json
+        meta = asset.metadata_json or {}
+        visual = meta.get("visual_analysis") or {}
+        ai_objs = visual.get("object_tags") or []
+        for obj in ai_objs:
+            label = (obj.get("label") if isinstance(obj, dict) else str(obj)).lower()
+            conf = float(obj.get("score", 0.7)) if isinstance(obj, dict) else 0.7
+            for token in (object_terms or content_tokens):
+                if _contains_term(label, token):
+                    matched_labels.append(f"{label} (suggested)")
+                    score += 1.2 * conf
+
+        if score > 0:
+            object_hits[asset.id] = {
+                "score": round(min(1.0, score / 4.0), 4),
+                "matched_labels": matched_labels[:4],
+                "excerpt": "Objects: " + ", ".join(matched_labels[:4]),
+                "is_visual_claim": True,
+            }
+
+    return object_hits
+
+
+# ==============================================================================
+# CHANNEL 4: OCR & Multi-Format Document Text Retrieval
+# ==============================================================================
+
+def _OCRAndDocumentChannel(
+    db: Session,
+    query_vector: list[float] | None,
+    intent: QueryIntent,
+    media_type: str | None,
+    added_year: int | None,
+    candidate_limit: int = 150,
+) -> dict[str, dict]:
+    """Retrieve text inside OCR, PDF pages, office documents, and transcripts."""
+    doc_hits: dict[str, dict] = {}
+    content_tokens = intent.content_tokens
+    raw_query = intent.normalized
+
+    seg_query = (
+        select(SearchSegment)
+        .join(MediaAsset, MediaAsset.id == SearchSegment.asset_id)
+        .where(
+            SearchSegment.segment_type.in_(CONTENT_TEXT_SEGMENT_TYPES),
+        )
+    )
+    if media_type:
+        seg_query = seg_query.where(MediaAsset.media_type == media_type)
+    if bounds := _year_bounds(added_year):
+        seg_query = seg_query.where(MediaAsset.created_at >= bounds[0], MediaAsset.created_at < bounds[1])
+
+    segments = db.scalars(seg_query.limit(candidate_limit * 2)).all()
+    for seg in segments:
+        text = f"{seg.title or ''} {seg.text_content or ''}"
+        cov = _token_coverage(text, content_tokens)
+        has_phrase = raw_query and _contains_term(text, raw_query)
+        if cov >= 0.40 or has_phrase:
+            score = 1.0 if has_phrase else round(cov, 4)
+            existing = doc_hits.get(seg.asset_id)
+            if existing is None or score > existing["score"]:
+                doc_hits[seg.asset_id] = {
+                    "score": score,
+                    "segment_id": seg.id,
+                    "segment_type": seg.segment_type,
+                    "modality": seg.modality,
+                    "excerpt": (seg.text_content or "")[:200],
+                    "page_number": seg.page_number,
+                    "start_ms": seg.start_ms,
+                    "end_ms": seg.end_ms,
+                    "is_visual_claim": False,
+                }
+
+    # Also check unsegmented metadata_json (text_extraction / transcription)
+    asset_query = select(MediaAsset)
+    if media_type:
+        asset_query = asset_query.where(MediaAsset.media_type == media_type)
+    if bounds := _year_bounds(added_year):
+        asset_query = asset_query.where(MediaAsset.created_at >= bounds[0], MediaAsset.created_at < bounds[1])
+
+    assets = db.scalars(asset_query).all()
+    for asset in assets:
+        meta = asset.metadata_json or {}
+        ocr_text = (meta.get("text_extraction") or {}).get("text") or ""
+        transcript_text = (meta.get("transcription") or {}).get("text") or ""
+        for raw_text, seg_kind in ((ocr_text, "ocr_text"), (transcript_text, "audio_transcript_window")):
+            if not raw_text:
+                continue
+            cov = _token_coverage(raw_text, content_tokens)
+            has_phrase = raw_query and _contains_term(raw_text, raw_query)
+            if cov >= 0.40 or has_phrase:
+                score = 1.0 if has_phrase else round(cov, 4)
+                existing = doc_hits.get(asset.id)
+                if existing is None or score > existing["score"]:
+                    doc_hits[asset.id] = {
+                        "score": score,
+                        "segment_id": None,
+                        "segment_type": seg_kind,
+                        "modality": "ocr" if seg_kind == "ocr_text" else "transcript",
+                        "excerpt": raw_text[:200],
+                        "page_number": None,
+                        "start_ms": None,
+                        "end_ms": None,
+                        "is_visual_claim": False,
+                    }
+
+    return doc_hits
+
+
+# ==============================================================================
+# CHANNEL 5: Metadata & Lexical Retrieval (Path, Filename, Context, Years)
+# ==============================================================================
+
+def _MetadataAndLexicalChannel(
+    db: Session,
+    intent: QueryIntent,
+    media_type: str | None,
+    added_year: int | None,
+) -> dict[str, dict]:
+    """Retrieve metadata matches: filenames, folder hierarchy, project names, years."""
+    meta_hits: dict[str, dict] = {}
+    tokens = intent.content_tokens
+    raw_phrase = intent.normalized
+    query_years = set(intent.years)
+    query_vocab = {v["keyword"].casefold() for v in intent.matched_vocab}
+
+    asset_query = select(MediaAsset)
+    if media_type:
+        asset_query = asset_query.where(MediaAsset.media_type == media_type)
+    if bounds := _year_bounds(added_year):
+        asset_query = asset_query.where(MediaAsset.created_at >= bounds[0], MediaAsset.created_at < bounds[1])
+
+    assets = db.scalars(asset_query).all()
     for asset in assets:
         meta = asset.metadata_json or {}
         ctx = meta.get("context") or {}
         rel_path = asset.source_relative_key or ""
         filename = asset.original_filename or ""
 
-        # --- Context / Path / Filename / IIHS Vocab / Year evaluation ---
         ctx_score = 0.0
-        ctx_reasons: list[dict] = []
+        reasons = []
 
+        # 1. Exact phrase in filename or folder path
         if raw_phrase and (_contains_term(filename, raw_phrase) or _contains_term(rel_path, raw_phrase)):
             in_fn = _contains_term(filename, raw_phrase)
-            ctx_score += 3.0 if in_fn else 2.2
-            ctx_reasons.append({
+            ctx_score += 3.0 if in_fn else 1.8
+            reasons.append({
                 "source": "filename" if in_fn else "folder_context",
-                "modality": "path",
-                "score": 0.95 if in_fn else 0.85,
                 "excerpt": filename if in_fn else rel_path,
                 "is_visual_claim": False,
             })
 
-        matched_path_tokens = [tok for tok in tokens if _contains_term(rel_path + " " + filename, tok)]
-        if matched_path_tokens:
-            coverage = len(matched_path_tokens) / max(1, len(tokens))
-            ctx_score += 1.8 * coverage
-            if not ctx_reasons:
-                ctx_reasons.append({
-                    "source": "folder_context",
-                    "modality": "path",
-                    "score": round(0.75 * coverage, 4),
-                    "excerpt": rel_path or filename,
-                    "is_visual_claim": False,
-                })
+        # 2. Token coverage in path and filename
+        matched_tokens = [tok for tok in tokens if _contains_term(rel_path + " " + filename, tok)]
+        if matched_tokens:
+            coverage = len(matched_tokens) / max(1, len(tokens))
+            if coverage >= 0.5:
+                ctx_score += 1.5 * (coverage ** 1.5)
+                if not reasons:
+                    reasons.append({
+                        "source": "folder_context",
+                        "excerpt": rel_path or filename,
+                        "is_visual_claim": False,
+                    })
 
+        # 3. Contextual vocabulary overlap
         asset_vocab_kws = {item.get("keyword", "").casefold(): item for item in (ctx.get("matched_keywords") or [])}
         vocab_overlap = query_vocab & set(asset_vocab_kws.keys())
         if vocab_overlap:
-            ctx_score += 2.5 * len(vocab_overlap)
+            ctx_score += 2.0 * len(vocab_overlap)
             for kw_lower in vocab_overlap:
                 kw_info = asset_vocab_kws[kw_lower]
-                ctx_reasons.append({
+                reasons.append({
                     "source": "iihs_keyword",
-                    "modality": "contextual_metadata",
-                    "score": float(kw_info.get("confidence", 0.9)),
                     "excerpt": f"{kw_info.get('keyword')} ({kw_info.get('category')})",
                     "is_visual_claim": False,
                 })
 
-        # Ingestion timestamp is not the date depicted or described by the asset.
+        # 4. Temporal year match
         asset_years = set(ctx.get("extracted_years") or [])
         if query_years and (query_years & asset_years):
             ctx_score += 1.5
-            ctx_reasons.append({
+            reasons.append({
                 "source": "temporal_context",
-                "modality": "year",
-                "score": 0.9,
                 "excerpt": f"Year {', '.join(str(y) for y in sorted(query_years & asset_years))}",
                 "is_visual_claim": False,
             })
 
         if ctx_score > 0:
-            context_hits[asset.id] = {
+            meta_hits[asset.id] = {
                 "score": round(ctx_score, 4),
-                "evidence": ctx_reasons,
+                "evidence": reasons,
+                "excerpt": reasons[0]["excerpt"] if reasons else rel_path,
+                "is_visual_claim": False,
             }
 
-        # --- Lexical Content Evaluation (Segments, OCR, Docs, Transcripts, Annotations) ---
-        lex_score = 0.0
-        best_segment_evidence: dict | None = None
+    return meta_hits
 
-        # Check human & model annotations / visual tags
-        accepted_labels = [a.label for a in asset.annotations if a.status in {"accepted", "corrected"}]
-        for label in accepted_labels:
-            if (raw_phrase and _contains_term(label, raw_phrase)) or _token_coverage(label, tokens) >= 0.5:
-                lex_score += 2.5
-                best_segment_evidence = {
-                    "source": "visual_tag",
-                    "segment_type": "visual_description",
-                    "modality": "annotation",
-                    "score": 0.95,
-                    "excerpt": f"Tag: {label}",
-                    "page_number": None,
-                    "start_ms": None,
-                    "end_ms": None,
-                    "frame_id": None,
-                    "is_visual_claim": True,
-                }
 
-        # Check persistent SearchSegments on the asset
-        for seg in asset.segments:
-            if seg.segment_type == "contextual_metadata":
-                continue
-            seg_text = f"{seg.title or ''} {seg.text_content or ''}".strip()
-            if not seg_text:
-                continue
-            seg_hit_score = 0.0
-            if raw_phrase and _contains_term(seg_text, raw_phrase):
-                seg_hit_score += 3.5
-            coverage = _token_coverage(seg_text, tokens)
-            if coverage >= 0.5:
-                seg_hit_score += 2.2 * coverage
-            if seg_hit_score > 0:
-                if seg_hit_score > lex_score or best_segment_evidence is None:
-                    best_segment_evidence = {
-                        "source": seg.segment_type,
-                        "segment_type": seg.segment_type,
-                        "modality": seg.modality,
-                        "score": round(min(1.0, seg_hit_score / 4.0), 4),
-                        "excerpt": (seg.text_content or seg.title or "")[:240],
-                        "page_number": seg.page_number,
-                        "start_ms": seg.start_ms,
-                        "end_ms": seg.end_ms,
-                        "frame_id": seg.frame_id,
-                        "is_visual_claim": bool((seg.metadata_json or {}).get("is_visual_claim", seg.segment_type in VISUAL_SEGMENT_TYPES)),
-                    }
-                lex_score = max(lex_score, seg_hit_score)
-
-        # Also check metadata_json text_extraction / transcription / visual_analysis if segments were not yet populated
-        for meta_field, seg_kind, mod_name in (
-            ((meta.get("text_extraction") or {}).get("text") or "", "ocr_text" if asset.media_type == "image" else "office_chunk", "ocr" if asset.media_type == "image" else "document"),
-            ((meta.get("transcription") or {}).get("text") or "", "audio_transcript_window", "transcript"),
-            ((meta.get("transcription") or {}).get("english_translation") or "", "audio_transcript_window", "translation"),
-            ((meta.get("visual_analysis") or {}).get("description") or "", "visual_description", "visual_description"),
-        ):
-            if not meta_field:
-                continue
-            m_score = 0.0
-            if raw_phrase and _contains_term(meta_field, raw_phrase):
-                m_score += 3.0
-            coverage = _token_coverage(meta_field, tokens)
-            if coverage >= 0.5:
-                m_score += 2.0 * coverage
-            if m_score > lex_score:
-                lex_score = m_score
-                if best_segment_evidence is None:
-                    best_segment_evidence = {
-                        "source": seg_kind,
-                        "segment_type": seg_kind,
-                        "modality": mod_name,
-                        "score": round(min(1.0, m_score / 4.0), 4),
-                        "excerpt": meta_field[:240],
-                        "page_number": None,
-                        "start_ms": None,
-                        "end_ms": None,
-                        "frame_id": None,
-                        "is_visual_claim": seg_kind == "visual_description",
-                    }
-
-        if lex_score > 0 and best_segment_evidence is not None:
-            lexical_hits[asset.id] = {
-                "score": round(lex_score, 4),
-                "evidence": best_segment_evidence,
-            }
-
-    return lexical_hits, context_hits
-
+# ==============================================================================
+# CHANNEL 6: Authorized Face Biometrics Channel
+# ==============================================================================
 
 def _VerifiedFaceChannel(
     db: Session,
@@ -468,11 +603,7 @@ def _VerifiedFaceChannel(
     media_type: str | None,
     added_year: int | None,
 ) -> tuple[dict[str, dict], dict[str, list[dict]], set[str], str]:
-    """Evaluate human-verified ('accepted') InsightFace matches for active enrolled people.
-
-    Returns:
-        (face_hits, all_verified_faces_by_asset, required_person_ids, remaining_query_text)
-    """
+    """Evaluate human-verified ('accepted') InsightFace matches for active enrolled people."""
     active_people = db.scalars(
         select(PersonProfile).where(PersonProfile.status == "active")
     ).all()
@@ -486,14 +617,12 @@ def _VerifiedFaceChannel(
 
     remaining_q = q or ""
     if q and q.strip():
-        # Match active enrolled person display names in query text (longest names first)
         for person in sorted(active_people, key=lambda p: len(p.display_name or ""), reverse=True):
             if person.display_name and _contains_term(q, person.display_name):
                 required_person_ids.add(person.id)
                 pattern = re.compile(re.escape(person.display_name), re.IGNORECASE)
                 remaining_q = pattern.sub(" ", remaining_q)
 
-    # If any explicitly requested person_id is not an active PersonProfile, no asset can satisfy co-occurrence
     if required_person_ids and not required_person_ids.issubset(set(active_by_id.keys())):
         return {}, {}, required_person_ids, remaining_q.strip()
 
@@ -556,6 +685,10 @@ def _VerifiedFaceChannel(
     return face_hits, all_verified_faces_by_asset, required_person_ids, remaining_q.strip()
 
 
+# ==============================================================================
+# INTENT-AWARE MULTIMODAL RANK FUSION
+# ==============================================================================
+
 def execute_hybrid_search(
     db: Session,
     q: str = "",
@@ -565,208 +698,228 @@ def execute_hybrid_search(
     limit: int = 30,
     person_ids: list[str] | None = None,
 ) -> list[tuple[MediaAsset, dict]]:
-    """Run integrated RRF hybrid search and return ranked (MediaAsset, search_metadata) pairs."""
+    """Execute intent-classified, channel-isolated multimodal media search."""
+    active_people = db.scalars(select(PersonProfile.display_name).where(PersonProfile.status == "active")).all()
     face_hits, all_verified_faces_by_asset, required_person_ids, remaining_q = _VerifiedFaceChannel(
         db, q, person_ids, media_type, added_year
     )
 
     effective_q = remaining_q if (required_person_ids and remaining_q) else q
-    intent = parse_query_intent(effective_q or "")
-    remaining_intent = parse_query_intent(remaining_q) if required_person_ids else intent
-    meaningful_remaining_tokens = [t for t in remaining_intent["tokens"] if t not in STOPWORDS]
+    intent = classify_query_intent(effective_q or "", active_people=active_people)
 
-    content_sem_hits: dict[str, dict] = {}
-    context_sem_hits: dict[str, dict] = {}
+    # In "keyword" mode, force exact/lexical priority
+    if mode == "keyword":
+        intent.channel_weights["metadata_lexical"] = max(2.0, intent.channel_weights.get("metadata_lexical", 1.0))
+        intent.channel_weights["ocr_text"] = max(1.8, intent.channel_weights.get("ocr_text", 1.0))
+        intent.channel_weights["visual_embedding"] = 0.0
 
-    if mode in {"semantic", "hybrid"} and (effective_q or "").strip():
+    # 1. Retrieve across isolated channels
+    query_vector = None
+    if mode in {"semantic", "hybrid"} and intent.channel_weights.get("visual_embedding", 0) > 0 and (effective_q or "").strip():
         try:
             query_vector, model_id, model_revision = text_embedding(effective_q)
-            content_sem_hits, context_sem_hits = _SemanticChannel(
-                db, query_vector, model_id, model_revision, media_type, added_year, candidate_limit=max(100, limit * 3)
-            )
         except MediaValidationError:
             if mode == "semantic" and not required_person_ids:
-                # Preserve existing contract when caller explicitly requires semantic bridge and no fallback is requested
                 raise
+            query_vector = None
 
-    lexical_hits: dict[str, dict] = {}
-    context_lex_hits: dict[str, dict] = {}
-    if (effective_q or "").strip() and (not required_person_ids or meaningful_remaining_tokens or remaining_intent["years"] or remaining_intent["matched_vocab"]):
-        lexical_hits, context_lex_hits = _LexicalAndContextChannels(
-            db, remaining_intent if required_person_ids else intent, media_type, added_year
+    visual_hits = {}
+    if query_vector is not None and intent.channel_weights.get("visual_embedding", 0) > 0:
+        visual_hits = _VisualEmbeddingChannel(
+            db, query_vector, model_id, model_revision, media_type, added_year, candidate_limit=max(100, limit * 3)
         )
 
-    # Build ranked lists per channel for Reciprocal Rank Fusion (RRF)
-    semantic_order = sorted(content_sem_hits, key=lambda aid: content_sem_hits[aid]["score"], reverse=True)
-    semantic_scores = [content_sem_hits[aid]["score"] for aid in semantic_order]
-    semantic_accepted = _semantic_gate(semantic_scores)
-    content_sem_ranked = [
-        aid for aid, accepted in zip(semantic_order, semantic_accepted) if accepted
-    ]
-    context_sem_ranked = [
-        aid for aid, _ in sorted(context_sem_hits.items(), key=lambda x: x[1]["score"], reverse=True)
-        if context_sem_hits[aid]["score"] > 0.15
-    ]
-    lexical_ranked = [
-        aid for aid, _ in sorted(lexical_hits.items(), key=lambda x: x[1]["score"], reverse=True)
-    ]
-    context_lex_ranked = [
-        aid for aid, _ in sorted(context_lex_hits.items(), key=lambda x: x[1]["score"], reverse=True)
-    ]
-    face_ranked = [
-        aid for aid, _ in sorted(face_hits.items(), key=lambda x: x[1]["score"], reverse=True)
-    ]
+    caption_hits = {}
+    if intent.channel_weights.get("caption_description", 0) > 0 and (effective_q or "").strip():
+        caption_hits = _CaptionDescriptionChannel(
+            db, query_vector, intent, media_type, added_year, candidate_limit=max(60, limit * 2)
+        )
 
+    object_hits = {}
+    if intent.channel_weights.get("object_tag", 0) > 0 and (effective_q or "").strip():
+        object_hits = _ObjectAndTagChannel(db, intent, media_type, added_year)
+
+    doc_hits = {}
+    if intent.channel_weights.get("ocr_text", 0) > 0 and (effective_q or "").strip():
+        doc_hits = _OCRAndDocumentChannel(db, query_vector, intent, media_type, added_year)
+
+    meta_hits = {}
+    if intent.channel_weights.get("metadata_lexical", 0) > 0 and (effective_q or "").strip():
+        meta_hits = _MetadataAndLexicalChannel(db, intent, media_type, added_year)
+
+    # 2. Query-relative z-gating for visual embedding matches
+    visual_order = sorted(visual_hits, key=lambda aid: visual_hits[aid]["score"], reverse=True)
+    visual_scores = [visual_hits[aid]["score"] for aid in visual_order]
+    visual_accepted = _semantic_gate(visual_scores)
+    gated_visual_ids = [aid for aid, ok in zip(visual_order, visual_accepted) if ok]
+
+    # 3. Intent-Aware Candidate Qualification
+    # For visual_description / object_search queries, candidate MUST have visual/caption/object evidence.
+    # Metadata/folder alone CANNOT qualify an asset for a visual description query.
     if required_person_ids:
-        # Strict identity & co-occurrence enforcement: only verified ('accepted') matches for all required people qualify
-        candidate_ids = set(face_ranked)
-        has_additional_constraints = bool(
-            meaningful_remaining_tokens or remaining_intent["years"] or remaining_intent["matched_vocab"]
-        )
-        if has_additional_constraints and candidate_ids:
-            other_channel_ids = set(lexical_ranked) | set(context_lex_ranked)
-            if other_channel_ids:
-                candidate_ids &= other_channel_ids
-            elif mode in {"semantic", "hybrid"} and (content_sem_ranked or context_sem_ranked):
-                candidate_ids &= (set(content_sem_ranked) | set(context_sem_ranked))
-            else:
-                candidate_ids = set()
+        candidate_ids = set(face_hits.keys())
+        has_additional = bool(intent.content_tokens or intent.years)
+        if has_additional and candidate_ids:
+            other_ids = set(gated_visual_ids) | set(caption_hits.keys()) | set(object_hits.keys()) | set(meta_hits.keys())
+            candidate_ids &= other_ids
+    elif intent.intent_type in {"visual_description", "scene_activity"}:
+        # Visual evidence is mandatory
+        candidate_ids = set(gated_visual_ids) | set(caption_hits.keys()) | set(object_hits.keys())
+    elif intent.intent_type == "object_search":
+        candidate_ids = set(object_hits.keys()) | set(gated_visual_ids) | set(caption_hits.keys())
+    elif intent.intent_type == "exact_identifier":
+        candidate_ids = set(meta_hits.keys()) | set(doc_hits.keys())
+    elif intent.intent_type == "ocr_document":
+        candidate_ids = set(doc_hits.keys()) | set(caption_hits.keys())
     else:
-        candidate_ids = set(lexical_ranked) | set(context_lex_ranked) | set(face_ranked)
-        if mode in {"semantic", "hybrid"}:
-            candidate_ids |= set(content_sem_ranked) | set(context_sem_ranked)
+        # Mixed or general query
+        candidate_ids = set(gated_visual_ids) | set(caption_hits.keys()) | set(object_hits.keys()) | set(doc_hits.keys()) | set(meta_hits.keys())
 
     if not candidate_ids:
         return []
 
     assets = db.scalars(
-        select(MediaAsset)
-        .options(joinedload(MediaAsset.annotations))
-        .where(MediaAsset.id.in_(candidate_ids))
+        select(MediaAsset).options(joinedload(MediaAsset.annotations)).where(MediaAsset.id.in_(candidate_ids))
     ).unique().all()
     by_id = {a.id: a for a in assets}
 
-    content_sem_pos = {aid: rank for rank, aid in enumerate(content_sem_ranked, start=1)}
-    context_sem_pos = {aid: rank for rank, aid in enumerate(context_sem_ranked, start=1)}
-    lexical_pos = {aid: rank for rank, aid in enumerate(lexical_ranked, start=1)}
-    context_lex_pos = {aid: rank for rank, aid in enumerate(context_lex_ranked, start=1)}
-    face_pos = {aid: rank for rank, aid in enumerate(face_ranked, start=1)}
+    # Channel ranks for Reciprocal Rank Fusion
+    visual_pos = {aid: rank for rank, aid in enumerate(gated_visual_ids, start=1)}
+    caption_pos = {aid: rank for rank, aid in enumerate(sorted(caption_hits, key=lambda a: caption_hits[a]["score"], reverse=True), start=1)}
+    object_pos = {aid: rank for rank, aid in enumerate(sorted(object_hits, key=lambda a: object_hits[a]["score"], reverse=True), start=1)}
+    doc_pos = {aid: rank for rank, aid in enumerate(sorted(doc_hits, key=lambda a: doc_hits[a]["score"], reverse=True), start=1)}
+    meta_pos = {aid: rank for rank, aid in enumerate(sorted(meta_hits, key=lambda a: meta_hits[a]["score"], reverse=True), start=1)}
+    face_pos = {aid: rank for rank, aid in enumerate(sorted(face_hits, key=lambda a: face_hits[a]["score"], reverse=True), start=1)}
 
+    w = intent.channel_weights
     fused_results: list[tuple[float, str, dict]] = []
+
     for aid in candidate_ids:
         asset = by_id.get(aid)
         if asset is None:
             continue
 
-        rrf_score = 0.0
+        score = 0.0
         evidence_list: list[dict] = []
+        pill_text = "Match"
+        is_visual_hit = False
 
+        # Channel 6: Face biometrics
         if aid in face_pos:
             fhit = face_hits[aid]
-            rrf_score += (1.55 / (RRF_K + face_pos[aid])) + (0.02 * max(0.0, fhit["score"]))
+            score += w.get("face_biometrics", 2.0) * (1.0 / (RRF_K + face_pos[aid])) + 0.02 * fhit["score"]
+            names = ", ".join(f["person_name"] for f in fhit["faces"])
+            pill_text = f"Verified: {names}"
+            is_visual_hit = True
             evidence_list.append({
                 "source": "verified_face_match",
                 "modality": "face_recognition",
                 "score": fhit["score"],
-                "excerpt": "Verified person: " + ", ".join(f["person_name"] for f in fhit["faces"]),
-                "page_number": None,
+                "excerpt": f"Verified person: {names}",
+                "frame_id": fhit["frame_id"],
                 "start_ms": fhit["timestamp_ms"],
                 "end_ms": fhit["timestamp_ms"],
-                "frame_id": fhit["frame_id"],
                 "is_visual_claim": True,
             })
 
-        if aid in content_sem_pos:
-            hit = content_sem_hits[aid]
-            # Visual semantics remain primary for descriptive queries. Exact identifiers
-            # deliberately favour lexical evidence, as in DigUp.
-            semantic_weight = 0.65 if _is_identifier_query(effective_q) else 1.35
-            direct_weight = 0.008 if _is_identifier_query(effective_q) else 0.015
-            rrf_score += (semantic_weight / (RRF_K + content_sem_pos[aid])) + (direct_weight * max(0.0, hit["score"]))
+        # Channel 1: Visual embedding
+        if aid in visual_pos:
+            vhit = visual_hits[aid]
+            score += w.get("visual_embedding", 1.5) * (1.0 / (RRF_K + visual_pos[aid])) + 0.015 * vhit["score"]
+            is_visual_hit = True
+            if pill_text == "Match":
+                pill_text = f"Visual similarity {round(vhit['score'] * 100)}%"
             evidence_list.append({
-                "source": hit["segment_type"],
-                "modality": hit["modality"],
-                "score": hit["score"],
-                "excerpt": hit["excerpt"],
-                "page_number": hit["page_number"],
-                "start_ms": hit["start_ms"],
-                "end_ms": hit["end_ms"],
-                "frame_id": hit["frame_id"],
-                "is_visual_claim": hit["is_visual_claim"],
+                "source": vhit["segment_type"],
+                "modality": vhit["modality"],
+                "score": vhit["score"],
+                "excerpt": vhit["excerpt"],
+                "frame_id": vhit["frame_id"],
+                "start_ms": vhit["start_ms"],
+                "end_ms": vhit["end_ms"],
+                "is_visual_claim": True,
             })
 
-        if aid in lexical_pos:
-            lhit = lexical_hits[aid]
-            lex_quality = min(1.0, lhit["score"] / 2.2)
-            lexical_weight = 1.75 if _is_identifier_query(effective_q) else 1.25
-            lexical_direct = 0.009 if _is_identifier_query(effective_q) else 0.006
-            rrf_score += (lexical_weight * lex_quality) / (RRF_K + lexical_pos[aid]) + (lexical_direct * min(6.0, lhit["score"]))
-            evidence_list.append(lhit["evidence"])
+        # Channel 2: Caption & scene description
+        if aid in caption_pos:
+            chit = caption_hits[aid]
+            score += w.get("caption_description", 1.4) * (1.0 / (RRF_K + caption_pos[aid])) + 0.012 * chit["score"]
+            is_visual_hit = True
+            if pill_text == "Match":
+                pill_text = "Scene description match"
+            evidence_list.append({
+                "source": "visual_description",
+                "modality": "caption",
+                "score": chit["score"],
+                "excerpt": chit["excerpt"],
+                "is_visual_claim": True,
+            })
 
-        if aid in context_lex_pos:
-            chit = context_lex_hits[aid]
-            ctx_quality = min(1.0, chit["score"] / 2.2)
-            # Folder/filename/IIHS vocabulary match boosts relevance without claiming visual content
-            rrf_score += (1.25 * ctx_quality) / (RRF_K + context_lex_pos[aid]) + (0.006 * min(8.0, chit["score"]))
-            evidence_list.extend(chit["evidence"])
+        # Channel 3: Object & tag
+        if aid in object_pos:
+            ohit = object_hits[aid]
+            score += w.get("object_tag", 1.2) * (1.0 / (RRF_K + object_pos[aid])) + 0.010 * ohit["score"]
+            is_visual_hit = True
+            if pill_text == "Match":
+                pill_text = ohit["excerpt"]
+            evidence_list.append({
+                "source": "object_tags",
+                "modality": "objects",
+                "score": ohit["score"],
+                "excerpt": ohit["excerpt"],
+                "is_visual_claim": True,
+            })
 
-        if aid in context_sem_pos:
-            cshit = context_sem_hits[aid]
-            # Bounded weight for context embedding so folder names alone don't outrank strong visual/lexical evidence
-            rrf_score += (0.55 / (RRF_K + context_sem_pos[aid])) + (0.005 * max(0.0, cshit["score"]))
-            if aid not in context_lex_pos:
-                evidence_list.append({
-                    "source": "folder_context_semantic",
-                    "modality": "contextual_metadata",
-                    "score": cshit["score"],
-                    "excerpt": cshit["excerpt"],
-                    "page_number": None,
-                    "start_ms": None,
-                    "end_ms": None,
-                    "frame_id": None,
-                    "is_visual_claim": False,
-                })
+        # Channel 4: OCR & Document
+        if aid in doc_pos:
+            dhit = doc_hits[aid]
+            score += w.get("ocr_text", 1.0) * (1.0 / (RRF_K + doc_pos[aid])) + 0.008 * dhit["score"]
+            if pill_text == "Match":
+                pill_text = "OCR / Document match"
+            evidence_list.append({
+                "source": dhit["segment_type"],
+                "modality": dhit["modality"],
+                "score": dhit["score"],
+                "excerpt": dhit["excerpt"],
+                "page_number": dhit.get("page_number"),
+                "start_ms": dhit.get("start_ms"),
+                "end_ms": dhit.get("end_ms"),
+                "is_visual_claim": False,
+            })
 
-        # Apply subtle modality preference boost if user explicitly asked for "images", "documents", "videos", "audio"
-        if intent["modality_hint"] and asset.media_type == intent["modality_hint"] and not media_type:
-            rrf_score *= 1.18
+        # Channel 5: Metadata & Lexical
+        if aid in meta_pos:
+            mhit = meta_hits[aid]
+            score += w.get("metadata_lexical", 0.1) * (1.0 / (RRF_K + meta_pos[aid])) + 0.004 * min(6.0, mhit["score"])
+            if pill_text == "Match":
+                pill_text = "Filename / Folder match"
+            evidence_list.extend(mhit["evidence"])
 
-        # Determine best location metadata (page, frame, timestamp) across matched evidence
+        # Modality preference boost if query explicitly requested images/videos/docs
+        if intent.modality_hint and asset.media_type == intent.modality_hint and not media_type:
+            score *= 1.20
+
         matched_frame_id = None
         matched_timestamp_ms = None
         matched_timestamp_end_ms = None
-        matched_frame_score = None
         matched_page = None
-
         for ev in evidence_list:
             if ev.get("frame_id") and matched_frame_id is None:
                 matched_frame_id = ev["frame_id"]
                 matched_timestamp_ms = ev.get("start_ms")
-                matched_frame_score = ev.get("score")
             if ev.get("start_ms") is not None and matched_timestamp_ms is None:
                 matched_timestamp_ms = ev["start_ms"]
                 matched_timestamp_end_ms = ev.get("end_ms")
             if ev.get("page_number") is not None and matched_page is None:
                 matched_page = ev["page_number"]
 
-        # Also check best video frame if this is a video matched semantically
-        if asset.media_type == "video" and matched_frame_id is None and aid in content_sem_hits:
-            c_hit = content_sem_hits[aid]
-            if c_hit.get("frame_id"):
-                matched_frame_id = c_hit["frame_id"]
-                matched_timestamp_ms = c_hit["start_ms"]
-                matched_frame_score = c_hit["score"]
-
-        sem_score = (
-            content_sem_hits[aid]["score"]
-            if aid in content_sem_hits
-            else (context_sem_hits[aid]["score"] if aid in context_sem_hits else None)
-        )
         ctx_meta = (asset.metadata_json or {}).get("context") or {}
-
         payload = {
-            "search_score": round(min(1.0, rrf_score * 22.0), 4),
-            "semantic_score": sem_score if sem_score is not None else round(min(1.0, rrf_score * 22.0), 4),
+            "search_score": round(min(1.0, score * 24.0), 4),
+            "semantic_score": visual_hits.get(aid, {}).get("score", round(min(1.0, score * 24.0), 4)),
+            "evidence_pill": pill_text,
+            "intent_type": intent.intent_type,
+            "is_visual_claim": is_visual_hit,
             "matched_evidence": evidence_list[:5],
             "source_path": asset.source_relative_key,
             "project_context": {
@@ -786,8 +939,6 @@ def execute_hybrid_search(
             payload["matched_timestamp_start_ms"] = int(matched_timestamp_ms)
         if matched_timestamp_end_ms is not None:
             payload["matched_timestamp_end_ms"] = int(matched_timestamp_end_ms)
-        if matched_frame_score is not None:
-            payload["matched_frame_score"] = matched_frame_score
         if matched_page is not None:
             payload["matched_page"] = int(matched_page)
         if aid in face_hits:
@@ -795,7 +946,13 @@ def execute_hybrid_search(
         elif aid in all_verified_faces_by_asset:
             payload["matched_faces"] = all_verified_faces_by_asset[aid]
 
-        fused_results.append((rrf_score, aid, payload))
+        fused_results.append((score, aid, payload))
 
-    fused_results.sort(key=lambda item: (item[0], item[2].get("semantic_score") or 0.0, item[1]), reverse=True)
+    fused_results.sort(key=lambda item: item[0], reverse=True)
+
+    # Ratio gating (DigUp strong vs weaker matches, ratio = 0.5)
+    top_score = fused_results[0][0] if fused_results else 0.0
+    for s, _aid, pl in fused_results:
+        pl["match_tier"] = "strong" if (top_score > 0 and s >= top_score * 0.50) else "weaker"
+
     return [(by_id[aid], payload) for _score, aid, payload in fused_results[:limit]]

@@ -1,0 +1,2687 @@
+{
+  "240307 Chikkaballapura_Campaign Flag-off-2.JPG": {
+    "yolo": [
+      {
+        "class": "truck",
+        "confidence": 0.8527,
+        "bbox": [
+          530.91,
+          725.2,
+          1149.35,
+          1060.4
+        ]
+      }
+    ],
+    "qwen_caption": "A large, white, neoclassical building with a central dome and a golden statue on top, featuring a prominent entrance with columns and a dark sign with gold lettering in Kannada script. The building is surrounded by lush green trees and palm fronds, with a wide, multi-tiered staircase leading up to the entrance. In the foreground, a yellow and green auto-rickshaw is parked on the pavement, with a large green container on its back. The sky is blue with some white clouds."
+  },
+  "240315_Chikkabalaapura_street play_22.jpg": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.8915,
+        "bbox": [
+          568.4,
+          82.14,
+          1002.69,
+          889.5
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8816,
+        "bbox": [
+          0.55,
+          209.65,
+          322.85,
+          823.04
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8581,
+        "bbox": [
+          1425.52,
+          262.77,
+          1599.85,
+          716.22
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.812,
+        "bbox": [
+          45.32,
+          29.18,
+          203.09,
+          326.31
+        ]
+      },
+      {
+        "class": "motorcycle",
+        "confidence": 0.7713,
+        "bbox": [
+          2.98,
+          412.94,
+          704.67,
+          891.2
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a street scene with several individuals and vehicles. A central figure is a man with long blonde hair, wearing a headdress with horns, face paint, and a black loincloth with gold trim. He is holding a microphone and appears to be speaking or singing. He is also holding a large, ornate sword. To his left, a man in a grey sweatshirt is sitting on a motorcycle, looking towards the performer. Behind the performer, a large banner is visible with text in Kannada and English, along with illustrations of people and actions. The banner includes the text \"clean clean chikkaballapura\" and logos for \"ihs\" and \"Gentle Properties.\" To the right, another man in a red shirt is sitting on a drum. The background includes trees, a white van with its trunk open, and other people. The ground is paved"
+  },
+  "240315_Chikkabalapur_Interactions_8.jpg": {
+    "yolo": [
+      {
+        "class": "car",
+        "confidence": 0.9024,
+        "bbox": [
+          1348.7,
+          551.59,
+          1599.74,
+          1059.73
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8528,
+        "bbox": [
+          961.38,
+          514.05,
+          1139.38,
+          980.95
+        ]
+      },
+      {
+        "class": "motorcycle",
+        "confidence": 0.8138,
+        "bbox": [
+          0.82,
+          849.35,
+          357.07,
+          1059.97
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7445,
+        "bbox": [
+          810.34,
+          552.93,
+          955.44,
+          962.86
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.664,
+        "bbox": [
+          920.38,
+          518.97,
+          1032.41,
+          940.57
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6189,
+        "bbox": [
+          414.75,
+          316.32,
+          703.31,
+          561.28
+        ]
+      },
+      {
+        "class": "car",
+        "confidence": 0.3292,
+        "bbox": [
+          1315.2,
+          649.95,
+          1409.52,
+          796.59
+        ]
+      },
+      {
+        "class": "car",
+        "confidence": 0.2538,
+        "bbox": [
+          1317.72,
+          675.21,
+          1395.1,
+          793.97
+        ]
+      }
+    ],
+    "qwen_caption": "A man in a yellow shirt is on a yellow and black three-wheeled truck, lifting a large white plastic bag from the truck bed. The truck is loaded with various bags and sacks, including a large white bag with green and black text and a smaller purple bag. The truck is parked on a paved street in a residential area with several buildings. A woman in a brown and gold sari is standing on the sidewalk, holding a white bucket. A man in a light blue shirt is standing next to her. A woman in a purple and pink sari is standing next to the man in the light blue shirt. A black car is parked on the right side of the street. A motorcycle is parked on the left side of the street. A pile of garbage is on the ground near the left side of the street. A blue and white building is visible in the background. A white and"
+  },
+  "240802_Dengue Awareness and IEC Activity-42.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.7257,
+        "bbox": [
+          1308.42,
+          508.86,
+          1598.91,
+          1056.16
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7036,
+        "bbox": [
+          727.49,
+          290.52,
+          834.5,
+          620.87
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6632,
+        "bbox": [
+          1031.41,
+          412.74,
+          1183.36,
+          744.07
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.6269,
+        "bbox": [
+          1074.07,
+          727.93,
+          1206.43,
+          906.24
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6151,
+        "bbox": [
+          459.36,
+          312.92,
+          690.69,
+          852.33
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.5807,
+        "bbox": [
+          493.08,
+          824.98,
+          719.68,
+          1028.12
+        ]
+      },
+      {
+        "class": "clock",
+        "confidence": 0.5789,
+        "bbox": [
+          932.37,
+          120.3,
+          978.76,
+          165.35
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5101,
+        "bbox": [
+          1.0,
+          336.16,
+          103.62,
+          471.96
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.483,
+        "bbox": [
+          57.43,
+          450.7,
+          228.23,
+          705.46
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4495,
+        "bbox": [
+          1144.61,
+          281.27,
+          1223.94,
+          444.82
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.424,
+        "bbox": [
+          0.24,
+          480.33,
+          67.78,
+          701.64
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3922,
+        "bbox": [
+          269.77,
+          456.01,
+          558.69,
+          965.06
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3603,
+        "bbox": [
+          83.23,
+          536.8,
+          322.43,
+          1058.65
+        ]
+      },
+      {
+        "class": "suitcase",
+        "confidence": 0.3577,
+        "bbox": [
+          1155.29,
+          869.7,
+          1411.74,
+          1065.89
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3409,
+        "bbox": [
+          1219.92,
+          432.14,
+          1413.28,
+          696.38
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2772,
+        "bbox": [
+          955.05,
+          396.98,
+          1068.02,
+          559.84
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.2715,
+        "bbox": [
+          1156.83,
+          869.51,
+          1410.18,
+          1067.0
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2658,
+        "bbox": [
+          297.72,
+          446.62,
+          394.95,
+          607.85
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2597,
+        "bbox": [
+          1386.88,
+          407.49,
+          1478.88,
+          529.2
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2592,
+        "bbox": [
+          958.87,
+          396.6,
+          1073.82,
+          616.19
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2537,
+        "bbox": [
+          82.12,
+          538.11,
+          306.97,
+          771.38
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.2519,
+        "bbox": [
+          968.66,
+          617.33,
+          1057.75,
+          735.0
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2515,
+        "bbox": [
+          66.38,
+          464.21,
+          301.24,
+          759.15
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a classroom with students and a teacher. The students, mostly girls, are wearing green and yellow checkered uniforms and are seated at wooden desks. Many of the students have their hands raised, indicating they are participating in the lesson. The teacher, a man in a light blue shirt and light-colored pants, is standing in front of the students, gesturing with his right hand raised. Behind the teacher, there is a large banner with text in Kannada and English. The banner reads \"City-Farmer Partnership for Soil Management\" and includes illustrations of farming and soil. The classroom has a tiled floor with white diamond-shaped patterns, and there are windows with metal grilles on the walls. A projector is mounted on the ceiling, and a fan is also visible. There is a clock on the wall, and a man in a white shirt is standing near the door. The students"
+  },
+  "240802_Dengue Awareness and IEC Activity-51.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.8813,
+        "bbox": [
+          1111.94,
+          234.8,
+          1363.7,
+          1046.29
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.6859,
+        "bbox": [
+          736.53,
+          534.86,
+          838.55,
+          648.91
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.642,
+        "bbox": [
+          515.48,
+          880.67,
+          699.59,
+          1066.91
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6174,
+        "bbox": [
+          532.68,
+          480.69,
+          718.96,
+          774.12
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6071,
+        "bbox": [
+          1375.96,
+          420.12,
+          1599.97,
+          854.21
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5891,
+        "bbox": [
+          280.79,
+          504.58,
+          593.55,
+          1064.85
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5629,
+        "bbox": [
+          785.94,
+          364.1,
+          909.72,
+          641.95
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.4777,
+        "bbox": [
+          1033.59,
+          620.35,
+          1171.07,
+          783.07
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4404,
+        "bbox": [
+          918.84,
+          385.54,
+          1047.53,
+          635.57
+        ]
+      },
+      {
+        "class": "bench",
+        "confidence": 0.4217,
+        "bbox": [
+          9.09,
+          712.0,
+          868.03,
+          1064.78
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3884,
+        "bbox": [
+          1517.6,
+          415.6,
+          1599.51,
+          648.4
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3658,
+        "bbox": [
+          0.47,
+          617.49,
+          264.33,
+          939.52
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.3645,
+        "bbox": [
+          677.2,
+          522.81,
+          749.65,
+          606.99
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3533,
+        "bbox": [
+          0.19,
+          422.42,
+          86.01,
+          632.94
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3258,
+        "bbox": [
+          299.64,
+          387.49,
+          424.71,
+          533.24
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3056,
+        "bbox": [
+          1.03,
+          522.27,
+          290.11,
+          942.69
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.297,
+        "bbox": [
+          218.92,
+          451.79,
+          322.31,
+          676.6
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.279,
+        "bbox": [
+          280.16,
+          504.84,
+          503.91,
+          1054.04
+        ]
+      },
+      {
+        "class": "bench",
+        "confidence": 0.2666,
+        "bbox": [
+          1.13,
+          803.94,
+          601.41,
+          1053.47
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.2655,
+        "bbox": [
+          982.19,
+          580.41,
+          1108.98,
+          713.39
+        ]
+      },
+      {
+        "class": "handbag",
+        "confidence": 0.2549,
+        "bbox": [
+          161.98,
+          739.18,
+          311.27,
+          871.27
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.2508,
+        "bbox": [
+          758.09,
+          776.42,
+          874.02,
+          1017.77
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a classroom with a teacher standing at the front, addressing a group of students. The students, who appear to be young girls, are seated in rows at wooden desks, wearing green and yellow plaid uniforms. The teacher is wearing a light blue shirt and light-colored pants. The classroom has a blackboard with a schedule written on it, and a colorful bulletin board with drawings and charts is on the wall. There are windows with bars on the right side of the room, and a ceiling fan is visible above the blackboard. The floor is made of dark tiles with white square patterns. Several students have backpacks and notebooks on their desks. The teacher is gesturing with his hands as he speaks."
+  },
+  "240829_Chikkaballapura_Compost Application Event-3.JPG": {
+    "yolo": [],
+    "qwen_caption": "The image shows a rural outdoor area with a large, curved green mesh fence made of netting supported by dark posts. The ground is reddish-brown soil, with a large pile of dark, organic material, possibly compost or manure, situated in the center of the frame. The area is surrounded by a small, irregularly shaped mound of soil. In the background, there are several palm trees and other green trees, with a distant power line tower visible. The sky is overcast with white clouds."
+  },
+  "240829_Chikkaballapura_Compost Application Event-5.JPG": {
+    "yolo": [
+      {
+        "class": "boat",
+        "confidence": 0.4351,
+        "bbox": [
+          948.71,
+          630.39,
+          1211.78,
+          734.24
+        ]
+      },
+      {
+        "class": "bowl",
+        "confidence": 0.3129,
+        "bbox": [
+          950.24,
+          629.29,
+          1210.65,
+          734.33
+        ]
+      },
+      {
+        "class": "boat",
+        "confidence": 0.3011,
+        "bbox": [
+          780.7,
+          690.21,
+          1141.61,
+          846.88
+        ]
+      },
+      {
+        "class": "bowl",
+        "confidence": 0.2536,
+        "bbox": [
+          779.49,
+          689.47,
+          1136.48,
+          844.93
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a garden with red flowering plants, likely roses, arranged in rows on reddish-brown soil. A black irrigation hose runs across the garden. In the foreground, two blue plastic bowls are on the ground; one contains dark soil and a small gardening trowel is resting in it. A blue-handled rake lies on the ground next to the bowls. In the background, a green mesh fence is supported by wooden poles and has a white sign attached to it. The fence is located behind a line of palm trees and other vegetation. The sky is overcast with grey clouds."
+  },
+  "240917_Soil Testing and Farmers_12.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.884,
+        "bbox": [
+          672.79,
+          211.91,
+          1219.14,
+          950.36
+        ]
+      }
+    ],
+    "qwen_caption": "A young woman with long dark hair tied back is crouching in a garden. She is wearing a black t-shirt with a yellow logo, light blue jeans, and white sneakers with gray stripes. She is focused on a plant, reaching into the soil with her right hand. In front of her, there is a clear plastic bag on the ground, and a small red-handled tool is visible. The garden is filled with tall green plants, possibly sugarcane or similar crops. Behind her, there is a large stone pillar, a bush with red flowers, and a stone wall. The ground is dry and reddish-brown, with some scattered leaves and grass. The sky is blue with white clouds."
+  },
+  "Chikkaballapura_Screengrab_1.png": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9076,
+        "bbox": [
+          309.97,
+          79.0,
+          647.39,
+          633.3
+        ]
+      }
+    ],
+    "qwen_caption": "A man in a khaki uniform and gloves is bending over a large pile of dried, brown plant material, possibly palm fronds or similar organic waste, in an outdoor area. He is holding a small, dark, leafy object in his left hand. Behind him is a mound of light brown soil. The background consists of green bushes and trees, with some white flowers visible."
+  },
+  "Chikkaballapura_Screengrab_2.png": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9274,
+        "bbox": [
+          811.47,
+          87.63,
+          1068.1,
+          800.09
+        ]
+      }
+    ],
+    "qwen_caption": "A man in a khaki uniform and yellow rubber boots stands in a dirt trench next to a large pile of dry, brown plant material. He wears gloves and holds a small amount of the material in his hands. The trench is in a dry, open area with sandy soil and sparse green vegetation. In the background, there are more piles of similar material and a line of green bushes and trees. The sky is overcast."
+  },
+  "Chikkaballapura_Screengrab_3.png": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.8835,
+        "bbox": [
+          434.51,
+          255.98,
+          716.42,
+          896.74
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8161,
+        "bbox": [
+          1022.26,
+          275.53,
+          1349.33,
+          771.54
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8103,
+        "bbox": [
+          629.26,
+          299.3,
+          954.98,
+          886.42
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows three people in a field of tall green plants, likely a crop such as corn or a similar grain, with rows of yellow flowers in the background. The people are standing in the field, with one person holding a wooden tool and a small shovel-like implement. A large palm tree is visible on the right side of the image, and a white tent-like structure is on the left. The ground is dry and brown, with a small irrigation hose visible on the left. The sky is bright and partly cloudy."
+  },
+  "Chikkaballapura_Screengrab_4.png": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.895,
+        "bbox": [
+          814.69,
+          331.59,
+          1110.35,
+          866.92
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8727,
+        "bbox": [
+          377.51,
+          324.36,
+          819.31,
+          892.88
+        ]
+      },
+      {
+        "class": "baseball bat",
+        "confidence": 0.3857,
+        "bbox": [
+          723.69,
+          444.17,
+          828.79,
+          749.27
+        ]
+      },
+      {
+        "class": "baseball bat",
+        "confidence": 0.3344,
+        "bbox": [
+          726.49,
+          445.1,
+          799.58,
+          702.28
+        ]
+      },
+      {
+        "class": "baseball bat",
+        "confidence": 0.2642,
+        "bbox": [
+          726.4,
+          444.11,
+          776.17,
+          634.88
+        ]
+      }
+    ],
+    "qwen_caption": "A man and a woman are working in a field of tall green plants. The man, seen from the back, wears a light blue patterned shirt and has a cloth draped over his shoulder. He holds a wooden-handled tool with a scoop of soil. The woman, wearing a black t-shirt with the words \"STAY MAGICAL\" in yellow, wears white gloves and is using a small tool to work with the soil. They are surrounded by the tall green plants, with a background of a field of yellow flowers and a palm tree. A white tent is visible in the upper left corner."
+  },
+  "Chikkaballapura_Screengrab_5.png": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9253,
+        "bbox": [
+          1148.11,
+          17.03,
+          1598.9,
+          890.98
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7169,
+        "bbox": [
+          197.28,
+          114.14,
+          714.47,
+          892.03
+        ]
+      }
+    ],
+    "qwen_caption": "A young woman with dark, curly hair and glasses is crouching on a dirt ground, holding a clear plastic bag containing a bundle of dried, brownish plant material. She is wearing a black t-shirt with a yellow graphic on the front and blue jeans. She is focused on the bag, and her hands are holding it. In front of her is a white box with a black smartphone on it. To her right, another woman in a maroon and white patterned sari is sitting and handling a small piece of paper or cloth. The background shows a mix of dry grass, a concrete wall with broken sections, and a white building with a staircase. The ground is mostly dirt with some patches of grass."
+  },
+  "Chikkaballapura_Screengrab_6.png": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9084,
+        "bbox": [
+          1192.13,
+          6.4,
+          1599.05,
+          831.96
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8771,
+        "bbox": [
+          518.03,
+          116.93,
+          1097.73,
+          796.64
+        ]
+      }
+    ],
+    "qwen_caption": "A young woman with long dark hair and glasses is crouching in a field of tall green grass and weeds. She is wearing a black t-shirt with a yellow graphic that says \"STAY MAGIC\" and light blue jeans. She is wearing white gloves and is holding a clear plastic bag in her left hand. She is using a small tool in her right hand to extract something from the ground. The ground is dry and brown with some small plants and weeds growing. To her right, another person is standing, wearing a maroon and white patterned dress and maroon pants, with blue sneakers. This person is holding a clear plastic bag in their left hand."
+  },
+  "Climate Change and Migration_1.HEIC": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.914,
+        "bbox": [
+          654.83,
+          321.9,
+          902.93,
+          1199.01
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.9032,
+        "bbox": [
+          1295.56,
+          411.68,
+          1599.82,
+          1198.24
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8625,
+        "bbox": [
+          1074.94,
+          398.85,
+          1393.87,
+          1199.58
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows an outdoor courtyard area with a concrete floor. In the center, a man with dark hair and glasses stands facing two women. The woman on the left is wearing a light green shirt and a blue and purple patterned sari. The woman on the right is wearing a dark blue dress with vertical stripes and has long dark hair. The man is wearing a patterned, light-colored shirt with rolled-up sleeves and light-colored pants. Behind them, there are several small, corrugated metal sheds with weathered walls. A line of white plastic buckets is visible on the ground, some of which are stacked. The shed on the left has a red cloth and other items hanging on the wall. In the background, there are palm trees and a clear sky. The area is cluttered with various items, including a pink mat, a metal bowl, and several buckets. The roof of"
+  },
+  "Climate Change and Migration_2.jpg": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9301,
+        "bbox": [
+          152.09,
+          406.87,
+          622.02,
+          894.6
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.9201,
+        "bbox": [
+          884.74,
+          314.48,
+          1480.16,
+          894.35
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8596,
+        "bbox": [
+          615.47,
+          341.74,
+          889.36,
+          847.59
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8377,
+        "bbox": [
+          431.6,
+          341.61,
+          619.4,
+          645.19
+        ]
+      },
+      {
+        "class": "motorcycle",
+        "confidence": 0.8285,
+        "bbox": [
+          885.29,
+          280.73,
+          1013.91,
+          510.19
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6458,
+        "bbox": [
+          1059.98,
+          347.48,
+          1194.04,
+          618.01
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6051,
+        "bbox": [
+          731.05,
+          323.45,
+          874.13,
+          540.48
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.3344,
+        "bbox": [
+          988.55,
+          684.78,
+          1473.39,
+          898.38
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3139,
+        "bbox": [
+          1117.79,
+          344.15,
+          1202.27,
+          484.89
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2946,
+        "bbox": [
+          1124.34,
+          344.93,
+          1200.02,
+          452.15
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a group of six people sitting and standing on a patterned blue and orange mat on the ground outside a simple concrete building. The building has a wooden roof and a small open doorway. A motorcycle is parked inside the building, and there are clothes hanging from the roof. The wall of the building has a poster with a picture of a man and text written in a local language. The people are engaged in a conversation, with some holding papers and a fan visible in the background. The ground is dirt and there are trees and greenery visible in the background."
+  },
+  "Climate Change and Migration_3.jpg": {
+    "yolo": [
+      {
+        "class": "boat",
+        "confidence": 0.6418,
+        "bbox": [
+          1283.97,
+          568.87,
+          1523.88,
+          774.0
+        ]
+      },
+      {
+        "class": "boat",
+        "confidence": 0.5002,
+        "bbox": [
+          646.91,
+          720.23,
+          922.36,
+          876.39
+        ]
+      },
+      {
+        "class": "boat",
+        "confidence": 0.4398,
+        "bbox": [
+          1508.9,
+          661.54,
+          1599.56,
+          796.3
+        ]
+      },
+      {
+        "class": "boat",
+        "confidence": 0.3986,
+        "bbox": [
+          1146.76,
+          620.76,
+          1303.08,
+          800.66
+        ]
+      },
+      {
+        "class": "boat",
+        "confidence": 0.3742,
+        "bbox": [
+          645.68,
+          651.37,
+          923.41,
+          877.6
+        ]
+      },
+      {
+        "class": "boat",
+        "confidence": 0.299,
+        "bbox": [
+          947.74,
+          667.49,
+          1149.0,
+          835.81
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a large number of blue boats, many of which appear to be used for fishing or transport, docked along a grassy shoreline. The boats are arranged in rows, with some appearing to be moored to wooden posts or poles. The boats are mostly small, with wooden hulls and blue painted frames. Many boats have a canopy or roof made of blue material, possibly metal or plastic, and some have orange lifebuoys attached to the sides. The water is calm and appears to be a large body of water, possibly a lake or a river. In the background, there is a distant shoreline with a green, tree-covered hill or mountain. The sky is overcast with gray clouds. There is a wooden structure, possibly a pier or dock, on the left side of the image. The grass is green and appears to be wet or damp. There is a person"
+  },
+  "Climate Change and Migration_4.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.8973,
+        "bbox": [
+          1019.82,
+          508.24,
+          1177.76,
+          788.41
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.778,
+        "bbox": [
+          493.27,
+          483.8,
+          736.65,
+          826.18
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7678,
+        "bbox": [
+          759.52,
+          524.84,
+          960.32,
+          877.62
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5506,
+        "bbox": [
+          642.62,
+          477.47,
+          755.43,
+          677.16
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5068,
+        "bbox": [
+          238.62,
+          541.66,
+          473.77,
+          866.37
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3758,
+        "bbox": [
+          768.45,
+          466.58,
+          943.48,
+          629.9
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a group of five people, including adults and a child, sitting under a simple wooden and bamboo shelter. The shelter has a roof made of bamboo poles and a tarp, with clothes hanging from the roof. The ground is dirt and stones, with a pile of stones in the foreground. Behind the shelter, there are brick walls and a small chicken. The people are wearing colorful clothing, including sarees and traditional garments."
+  },
+  "Climate Change and Migration_5.jpg": {
+    "yolo": [
+      {
+        "class": "chair",
+        "confidence": 0.903,
+        "bbox": [
+          544.84,
+          576.87,
+          795.15,
+          898.39
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8805,
+        "bbox": [
+          1010.76,
+          162.43,
+          1409.94,
+          892.24
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.8243,
+        "bbox": [
+          934.68,
+          545.14,
+          1073.0,
+          895.88
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7964,
+        "bbox": [
+          738.87,
+          383.12,
+          916.37,
+          858.67
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7946,
+        "bbox": [
+          415.44,
+          427.29,
+          602.38,
+          881.4
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7721,
+        "bbox": [
+          1379.21,
+          371.05,
+          1591.16,
+          748.18
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5457,
+        "bbox": [
+          161.91,
+          389.48,
+          405.23,
+          884.82
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4554,
+        "bbox": [
+          578.19,
+          343.72,
+          698.5,
+          585.28
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.3061,
+        "bbox": [
+          282.0,
+          611.09,
+          497.54,
+          893.34
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3033,
+        "bbox": [
+          899.89,
+          376.29,
+          1040.84,
+          800.88
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2757,
+        "bbox": [
+          117.06,
+          384.94,
+          231.26,
+          552.21
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows an outdoor gathering under a colorful, patterned canopy. A man in a light blue shirt stands facing a seated audience of men, holding a microphone. The audience is seated on white plastic chairs, arranged in rows, and appears to be listening to the speaker. In the foreground, several large, green and white fans are placed on the ground. The setting includes a white building in the background, a concrete wall, and palm trees. The ground is dry and dusty, with some greenery visible."
+  },
+  "Climate Change and Migration_6.jpg": {
+    "yolo": [],
+    "qwen_caption": "The image shows a coastal area with a sandy beach and a small hillside. The hillside is covered with green vegetation, possibly a type of ivy, and is littered with debris, including rocks, plastic, and other trash. A single, small white building with a blue window is visible on the hillside. The building appears to be in a state of disrepair. There are several palm trees, some of which are leaning or damaged, indicating possible wind or storm damage. The sky is partly cloudy with patches of blue visible. A small puddle of water is visible on the sand near the left side of the image. The overall scene suggests a post-disaster or post-impact environment."
+  },
+  "Climate Change and Migration_7.jpg": {
+    "yolo": [],
+    "qwen_caption": "The image shows a residential area with several buildings, some of which are in a state of disrepair or destruction. The buildings are constructed with brick and painted walls, and some have broken or damaged roofs. A large mound of sand and debris occupies the foreground, with various pieces of trash and debris scattered across the ground. The sky is partly cloudy, with patches of blue visible. The scene appears to be a coastal or riverine area, given the presence of sand and debris."
+  },
+  "Climate Change and Migration_8.jpg": {
+    "yolo": [
+      {
+        "class": "bottle",
+        "confidence": 0.886,
+        "bbox": [
+          894.42,
+          805.47,
+          974.49,
+          1053.24
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.8724,
+        "bbox": [
+          176.2,
+          851.45,
+          592.4,
+          1199.65
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8678,
+        "bbox": [
+          1017.82,
+          522.73,
+          1366.9,
+          970.38
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8184,
+        "bbox": [
+          549.36,
+          550.68,
+          673.2,
+          696.77
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7098,
+        "bbox": [
+          164.3,
+          531.76,
+          492.6,
+          1025.75
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.706,
+        "bbox": [
+          976.01,
+          546.14,
+          1160.46,
+          780.88
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.6652,
+        "bbox": [
+          32.9,
+          953.37,
+          242.11,
+          1199.42
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.6647,
+        "bbox": [
+          1296.56,
+          727.22,
+          1398.16,
+          904.66
+        ]
+      },
+      {
+        "class": "tv",
+        "confidence": 0.6621,
+        "bbox": [
+          222.33,
+          376.09,
+          586.11,
+          586.13
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6441,
+        "bbox": [
+          1151.45,
+          390.75,
+          1316.44,
+          659.23
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6389,
+        "bbox": [
+          867.14,
+          503.65,
+          1016.22,
+          743.93
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6122,
+        "bbox": [
+          746.38,
+          545.33,
+          905.44,
+          720.58
+        ]
+      },
+      {
+        "class": "laptop",
+        "confidence": 0.5812,
+        "bbox": [
+          1189.23,
+          949.64,
+          1534.19,
+          1127.47
+        ]
+      },
+      {
+        "class": "dining table",
+        "confidence": 0.4818,
+        "bbox": [
+          373.08,
+          673.74,
+          1200.32,
+          1176.14
+        ]
+      },
+      {
+        "class": "bottle",
+        "confidence": 0.4776,
+        "bbox": [
+          512.15,
+          665.62,
+          542.07,
+          743.65
+        ]
+      },
+      {
+        "class": "cup",
+        "confidence": 0.4289,
+        "bbox": [
+          958.7,
+          762.62,
+          1003.59,
+          828.37
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4274,
+        "bbox": [
+          0.4,
+          587.33,
+          230.56,
+          1063.96
+        ]
+      },
+      {
+        "class": "cup",
+        "confidence": 0.3864,
+        "bbox": [
+          1182.27,
+          887.0,
+          1236.91,
+          1008.08
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.3509,
+        "bbox": [
+          1533.83,
+          695.36,
+          1599.5,
+          840.81
+        ]
+      },
+      {
+        "class": "bottle",
+        "confidence": 0.3502,
+        "bbox": [
+          858.03,
+          685.23,
+          905.39,
+          828.27
+        ]
+      },
+      {
+        "class": "cup",
+        "confidence": 0.3328,
+        "bbox": [
+          1505.11,
+          871.28,
+          1572.02,
+          983.9
+        ]
+      },
+      {
+        "class": "dining table",
+        "confidence": 0.2946,
+        "bbox": [
+          373.89,
+          672.36,
+          1192.36,
+          937.91
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.276,
+        "bbox": [
+          245.86,
+          539.96,
+          366.76,
+          778.24
+        ]
+      },
+      {
+        "class": "pizza",
+        "confidence": 0.2747,
+        "bbox": [
+          1403.55,
+          968.98,
+          1533.19,
+          1008.48
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.2551,
+        "bbox": [
+          1443.73,
+          694.52,
+          1599.13,
+          883.99
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a group of people in a meeting room, seated around a long white table. The room has light green walls and a wooden bookshelf with multiple compartments. A large white screen is mounted on the wall, displaying the text \"Research for Impact (R4I)\" and \"07 February 2024\" along with \"Indian Institute for Human Settlements.\" To the right, a glass whiteboard has numerous colorful sticky notes attached, with some text visible, including \"What class Impact means to me\" and \"Built on...\". A person stands near the whiteboard, holding a clipboard and looking at the group. The table is cluttered with notebooks, laptops, water bottles, and other personal items. The people are engaged in the meeting, with some looking at the screen and others conversing."
+  },
+  "Kochi-Climate Change and Migration-49.jpg": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.6014,
+        "bbox": [
+          393.83,
+          84.71,
+          662.41,
+          359.32
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5504,
+        "bbox": [
+          0.0,
+          0.0,
+          287.92,
+          1046.19
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5294,
+        "bbox": [
+          0.0,
+          876.25,
+          179.5,
+          1594.44
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4847,
+        "bbox": [
+          669.93,
+          199.3,
+          964.2,
+          560.48
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4173,
+        "bbox": [
+          315.03,
+          0.0,
+          515.58,
+          339.65
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3172,
+        "bbox": [
+          218.99,
+          131.21,
+          336.14,
+          357.79
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3053,
+        "bbox": [
+          784.26,
+          142.77,
+          999.15,
+          398.56
+        ]
+      },
+      {
+        "class": "suitcase",
+        "confidence": 0.2706,
+        "bbox": [
+          261.47,
+          371.13,
+          843.25,
+          1376.64
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2623,
+        "bbox": [
+          217.81,
+          131.8,
+          339.5,
+          474.77
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a close-up of a market scene with several colorful woven bags, likely made from plastic or natural fibers, arranged on a paved ground. The bags feature a variety of colors including teal, black, yellow, and orange, with some having a patterned design. The handles of the bags are thick and appear to be made of the same material as the body of the bags. To the right of the bags, a wooden-handled tool, possibly a hoe or shovel, is placed next to a large plastic bag with a teal and white stripe. The background is filled with people, some wearing colorful clothing, and the scene appears to be an outdoor market."
+  },
+  "Kochi-Climate Change and Migration-56.jpg": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.6855,
+        "bbox": [
+          288.17,
+          632.8,
+          363.27,
+          828.86
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5998,
+        "bbox": [
+          1211.25,
+          645.13,
+          1272.18,
+          809.19
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5831,
+        "bbox": [
+          1542.5,
+          628.45,
+          1599.03,
+          792.67
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5775,
+        "bbox": [
+          184.35,
+          616.08,
+          269.08,
+          832.13
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5325,
+        "bbox": [
+          386.29,
+          613.77,
+          448.31,
+          822.49
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5088,
+        "bbox": [
+          1262.33,
+          663.87,
+          1318.25,
+          808.03
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4762,
+        "bbox": [
+          1405.87,
+          654.36,
+          1464.27,
+          818.06
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4575,
+        "bbox": [
+          1152.14,
+          659.03,
+          1217.53,
+          800.16
+        ]
+      },
+      {
+        "class": "traffic light",
+        "confidence": 0.3981,
+        "bbox": [
+          146.59,
+          447.32,
+          196.43,
+          515.12
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3806,
+        "bbox": [
+          1085.55,
+          650.69,
+          1133.8,
+          798.12
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2828,
+        "bbox": [
+          471.44,
+          645.37,
+          517.65,
+          801.32
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a bustling street corner in a densely populated urban area, likely in a South Asian city. The central focus is a multi-story building with a pinkish-brown facade, featuring numerous businesses and signs. The building has multiple levels with balconies and external air conditioning units. Visible signs include \"Infigo Solutions\" with services for computer sales and repair, \"Laptop Sales,\" \"Repair Hands,\" \"SARVA ASHADHI MEDICAL STORE,\" \"COTTON GALLERY,\" \"Lens & Vision Optics,\" \"SARVA ASHADHI MEDICAL STORE,\" \"CONTACT LENS CENTRE,\" \"hp,\" \"Airtel,\" and \"UKCAAU.\" There are also signs for \"NURSE\" and \"STUDENT VISA.\" The building has a complex network of overhead electrical wires and utility poles. The street level is busy with pedestrians,"
+  },
+  "PEAK_4.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9093,
+        "bbox": [
+          175.47,
+          79.64,
+          700.92,
+          1054.98
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.877,
+        "bbox": [
+          1075.58,
+          420.82,
+          1311.62,
+          1057.02
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8739,
+        "bbox": [
+          640.35,
+          361.5,
+          916.22,
+          1058.95
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8439,
+        "bbox": [
+          854.87,
+          407.1,
+          1057.41,
+          1060.17
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8223,
+        "bbox": [
+          1297.69,
+          477.41,
+          1507.99,
+          1060.16
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7922,
+        "bbox": [
+          1445.2,
+          447.16,
+          1596.21,
+          938.02
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.373,
+        "bbox": [
+          1286.95,
+          406.0,
+          1471.04,
+          704.01
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3004,
+        "bbox": [
+          126.72,
+          363.72,
+          278.16,
+          731.02
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2917,
+        "bbox": [
+          127.72,
+          361.7,
+          278.82,
+          940.64
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2613,
+        "bbox": [
+          1218.28,
+          446.35,
+          1294.22,
+          590.71
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2609,
+        "bbox": [
+          0.23,
+          632.32,
+          58.71,
+          728.22
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a group of people on a busy street in a city. In the background, there is a red building with a sign that reads \"mail: premstationerymart7@gmail.com\" and \"Road Cross, Bengaluru - 560002.\" The sign also features a logo with the text \"KONFIDENCE\" and \"Bengaluru\" written on it. The building has a worn, red-painted facade with peeling paint and visible wires. To the right of the sign, there is a yellow sign with a blue logo and text in a non-Latin script, possibly Telugu. Below the main sign, there are stacked red boxes with the text \"JK COP\" visible on them. The street is lined with various items, including a display of colorful boxes and a pile of keys hanging on a metal rack. The people in the"
+  },
+  "PEAK_5.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9097,
+        "bbox": [
+          210.58,
+          62.25,
+          1137.76,
+          1057.94
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8083,
+        "bbox": [
+          0.34,
+          655.67,
+          249.4,
+          1059.12
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7824,
+        "bbox": [
+          1227.72,
+          668.37,
+          1559.78,
+          1062.05
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7345,
+        "bbox": [
+          1341.87,
+          577.72,
+          1599.75,
+          1055.86
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5655,
+        "bbox": [
+          1004.8,
+          780.75,
+          1269.15,
+          1066.76
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4288,
+        "bbox": [
+          887.41,
+          674.82,
+          1032.0,
+          1054.49
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3426,
+        "bbox": [
+          1198.83,
+          629.28,
+          1370.22,
+          964.5
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3205,
+        "bbox": [
+          0.25,
+          577.23,
+          80.92,
+          962.51
+        ]
+      },
+      {
+        "class": "umbrella",
+        "confidence": 0.2856,
+        "bbox": [
+          251.0,
+          165.45,
+          907.25,
+          377.24
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2829,
+        "bbox": [
+          0.31,
+          990.56,
+          135.8,
+          1062.69
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.2708,
+        "bbox": [
+          1398.1,
+          956.69,
+          1599.41,
+          1064.51
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2687,
+        "bbox": [
+          0.24,
+          577.11,
+          78.55,
+          828.42
+        ]
+      }
+    ],
+    "qwen_caption": "A man in a blue and white checkered shirt and a black baseball cap is holding up a smartphone with his right hand, aiming it at something above his head. He is looking up and to his right, and his left hand is slightly raised. The background is a busy street scene with other people, colorful market stalls, and buildings. There is a person in a white shirt and a grey scarf standing behind the man with the phone. A woman in a red top is visible in the background. The setting appears to be a crowded outdoor market or street."
+  },
+  "PEAK_6.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.8752,
+        "bbox": [
+          207.89,
+          389.0,
+          766.3,
+          1593.62
+        ]
+      },
+      {
+        "class": "chair",
+        "confidence": 0.807,
+        "bbox": [
+          384.78,
+          1328.21,
+          717.54,
+          1599.62
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.773,
+        "bbox": [
+          861.09,
+          761.74,
+          1063.66,
+          1251.72
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.655,
+        "bbox": [
+          545.43,
+          1156.08,
+          1065.85,
+          1598.01
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4682,
+        "bbox": [
+          3.13,
+          719.53,
+          141.99,
+          1149.5
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.4152,
+        "bbox": [
+          545.96,
+          776.44,
+          1065.76,
+          1600.0
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3773,
+        "bbox": [
+          1.26,
+          718.8,
+          343.89,
+          1596.08
+        ]
+      },
+      {
+        "class": "refrigerator",
+        "confidence": 0.2826,
+        "bbox": [
+          22.85,
+          97.65,
+          519.24,
+          1294.4
+        ]
+      }
+    ],
+    "qwen_caption": "A woman with dark hair and glasses, wearing a light blue dress with a red and green floral pattern, is standing in front of a whiteboard and writing with a black marker. She is holding a second marker in her other hand and appears to be actively engaged in writing or drawing on the board. The whiteboard is covered with various notes, drawings, and sticky notes in different colors, including green and yellow. There are also words and phrases written on the board, such as \"BE OPPORTUNISTIC,\" \"YOU HAVE TO SIT AT THE SAME TABLE AS POLICYMAKERS,\" \"Dont be afraid of being yourself,\" \"TREAT 2019,\" \"BE NOT ABOUT BUILDING TOGETHER,\" \"NOT NEGOTIABLES,\" and \"INTERRUPTING NEUTRAL.\" The woman is positioned in front of a green board, and a dark wooden"
+  },
+  "PEAK_7.JPG": {
+    "yolo": [
+      {
+        "class": "laptop",
+        "confidence": 0.8194,
+        "bbox": [
+          0.71,
+          3.21,
+          312.77,
+          428.68
+        ]
+      },
+      {
+        "class": "cup",
+        "confidence": 0.7769,
+        "bbox": [
+          1423.54,
+          112.17,
+          1600.0,
+          497.23
+        ]
+      },
+      {
+        "class": "cup",
+        "confidence": 0.7551,
+        "bbox": [
+          725.24,
+          0.0,
+          931.97,
+          362.46
+        ]
+      },
+      {
+        "class": "cup",
+        "confidence": 0.5099,
+        "bbox": [
+          467.75,
+          1.34,
+          642.99,
+          164.07
+        ]
+      },
+      {
+        "class": "bowl",
+        "confidence": 0.4896,
+        "bbox": [
+          992.1,
+          1.43,
+          1258.9,
+          102.01
+        ]
+      },
+      {
+        "class": "book",
+        "confidence": 0.3923,
+        "bbox": [
+          271.11,
+          633.91,
+          1177.84,
+          1059.1
+        ]
+      },
+      {
+        "class": "book",
+        "confidence": 0.3043,
+        "bbox": [
+          838.05,
+          430.44,
+          1155.37,
+          495.37
+        ]
+      },
+      {
+        "class": "book",
+        "confidence": 0.3003,
+        "bbox": [
+          871.42,
+          473.15,
+          1165.22,
+          631.46
+        ]
+      },
+      {
+        "class": "book",
+        "confidence": 0.3002,
+        "bbox": [
+          832.44,
+          404.77,
+          1158.44,
+          494.61
+        ]
+      },
+      {
+        "class": "book",
+        "confidence": 0.2993,
+        "bbox": [
+          1164.01,
+          671.71,
+          1598.92,
+          1057.44
+        ]
+      },
+      {
+        "class": "dining table",
+        "confidence": 0.2867,
+        "bbox": [
+          8.05,
+          2.28,
+          1599.61,
+          1044.19
+        ]
+      },
+      {
+        "class": "book",
+        "confidence": 0.2848,
+        "bbox": [
+          864.62,
+          465.57,
+          1159.54,
+          583.17
+        ]
+      },
+      {
+        "class": "book",
+        "confidence": 0.2806,
+        "bbox": [
+          838.53,
+          322.21,
+          1166.74,
+          444.28
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a table with various items, including a laptop, papers, a notepad, a pen, a glass of water, and a stack of colorful sticky notes. The notepad has the text \"PEAK Urban\" and \"Practice\" written on it, along with a website address. The papers in the background have a schedule or agenda with times and topics. The sticky notes are stacked and have a colorful design. There is a glass of water on a coaster, and a white mug is partially visible on the right. The table is covered with a white tablecloth, and there is a small bowl in the background. The overall scene suggests a work or meeting environment."
+  },
+  "PEAK_8.JPG": {
+    "yolo": [],
+    "qwen_caption": "The image shows a large, whiteboard filled with colorful, hand-drawn notes and diagrams in various colors, primarily black, blue, red, green, and purple. The text is written in a mix of fonts and styles, including bold, cursive, and block letters, and includes various illustrations such as people, buildings, gears, and abstract shapes. The content is organized into sections with headings and subheadings. Key visible text includes \"PEAK URBAN RETREAT 2019,\" \"CREATING COMMON GROUND,\" \"THE EMERGENT URBAN,\" \"PEAK,\" \"THE SDGs WILL BE REALIZED THRU CITIES,\" \"CITIES ARE SYSTEMS OF SYSTEMS,\" \"INTEGRATING NETWORKS OF RESEARCHERS,\" \"NEW FORMS OF ANALYTICS,\" \"A DEEPENING AND A WIDENING OF"
+  },
+  "TNUSSP_1.JPG": {
+    "yolo": [
+      {
+        "class": "sink",
+        "confidence": 0.6648,
+        "bbox": [
+          355.57,
+          821.22,
+          886.34,
+          1018.12
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a wall-mounted bathroom sink with a white ceramic basin and a red-handled faucet. The sink is mounted on a wall with a two-tone tile pattern: the upper section has light-colored tiles with a pink decorative border, and the lower section has red tiles. A chrome towel ring is mounted on the wall to the right of the sink. A small, rectangular blue sign with white text in the Tamil language is affixed to the wall above the sink. The sink is supported by white PVC plumbing pipes, with one pipe running vertically and another extending diagonally. A small, white, cylindrical object is visible on the wall, possibly a soap dispenser. The wall is partially covered by shadows, likely cast by a nearby structure or object."
+  },
+  "TNUSSP_10.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.5688,
+        "bbox": [
+          593.23,
+          811.82,
+          874.34,
+          1056.69
+        ]
+      }
+    ],
+    "qwen_caption": "A blue clipboard holds a form titled \"COMMUNITY AND PUBLIC TOILET ASSESSMENT\" with a \"PART A: Identification particulars of the toilet\" section. The form includes fields for \"Schedule No,\" \"Date,\" \"Type of toilet,\" \"Name,\" \"Contact detail,\" and \"Date.\" A hand with a silver ring is writing on the form with a blue pen. The form has a grid layout with checkboxes for \"D,\" \"M,\" \"Y,\" \"P,\" \"T,\" \"V,\" \"C,\" and \"O.\" The text on the form is in English and Tamil. The background is blurred, showing a green and brown surface."
+  },
+  "TNUSSP_11.JPG": {
+    "yolo": [
+      {
+        "class": "fire hydrant",
+        "confidence": 0.7208,
+        "bbox": [
+          0.26,
+          281.89,
+          560.88,
+          617.24
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a row of water taps mounted on a yellow wall. The taps are connected by a horizontal pipe and have red and pink handles. A white sink is visible on the right side of the image. The wall is textured and has some greenish stains. The background includes trees and a paved area."
+  },
+  "TNUSSP_12.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.7317,
+        "bbox": [
+          1056.8,
+          229.62,
+          1285.45,
+          812.7
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.7033,
+        "bbox": [
+          529.51,
+          436.43,
+          627.53,
+          651.4
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6118,
+        "bbox": [
+          293.97,
+          506.06,
+          515.55,
+          761.98
+        ]
+      },
+      {
+        "class": "vase",
+        "confidence": 0.4677,
+        "bbox": [
+          693.89,
+          615.66,
+          821.32,
+          763.86
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3971,
+        "bbox": [
+          998.13,
+          464.16,
+          1043.47,
+          577.77
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3362,
+        "bbox": [
+          723.96,
+          447.51,
+          793.43,
+          615.07
+        ]
+      },
+      {
+        "class": "vase",
+        "confidence": 0.3049,
+        "bbox": [
+          807.8,
+          607.4,
+          917.01,
+          753.19
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a rural village scene with several people engaged in daily activities. In the foreground, a woman in a green sari is standing at a concrete water tank, holding a large green plastic water pot. Next to her, on the ground, are other water pots: a purple one, a red one, and a white one with red stripes. A woman in a colorful sari is sitting on a wooden bench, working at a small fire. Other people are visible in the background, including a woman in a pink sari, a child in a yellow shirt, and a man in a red shirt. The village has a mix of structures, including a small thatched-roof hut, a larger pink and green building, and a few other buildings. There are trees, power lines, and a few small vehicles, including a motorcycle. The ground is unpaved and appears to be made"
+  },
+  "TNUSSP_13.JPG": {
+    "yolo": [
+      {
+        "class": "truck",
+        "confidence": 0.7635,
+        "bbox": [
+          77.09,
+          374.88,
+          538.38,
+          535.58
+        ]
+      }
+    ],
+    "qwen_caption": "A large, circular concrete basin filled with murky, foamy water is the central focus of the image. The water is actively being treated, as evidenced by multiple pipes discharging a large volume of wastewater into the basin. The pipes are of various sizes and materials; some are white PVC, while others are rusted metal. The water appears to be a mixture of dirty, brownish water with white foam, suggesting a cleaning or treatment process. The basin is surrounded by concrete walls, and the surrounding area includes trees, a low wall, and a yellow and white truck with the text \"SRI RAM SEPTIC TANK CLEANING\" on its side. A person is visible standing near the truck. The sky is bright and clear, and there are power lines and a utility pole visible in the background."
+  },
+  "TNUSSP_14.JPG": {
+    "yolo": [],
+    "qwen_caption": "The image shows a wide, flat landscape under a bright, hazy sky. In the foreground, there is a large body of water, possibly a reservoir or flooded plain, with a light gray, murky appearance and patches of floating vegetation. The water surface reflects the sky and some of the distant structures. On the right side of the image, there are several tall, metal electricity pylons, with multiple power lines stretching across the sky. In the background, there is a low, flat horizon with sparse trees and vegetation. The overall scene is dominated by the industrial infrastructure of the power lines and pylons against the natural landscape."
+  },
+  "TNUSSP_15.JPG": {
+    "yolo": [],
+    "qwen_caption": "The image shows a concrete water treatment facility with a long, series of concrete slabs extending into a body of water. The slabs are supported by vertical concrete pillars and are connected by a metal walkway with railings. The walkway is elevated above the water and has a series of small, rectangular openings. The water is calm and reflects the slabs and surrounding trees. The background is filled with dense green trees, and the sky is overcast. There are several metal streetlights along the walkway. A concrete structure is visible on the right side of the image, and the water appears to be a murky, brownish-green color."
+  },
+  "TNUSSP_16.JPG": {
+    "yolo": [
+      {
+        "class": "surfboard",
+        "confidence": 0.6153,
+        "bbox": [
+          62.6,
+          301.47,
+          776.58,
+          1056.22
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a large, rectangular, concrete structure with a wide, flowing body of water that is actively being treated. The water is dark and has a significant amount of white foam and bubbles, indicating the presence of aeration or chemical treatment. The surface of the water is disturbed, with visible ripples and currents. A large, cylindrical metal pipe with a flanged end is positioned on the left side of the structure, with bolts securing it to the concrete. The pipe appears to be part of the treatment process. The structure is surrounded by concrete walls and has a metal railing along the top. The background features a line of trees and a distant building. The sky is overcast and appears to be either dawn or dusk."
+  },
+  "TNUSSP_17.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9155,
+        "bbox": [
+          1109.66,
+          262.49,
+          1575.69,
+          1057.04
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.9014,
+        "bbox": [
+          161.08,
+          63.43,
+          594.39,
+          1056.35
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8692,
+        "bbox": [
+          509.98,
+          275.69,
+          809.81,
+          1056.38
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5257,
+        "bbox": [
+          157.89,
+          253.16,
+          301.36,
+          1040.7
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2692,
+        "bbox": [
+          181.75,
+          253.08,
+          302.47,
+          418.67
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows three men standing outdoors on a paved area with a green border. The man on the left is wearing a navy blue polo shirt with yellow horizontal stripes. The man in the center, who is holding a blue clipboard and a pen, is wearing a light blue and white striped button-up shirt. The man on the right is wearing a dark brown jacket over a light blue collared shirt. In the background, there is a green wall with a white banner that has text in the Tamil script. The banner reads \"\u0baa\u0bc6\u0baa\u0bbe\u0b95\u0bc1 \u0b95\u0bc1\u0bb1\u0bbf\u0baa\u0bcd\u0baa\u0bbf\u0b9f\u0bae\u0bcd\" and has a small logo of a Buddha figure. The ground is made of red tiles with a green border, and there are some green plants and trees in the background. A pair of black sandals is visible on the ground near the center of the image."
+  },
+  "TNUSSP_18.jpg": {
+    "yolo": [],
+    "qwen_caption": "The image shows a water treatment facility with several large tanks and pipes. A prominent blue cylindrical tank, labeled \"ACF-122 ACTIVATED CARBON FILTER,\" is in the foreground on the right. To its left, a tall, white water tower with a spiral staircase is visible. The tower has a red brick upper section and a white lower section. Other tanks, including a green one, are also present. The facility is surrounded by a white wall and some greenery, including banana leaves, under an overcast sky."
+  },
+  "TNUSSP_19.jpg": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.8335,
+        "bbox": [
+          758.56,
+          550.5,
+          920.19,
+          846.34
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6624,
+        "bbox": [
+          264.0,
+          543.13,
+          344.89,
+          837.68
+        ]
+      },
+      {
+        "class": "truck",
+        "confidence": 0.571,
+        "bbox": [
+          397.87,
+          405.19,
+          663.12,
+          784.53
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5336,
+        "bbox": [
+          331.96,
+          561.36,
+          406.94,
+          817.6
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.364,
+        "bbox": [
+          603.73,
+          578.07,
+          683.15,
+          807.17
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.28,
+        "bbox": [
+          626.53,
+          581.15,
+          677.16,
+          723.0
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.2608,
+        "bbox": [
+          264.25,
+          547.71,
+          392.48,
+          839.32
+        ]
+      }
+    ],
+    "qwen_caption": "A yellow tanker truck with \"R.M.S.\" written on the side is parked on a dirt road. The truck has a large cylindrical tank and several hoses connected to it. A man in a purple shirt is standing next to the truck, holding a hose. Another man in a red and white checkered sarong is standing on the concrete wall, holding a long hose. A third man in a purple shirt is standing near the truck. A fourth man in a purple shirt is standing near the truck. The truck has a phone number on the side. The truck is parked in front of a concrete wall with a metal gate. The wall has a metal gate with a metal latch. The wall is made of concrete. The wall has a metal gate with a metal latch. The wall has a metal gate with a metal latch. The wall has a metal gate with a metal latch. The wall has"
+  },
+  "TNUSSP_2.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.8508,
+        "bbox": [
+          113.55,
+          282.97,
+          486.58,
+          1053.8
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.8071,
+        "bbox": [
+          760.55,
+          431.16,
+          946.06,
+          775.24
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.6637,
+        "bbox": [
+          914.2,
+          399.13,
+          1154.29,
+          659.7
+        ]
+      },
+      {
+        "class": "bicycle",
+        "confidence": 0.6497,
+        "bbox": [
+          0.83,
+          685.49,
+          364.72,
+          1061.37
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5749,
+        "bbox": [
+          0.05,
+          425.99,
+          188.39,
+          828.64
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.5574,
+        "bbox": [
+          357.96,
+          341.03,
+          628.92,
+          751.98
+        ]
+      },
+      {
+        "class": "car",
+        "confidence": 0.5191,
+        "bbox": [
+          666.42,
+          430.4,
+          1023.15,
+          656.93
+        ]
+      },
+      {
+        "class": "sink",
+        "confidence": 0.365,
+        "bbox": [
+          901.89,
+          752.68,
+          1123.18,
+          815.3
+        ]
+      },
+      {
+        "class": "person",
+        "confidence": 0.3315,
+        "bbox": [
+          331.82,
+          325.71,
+          430.0,
+          481.73
+        ]
+      },
+      {
+        "class": "backpack",
+        "confidence": 0.2509,
+        "bbox": [
+          425.99,
+          491.48,
+          573.39,
+          762.3
+        ]
+      }
+    ],
+    "qwen_caption": "A close-up of a public water tap on a blue metal stand, with a large blue plastic container mounted on the stand. The tap is attached to the container with a metal chain. A small metal cup is placed under the tap. The metal cup is white with pink and purple floral patterns. The stand is weathered and has visible rust and wear. In the background, several people are visible, including a man on a bicycle, a man in a yellow shirt, and a man in a white shirt. A white van is parked behind the people. A yellow sign with the word \"Idea\" is visible in the background. A red sign with the word \"RT\" is visible in the background. The sky is clear and blue."
+  },
+  "TNUSSP_20.jpg": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.4285,
+        "bbox": [
+          2.05,
+          669.35,
+          664.03,
+          1058.18
+        ]
+      },
+      {
+        "class": "tennis racket",
+        "confidence": 0.26,
+        "bbox": [
+          499.06,
+          930.37,
+          1033.68,
+          1059.43
+        ]
+      }
+    ],
+    "qwen_caption": "A close-up shot shows two hands holding a pH test strip. The left hand holds the strip vertically, displaying a color scale from pH 2 to 10. The right hand holds a strip that has been dipped into a liquid, showing a color change from orange to green. The background is out of focus, appearing as a brownish, earthy surface."
+  },
+  "TNUSSP_3.JPG": {
+    "yolo": [],
+    "qwen_caption": "The image shows a cityscape with a large, sprawling landfill in the foreground, filled with discarded materials and covered in sparse vegetation. To the right of the landfill, a cluster of buildings with white and light-colored walls and blue roofs is visible. In the background, a prominent hill with a structure on top is seen, partially obscured by trees. A thick plume of dark smoke rises from a tall chimney on the right side of the image, drifting into the overcast sky. The sky is gray and overcast, and the surrounding area includes several trees, some of which are palm trees. There are also several buildings with different roof types and colors, including a large, multi-level structure on the left side of the image. The overall scene depicts a densely populated urban area with industrial and residential elements."
+  },
+  "TNUSSP_4.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.7585,
+        "bbox": [
+          529.08,
+          554.85,
+          590.07,
+          709.03
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows a vast, sprawling landfill filled with a dense accumulation of waste. The ground is covered in a thick layer of mixed debris, including plastic bags, cardboard, and other unsorted refuse, creating a chaotic and cluttered landscape. The waste is piled into large, uneven mounds, with a narrow dirt path cutting through the center. In the distance, a few buildings are visible, including a blue-roofed structure and other low-rise buildings, along with some greenery and palm trees. The overall scene is dominated by the overwhelming presence of trash, with no visible signs of a structured or organized waste management system."
+  },
+  "TNUSSP_5.JPG": {
+    "yolo": [
+      {
+        "class": "truck",
+        "confidence": 0.3714,
+        "bbox": [
+          533.85,
+          637.14,
+          653.65,
+          744.81
+        ]
+      }
+    ],
+    "qwen_caption": "A large, sprawling landfill is filled with a massive pile of mixed waste. The waste consists of various materials, including plastic, paper, and other debris, forming a dense, mottled surface. A yellow JCB excavator is positioned on the landfill, its arm extended as it appears to be moving or collecting material from the pile. In the background, there are buildings, trees, and power lines, suggesting the landfill is located in a populated area. The sky is overcast and hazy, indicating a lack of direct sunlight."
+  },
+  "TNUSSP_6.JPG": {
+    "yolo": [
+      {
+        "class": "vase",
+        "confidence": 0.8728,
+        "bbox": [
+          637.93,
+          468.28,
+          903.51,
+          780.22
+        ]
+      },
+      {
+        "class": "vase",
+        "confidence": 0.8657,
+        "bbox": [
+          908.75,
+          466.04,
+          1164.77,
+          775.48
+        ]
+      },
+      {
+        "class": "vase",
+        "confidence": 0.8518,
+        "bbox": [
+          378.44,
+          453.56,
+          637.88,
+          763.88
+        ]
+      }
+    ],
+    "qwen_caption": "Three plastic water pots of different colors\u2014blue, green, and red\u2014are lined up on a concrete floor against a pink wall. Each pot has letters painted on it. The blue pot has \"K K\" and \"K K\" on it. The green pot has \"K K\" and \"K K\" on it. The red pot has \"K N\" and \"K N\" on it. A green frame is visible on the right side of the image, and a doorway is visible in the background."
+  },
+  "TNUSSP_7.JPG": {
+    "yolo": [],
+    "qwen_caption": "The image shows a large, industrial structure, likely a water treatment facility, with a long, concrete, segmented channel extending into a body of water. The channel is supported by a series of vertical concrete supports and has a series of metal brackets and hinges on its side. The channel is equipped with a metal railing on the top and a control panel with wires and a yellow box. The water level is low, and the water appears murky. The structure is surrounded by concrete walls and metal railings. There are trees and greenery visible in the background."
+  },
+  "TNUSSP_8.JPG": {
+    "yolo": [],
+    "qwen_caption": "The image shows a small, single-story building painted a bright green color, likely a public restroom or utility facility. It is constructed from concrete or a similar material and is situated on a raised concrete platform. The building has a simple, rectangular design with a flat roof and a single door that is open, revealing a dark interior. On the front wall, there is a large inscription in Tamil script, which appears to be a name or a title, possibly \"Puram\" or \"Puramkottai.\" To the right of the door, there is a painted portrait of a man's head. A white electrical box is mounted on the wall above the door. The ground in front of the building is concrete, with a large, flat, square concrete slab in the foreground. There is a small, rusted metal hook protruding from the slab. In the background, there is"
+  },
+  "TNUSSP_9.JPG": {
+    "yolo": [
+      {
+        "class": "person",
+        "confidence": 0.9392,
+        "bbox": [
+          712.4,
+          343.98,
+          1383.99,
+          1056.11
+        ]
+      }
+    ],
+    "qwen_caption": "The image shows an elderly woman with gray hair, wearing a purple headscarf and a blue and white striped sari, leaning forward to drink from a metal faucet. The faucet is mounted on a stone pillar, and a barbed wire fence is visible in the foreground. The ground is covered with debris, including leaves and small stones. In the background, there is a rusted corrugated metal wall and a partially visible light blue wall. The woman is drinking water from the faucet."
+  }
+}

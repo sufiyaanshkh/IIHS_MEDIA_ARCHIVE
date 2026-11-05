@@ -66,6 +66,18 @@ def is_cloud_placeholder(st: os.stat_result) -> bool:
     return bool(file_attrs & (FILE_ATTRIBUTE_OFFLINE | FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS))
 
 
+def is_macos_xsym_alias(path: Path, st: os.stat_result) -> bool:
+    """Detect macOS Final Cut Pro X / Finder 'XSym' placeholder alias stubs (~1067 bytes)."""
+    if 500 <= st.st_size <= 2048:
+        try:
+            with open(path, "rb") as f:
+                header = f.read(5)
+                return header == b"XSym\n"
+        except OSError:
+            pass
+    return False
+
+
 def is_excluded_directory(name: str) -> bool:
     cleaned = name.strip().casefold()
     if not cleaned or cleaned in {".", ".."}:
@@ -191,7 +203,7 @@ def crawl_archive_root(
                 result.traversal_errors += 1
                 continue
 
-            if is_cloud_placeholder(st):
+            if is_cloud_placeholder(st) or is_macos_xsym_alias(resolved_file, st):
                 result.skipped_unsafe += 1
                 continue
 

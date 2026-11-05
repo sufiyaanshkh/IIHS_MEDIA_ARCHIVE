@@ -940,7 +940,7 @@ def _run_ingest(job_id: str):
                     )
 
                     # Visual description & object/keyword suggestions
-                    vis_desc = generate_visual_description(vector)
+                    vis_desc = generate_visual_description(vector, filename=asset.original_filename)
                     asset.metadata_json = asset.metadata_json | {"visual_analysis": vis_desc}
                     if vis_desc.get("description"):
                         _store_text_embeddings(

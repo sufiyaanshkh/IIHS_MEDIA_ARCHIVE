@@ -21,6 +21,7 @@ from app.services.media import MediaValidationError
 
 log = logging.getLogger("iihs.insights")
 VOCABULARY_PATH = Path(__file__).resolve().parents[1] / "data" / "iihs_keywords.json"
+LOCAL_RESULTS_PATH = Path(__file__).resolve().parents[1] / "data" / "local_results.json"
 KEYWORD_MODEL_NAME = "iihs-keyword-ranker/embeddinggemma-2"
 OBJECT_MODEL_NAME = "object-label-ranker/embeddinggemma-2"
 TOP_KEYWORDS = 12
@@ -252,8 +253,39 @@ def employees_status(db=None, asset=None, media_path: Path | None = None):
     }
 
 
-def generate_visual_description(image_vector) -> dict:
-    """Build an unverified visual description and tag summary from the image embedding."""
+@lru_cache(maxsize=1)
+def _precomputed_results() -> dict:
+    if LOCAL_RESULTS_PATH.is_file():
+        try:
+            return json.loads(LOCAL_RESULTS_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return {}
+    return {}
+
+
+def generate_visual_description(image_vector, filename: str | None = None) -> dict:
+    """Build a rich visual description and tag summary from vision intelligence or embeddings."""
+    # Check if precomputed VLM caption and YOLO detections exist for this asset
+    if filename:
+        precomputed = _precomputed_results().get(filename)
+        if precomputed:
+            caption = precomputed.get("qwen_caption") or precomputed.get("caption") or ""
+            yolo_items = precomputed.get("yolo") or []
+            object_tags = [
+                {"label": item["class"], "score": round(float(item.get("confidence", 0.8)), 4)}
+                for item in yolo_items
+                if isinstance(item, dict) and "class" in item
+            ]
+            kws = rank_keywords(image_vector) if image_vector is not None else {"items": []}
+            return {
+                "status": "ready",
+                "description": caption,
+                "object_tags": object_tags,
+                "keyword_suggestions": kws.get("items") or [],
+                "is_verified": False,
+                "model": "qwen3-vl / yolo11",
+            }
+
     if image_vector is None:
         return {"status": "not_indexed", "description": "", "object_tags": [], "keyword_suggestions": []}
     objs = rank_objects(image_vector)

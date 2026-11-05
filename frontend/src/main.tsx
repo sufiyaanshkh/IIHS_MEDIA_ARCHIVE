@@ -26,6 +26,10 @@ type Asset = {
   matched_frame_id?: string | null;
   matched_timestamp_ms?: number | null;
   matched_frame_score?: number | null;
+  evidence_pill?: string;
+  intent_type?: string;
+  match_tier?: 'strong' | 'weaker';
+  is_visual_claim?: boolean;
   annotations: { id: string; label: string; source: string; status: string; confidence: number | null }[];
 };
 type Page<T> = { items: T[]; next_cursor: string | null };
@@ -464,7 +468,7 @@ function ArchiveView({
 }) {
   const [data, setData] = useState<Page<Asset> | null>(null);
   const [query, setQuery] = useState('');
-  const [mode, setMode] = useState<'semantic' | 'keyword'>('semantic');
+  const [mode, setMode] = useState<'semantic' | 'keyword' | 'visual' | 'people'>('semantic');
   const [activeFilter, setActiveFilter] = useState<'All media' | 'Images' | 'Videos'>('All media');
   const [addedYear, setAddedYear] = useState('');
   const [showFilters, setShowFilters] = useState(false);
@@ -646,9 +650,11 @@ function ArchiveView({
         <div className="filter-drawer">
           <label>
             Search mode
-            <select value={mode} onChange={(e) => { const next = e.target.value as 'semantic' | 'keyword'; setMode(next); if (query.trim()) runFetch(null, query, next); }}>
-              <option value="semantic">By visual meaning (EmbeddingGemma 2)</option>
-              <option value="keyword">Exact text (filename, OCR, transcript, tags)</option>
+            <select value={mode} onChange={(e) => { const next = e.target.value as any; setMode(next); if (query.trim()) runFetch(null, query, next); }}>
+              <option value="semantic">Smart Search (Intent-classified hybrid)</option>
+              <option value="visual">Visual Search (Visual scenes &amp; objects)</option>
+              <option value="keyword">Keyword Search (Filename, OCR, IDs)</option>
+              <option value="people">People Search (Face biometrics &amp; names)</option>
             </select>
           </label>
           <label>
@@ -728,6 +734,13 @@ function ArchiveView({
                         <ScanSearch size={13}/> Matches the frame at {formatTimestamp(asset.matched_timestamp_ms)}
                       </span>
                       <span className="open-at-pill">Open at {formatTimestamp(asset.matched_timestamp_ms)}</span>
+                    </div>
+                  )}
+                  {asset.evidence_pill && (
+                    <div className="evidence-pill-row">
+                      <span className={`evidence-badge ${asset.match_tier === 'strong' ? 'strong' : 'weaker'}`}>
+                        <Sparkles size={11}/> {asset.evidence_pill}
+                      </span>
                     </div>
                   )}
                   <div className="tag-row">

@@ -1,0 +1,262 @@
+[
+  {
+    "id": "Q01",
+    "query": "People sitting under trees",
+    "category": "visual_description",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["people", "sitting", "trees"],
+    "requires_visual_claim": true,
+    "negative_folder_match": "2024_Trees_Financial_Report"
+  },
+  {
+    "id": "Q02",
+    "query": "A building surrounded by greenery",
+    "category": "visual_description",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["building", "greenery", "trees"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q03",
+    "query": "Construction workers wearing safety helmets",
+    "category": "visual_description",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["construction", "workers", "helmets"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q04",
+    "query": "People discussing something around a table",
+    "category": "visual_description",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["people", "discussing", "table"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q05",
+    "query": "Aerial view of a campus",
+    "category": "visual_description",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["aerial", "view", "campus"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q06",
+    "query": "A person standing near a red vehicle",
+    "category": "visual_description",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["person", "standing", "red", "vehicle"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q07",
+    "query": "Images containing different types of plants",
+    "category": "visual_description",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["plants", "vegetation"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q08",
+    "query": "Students attending an outdoor workshop",
+    "category": "scene_activity",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["students", "attending", "outdoor", "workshop"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q09",
+    "query": "People planting trees",
+    "category": "scene_activity",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["people", "planting", "trees"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q10",
+    "query": "A meeting taking place inside a conference room",
+    "category": "scene_activity",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["meeting", "conference", "room"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q11",
+    "query": "Solar panels",
+    "category": "object_search",
+    "expected_intent": "object_search",
+    "relevant_tokens": ["solar", "panels"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q12",
+    "query": "Birds sitting on branches",
+    "category": "object_search",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["birds", "branches"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q13",
+    "query": "Cars parked near buildings",
+    "category": "object_search",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["cars", "parked", "buildings"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q14",
+    "query": "Auto rickshaw on a street",
+    "category": "object_search",
+    "expected_intent": "object_search",
+    "relevant_tokens": ["auto", "rickshaw", "street"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q15",
+    "query": "Construction equipment near a building",
+    "category": "object_search",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["construction", "equipment", "building"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q16",
+    "query": "Mohammed",
+    "category": "person_search",
+    "expected_intent": "person_search",
+    "person_names": ["Mohammed"],
+    "requires_face_recognition": true
+  },
+  {
+    "id": "Q17",
+    "query": "Mohammed attending an outdoor event",
+    "category": "person_search",
+    "expected_intent": "person_search",
+    "person_names": ["Mohammed"],
+    "requires_face_recognition": true
+  },
+  {
+    "id": "Q18",
+    "query": "Dr. Ramesh",
+    "category": "person_search",
+    "expected_intent": "person_search",
+    "person_names": ["Dr. Ramesh"],
+    "requires_face_recognition": true
+  },
+  {
+    "id": "Q19",
+    "query": "IMG_20240517_0021.jpg",
+    "category": "exact_identifier",
+    "expected_intent": "exact_identifier",
+    "is_exact_lookup": true
+  },
+  {
+    "id": "Q20",
+    "query": "DSC01923.JPG",
+    "category": "exact_identifier",
+    "expected_intent": "exact_identifier",
+    "is_exact_lookup": true
+  },
+  {
+    "id": "Q21",
+    "query": "IIHS_DOC_2023_01",
+    "category": "exact_identifier",
+    "expected_intent": "exact_identifier",
+    "is_exact_lookup": true
+  },
+  {
+    "id": "Q22",
+    "query": "annual_summary_report.pdf",
+    "category": "exact_identifier",
+    "expected_intent": "exact_identifier",
+    "is_exact_lookup": true
+  },
+  {
+    "id": "Q23",
+    "query": "Images of trees from 2022",
+    "category": "metadata_search",
+    "expected_intent": "mixed",
+    "years": [2022],
+    "modality_hint": "image"
+  },
+  {
+    "id": "Q24",
+    "query": "Outdoor workshops during 2023",
+    "category": "metadata_search",
+    "expected_intent": "mixed",
+    "years": [2023]
+  },
+  {
+    "id": "Q25",
+    "query": "Construction activities in 2021",
+    "category": "metadata_search",
+    "expected_intent": "mixed",
+    "years": [2021]
+  },
+  {
+    "id": "Q26",
+    "query": "Signboard with text saying Emergency Exit",
+    "category": "ocr_document",
+    "expected_intent": "ocr_document",
+    "relevant_tokens": ["emergency", "exit"]
+  },
+  {
+    "id": "Q27",
+    "query": "Document containing words sustainable urban development",
+    "category": "ocr_document",
+    "expected_intent": "ocr_document",
+    "relevant_tokens": ["sustainable", "urban", "development"]
+  },
+  {
+    "id": "Q28",
+    "query": "Banner showing climate change workshop",
+    "category": "ocr_document",
+    "expected_intent": "ocr_document",
+    "relevant_tokens": ["climate", "change", "workshop"]
+  },
+  {
+    "id": "Q29",
+    "query": "A crowded public market with vendors selling fresh fruits and vegetables under canopies",
+    "category": "complex_query",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["market", "vendors", "fruits", "vegetables", "canopies"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q30",
+    "query": "A group of female students participating in an interactive classroom discussion with a teacher near a whiteboard",
+    "category": "complex_query",
+    "expected_intent": "visual_description",
+    "relevant_tokens": ["students", "classroom", "discussion", "whiteboard"],
+    "requires_visual_claim": true
+  },
+  {
+    "id": "Q31",
+    "query": "water scarcity and drought resilience in rural settlements",
+    "category": "iihs_terminology",
+    "expected_intent": "mixed",
+    "relevant_tokens": ["water", "scarcity", "drought", "resilience"]
+  },
+  {
+    "id": "Q32",
+    "query": "urban flooding and drainage infrastructure",
+    "category": "iihs_terminology",
+    "expected_intent": "mixed",
+    "relevant_tokens": ["urban", "flooding", "drainage"]
+  },
+  {
+    "id": "Q33",
+    "query": "quantum supercomputer teleportation galaxy hyperspace",
+    "category": "negative_query",
+    "expected_intent": "visual_description",
+    "should_return_empty_or_low_score": true
+  },
+  {
+    "id": "Q34",
+    "query": "xyzzy_unknown_nonexistent_token_9988",
+    "category": "negative_query",
+    "expected_intent": "exact_identifier",
+    "should_return_empty_or_low_score": true
+  }
+]
