@@ -98,6 +98,52 @@ def parse_query_intent(query: str) -> dict:
     }
 
 
+
+def _semantic_z_scores(scores: list[float]) -> list[float]:
+    """Normalise similarities per query; raw cosine scores are not probabilities."""
+    if not scores:
+        return []
+    mean = sum(scores) / len(scores)
+    variance = sum((score - mean) ** 2 for score in scores) / len(scores)
+    std = math.sqrt(variance)
+    if std < 1e-8:
+        return [0.0 for _ in scores]
+    return [(score - mean) / std for score in scores]
+
+
+def _semantic_gate(scores: list[float], z_gate: float = 1.5) -> list[bool]:
+    """DigUp-inspired query-relative gate, with a small absolute floor.
+
+    It rejects uniformly weak visual matches while avoiding a fixed cosine
+    threshold that behaves differently for every query.
+    """
+    if not scores:
+        return []
+    z_scores = _semantic_z_scores(scores)
+    best = max(scores)
+    if best < 0.12:
+        return [False for _ in scores]
+    return [z >= z_gate or (score >= best - 0.035 and score >= 0.20)
+            for score, z in zip(scores, z_scores)]
+
+
+def _token_coverage(text: str, tokens: list[str]) -> float:
+    """Fraction of meaningful query tokens represented in indexed text."""
+    if not tokens:
+        return 0.0
+    normalized = _normalize_text(text)
+    matched = sum(1 for token in tokens if _contains_term(normalized, token))
+    return matched / len(tokens)
+
+
+def _is_identifier_query(query: str) -> bool:
+    """Detect likely archive identifiers, filenames and codes where lexical precision matters."""
+    q = (query or "").strip()
+    return bool(q and (re.search(r"(?i)\\b[A-Z]{2,}[-_/]?\\d{2,}\\b", q)
+                       or re.search(r"\\b\\d{4,}\\b", q)
+                       or re.search(r"\\.[A-Za-z0-9]{2,5}$", q)))
+
+
 def _year_bounds(year: int | None):
     if year is None:
         return None
@@ -306,9 +352,8 @@ def _LexicalAndContextChannels(
                     "is_visual_claim": False,
                 })
 
+        # Ingestion timestamp is not the date depicted or described by the asset.
         asset_years = set(ctx.get("extracted_years") or [])
-        if asset.created_at:
-            asset_years.add(asset.created_at.year)
         if query_years and (query_years & asset_years):
             ctx_score += 1.5
             ctx_reasons.append({
@@ -330,9 +375,9 @@ def _LexicalAndContextChannels(
         best_segment_evidence: dict | None = None
 
         # Check human & model annotations / visual tags
-        accepted_labels = [a.label for a in asset.annotations if a.status in {"accepted", "corrected", "suggested"}]
+        accepted_labels = [a.label for a in asset.annotations if a.status in {"accepted", "corrected"}]
         for label in accepted_labels:
-            if (raw_phrase and _contains_term(label, raw_phrase)) or any(_contains_term(label, tok) for tok in tokens):
+            if (raw_phrase and _contains_term(label, raw_phrase)) or _token_coverage(label, tokens) >= 0.5:
                 lex_score += 2.5
                 best_segment_evidence = {
                     "source": "visual_tag",
@@ -552,9 +597,11 @@ def execute_hybrid_search(
         )
 
     # Build ranked lists per channel for Reciprocal Rank Fusion (RRF)
+    semantic_order = sorted(content_sem_hits, key=lambda aid: content_sem_hits[aid]["score"], reverse=True)
+    semantic_scores = [content_sem_hits[aid]["score"] for aid in semantic_order]
+    semantic_accepted = _semantic_gate(semantic_scores)
     content_sem_ranked = [
-        aid for aid, _ in sorted(content_sem_hits.items(), key=lambda x: x[1]["score"], reverse=True)
-        if content_sem_hits[aid]["score"] > 0.05 or mode == "semantic"
+        aid for aid, accepted in zip(semantic_order, semantic_accepted) if accepted
     ]
     context_sem_ranked = [
         aid for aid, _ in sorted(context_sem_hits.items(), key=lambda x: x[1]["score"], reverse=True)
@@ -631,8 +678,11 @@ def execute_hybrid_search(
 
         if aid in content_sem_pos:
             hit = content_sem_hits[aid]
-            # Primary visual/content vector channel + direct similarity contribution
-            rrf_score += (1.35 / (RRF_K + content_sem_pos[aid])) + (0.015 * max(0.0, hit["score"]))
+            # Visual semantics remain primary for descriptive queries. Exact identifiers
+            # deliberately favour lexical evidence, as in DigUp.
+            semantic_weight = 0.65 if _is_identifier_query(effective_q) else 1.35
+            direct_weight = 0.008 if _is_identifier_query(effective_q) else 0.015
+            rrf_score += (semantic_weight / (RRF_K + content_sem_pos[aid])) + (direct_weight * max(0.0, hit["score"]))
             evidence_list.append({
                 "source": hit["segment_type"],
                 "modality": hit["modality"],
@@ -648,7 +698,9 @@ def execute_hybrid_search(
         if aid in lexical_pos:
             lhit = lexical_hits[aid]
             lex_quality = min(1.0, lhit["score"] / 2.2)
-            rrf_score += (1.25 * lex_quality) / (RRF_K + lexical_pos[aid]) + (0.006 * min(6.0, lhit["score"]))
+            lexical_weight = 1.75 if _is_identifier_query(effective_q) else 1.25
+            lexical_direct = 0.009 if _is_identifier_query(effective_q) else 0.006
+            rrf_score += (lexical_weight * lex_quality) / (RRF_K + lexical_pos[aid]) + (lexical_direct * min(6.0, lhit["score"]))
             evidence_list.append(lhit["evidence"])
 
         if aid in context_lex_pos:
