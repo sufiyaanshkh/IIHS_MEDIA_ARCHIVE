@@ -6,18 +6,45 @@ import shutil
 import subprocess
 import tempfile
 import warnings
+import wave
+import zipfile
 from pathlib import Path, PurePosixPath
 
 from PIL import Image, ImageFile
 from PIL import Image as PILImage
 
 from app.config import settings
+from app.services.document_readers import DOCUMENT_MIMES, SUPPORTED_DOCUMENT_EXTENSIONS
 
 Image.MAX_IMAGE_PIXELS = None
 ImageFile.LOAD_TRUNCATED_IMAGES = False
-IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff"}
-VIDEO_EXTENSIONS = {".mp4", ".mov", ".m4v"}
-IMAGE_MIMES = {"JPEG": "image/jpeg", "PNG": "image/png", "WEBP": "image/webp", "TIFF": "image/tiff"}
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".bmp", ".gif"}
+VIDEO_EXTENSIONS = {".mp4", ".mov", ".m4v", ".avi", ".mkv", ".webm"}
+AUDIO_EXTENSIONS = {".mp3", ".wav", ".m4a", ".flac", ".ogg", ".aac"}
+IMAGE_MIMES = {
+    "JPEG": "image/jpeg",
+    "PNG": "image/png",
+    "WEBP": "image/webp",
+    "TIFF": "image/tiff",
+    "BMP": "image/bmp",
+    "GIF": "image/gif",
+}
+VIDEO_MIMES = {
+    ".mp4": "video/mp4",
+    ".m4v": "video/mp4",
+    ".mov": "video/quicktime",
+    ".avi": "video/x-msvideo",
+    ".mkv": "video/x-matroska",
+    ".webm": "video/webm",
+}
+AUDIO_MIMES = {
+    ".mp3": "audio/mpeg",
+    ".wav": "audio/wav",
+    ".m4a": "audio/mp4",
+    ".flac": "audio/flac",
+    ".ogg": "audio/ogg",
+    ".aac": "audio/aac",
+}
 
 
 class MediaValidationError(Exception):
@@ -25,8 +52,9 @@ class MediaValidationError(Exception):
 
 
 def resolve_under_root(root: Path, relative_key: str) -> Path:
-    relative = PurePosixPath(relative_key)
-    if relative.is_absolute() or not relative.parts or any(part in {"", ".", ".."} for part in relative.parts):
+    normalized_key = relative_key.replace("\\", "/")
+    relative = PurePosixPath(normalized_key)
+    if relative.is_absolute() or not relative.parts or any(part in {"", ".", ".."} or ":" in part for part in relative.parts):
         raise MediaValidationError("invalid path")
     root = root.resolve(strict=True)
     candidate = root
@@ -34,6 +62,14 @@ def resolve_under_root(root: Path, relative_key: str) -> Path:
         candidate = candidate / part
         if candidate.is_symlink():
             raise MediaValidationError("symlink skipped")
+        try:
+            st = os.lstat(candidate)
+            if getattr(st, "st_file_attributes", 0) & 0x0400:
+                raise MediaValidationError("symlink skipped")
+        except MediaValidationError:
+            raise
+        except OSError:
+            pass
     candidate = candidate.resolve(strict=True)
     if not candidate.is_relative_to(root) or not candidate.is_file():
         raise MediaValidationError("outside approved root")
@@ -71,6 +107,7 @@ def inspect_media(path: Path) -> dict:
             raise
         except Exception:
             raise MediaValidationError("invalid image") from None
+
     if suffix in VIDEO_EXTENSIONS:
         executable = shutil.which(settings.ffprobe_path)
         if not executable:
@@ -93,13 +130,113 @@ def inspect_media(path: Path) -> dict:
             width, height = int(video.get("width", 0)), int(video.get("height", 0))
             if width <= 0 or height <= 0:
                 raise MediaValidationError("video dimensions outside configured limits")
-            mime = "video/quicktime" if suffix == ".mov" else "video/mp4"
+            mime = VIDEO_MIMES.get(suffix, "video/mp4")
             return {"media_type": "video", "mime": mime, "size": size, "width": width, "height": height, "duration_ms": max(1, int(duration * 1000))}
         except MediaValidationError:
             raise
         except (OSError, ValueError, TypeError, subprocess.TimeoutExpired):
             raise MediaValidationError("video inspection failed") from None
+
+    if suffix in AUDIO_EXTENSIONS:
+        return _inspect_audio(path, suffix, size)
+
+    if suffix in SUPPORTED_DOCUMENT_EXTENSIONS:
+        return _inspect_document(path, suffix, size)
+
     raise MediaValidationError("unsupported file type")
+
+
+def _inspect_audio(path: Path, suffix: str, size: int) -> dict:
+    mime = AUDIO_MIMES.get(suffix, "audio/mpeg")
+    if suffix == ".wav":
+        try:
+            with wave.open(str(path), "rb") as wav_file:
+                frames = wav_file.getnframes()
+                rate = wav_file.getframerate()
+                channels = wav_file.getnchannels()
+                if rate <= 0 or frames <= 0:
+                    raise MediaValidationError("invalid audio")
+                duration_ms = max(1, int((frames / rate) * 1000))
+                return {
+                    "media_type": "audio",
+                    "mime": mime,
+                    "size": size,
+                    "width": None,
+                    "height": None,
+                    "duration_ms": duration_ms,
+                    "audio_channels": channels,
+                    "sample_rate": rate,
+                }
+        except MediaValidationError:
+            raise
+        except Exception:
+            pass
+
+    executable = shutil.which(settings.ffprobe_path)
+    if executable:
+        try:
+            result = subprocess.run(
+                [executable, "-protocol_whitelist", "file,pipe", "-v", "error", "-show_entries", "format=duration:stream=codec_type,sample_rate,channels,codec_name,duration", "-of", "json", str(path)],
+                stdin=subprocess.DEVNULL, capture_output=True, timeout=60, check=False, env={"PATH": os.getenv("PATH", ""), "LC_ALL": "C"},
+            )
+            if result.returncode == 0 and result.stdout:
+                info = json.loads(result.stdout)
+                audio = next((s for s in info.get("streams", []) if s.get("codec_type") == "audio"), None)
+                raw_duration = info.get("format", {}).get("duration")
+                if raw_duration in (None, "N/A") and audio:
+                    raw_duration = audio.get("duration")
+                duration = float(raw_duration or 0)
+                if audio and duration > 0:
+                    return {
+                        "media_type": "audio",
+                        "mime": mime,
+                        "size": size,
+                        "width": None,
+                        "height": None,
+                        "duration_ms": max(1, int(duration * 1000)),
+                        "audio_channels": int(audio.get("channels") or 1),
+                        "sample_rate": int(audio.get("sample_rate") or 16000),
+                        "codec": audio.get("codec_name"),
+                    }
+        except (OSError, ValueError, TypeError, subprocess.TimeoutExpired):
+            pass
+
+    # Fallback header check for non-WAV audio when ffprobe is unavailable
+    with path.open("rb") as f:
+        header = f.read(16)
+    if suffix == ".mp3" and (header.startswith(b"ID3") or (len(header) >= 2 and header[0] == 0xFF and (header[1] & 0xE0) == 0xE0)):
+        est_duration_ms = max(1000, int((size / 16000) * 1000))
+        return {"media_type": "audio", "mime": mime, "size": size, "width": None, "height": None, "duration_ms": est_duration_ms}
+    if suffix == ".flac" and header.startswith(b"fLaC"):
+        est_duration_ms = max(1000, int((size / 64000) * 1000))
+        return {"media_type": "audio", "mime": mime, "size": size, "width": None, "height": None, "duration_ms": est_duration_ms}
+    if suffix == ".ogg" and header.startswith(b"OggS"):
+        est_duration_ms = max(1000, int((size / 16000) * 1000))
+        return {"media_type": "audio", "mime": mime, "size": size, "width": None, "height": None, "duration_ms": est_duration_ms}
+    if suffix == ".m4a" and b"ftyp" in header:
+        est_duration_ms = max(1000, int((size / 16000) * 1000))
+        return {"media_type": "audio", "mime": mime, "size": size, "width": None, "height": None, "duration_ms": est_duration_ms}
+    raise MediaValidationError("invalid audio")
+
+
+def _inspect_document(path: Path, suffix: str, size: int) -> dict:
+    mime = DOCUMENT_MIMES.get(suffix, "application/octet-stream")
+    if suffix == ".pdf":
+        with path.open("rb") as f:
+            head = f.read(1024)
+        if b"%PDF-" not in head:
+            raise MediaValidationError("invalid PDF document")
+    elif suffix in {".docx", ".odt", ".xlsx", ".ods", ".pptx", ".odp"}:
+        if not zipfile.is_zipfile(path):
+            raise MediaValidationError("invalid office document package")
+    return {
+        "media_type": "document",
+        "mime": mime,
+        "size": size,
+        "width": None,
+        "height": None,
+        "duration_ms": None,
+    }
 
 
 def _atomic_write(storage_root: Path, key: str, content: bytes):
@@ -212,6 +349,10 @@ def video_frame(source: Path, timestamp_ms: int, key: str) -> Path:
 def extract_audio(source: Path, duration_ms: int) -> bytes:
     if duration_ms > settings.max_transcription_seconds * 1000:
         raise MediaValidationError("video exceeds the transcription duration limit")
+    if source.suffix.lower() in {".mp3", ".wav"} and source.stat().st_size <= 64 * 1024 * 1024:
+        executable = shutil.which(settings.ffmpeg_path)
+        if not executable:
+            return source.read_bytes()
     executable = shutil.which(settings.ffmpeg_path)
     if not executable:
         raise MediaValidationError("local FFmpeg is unavailable")

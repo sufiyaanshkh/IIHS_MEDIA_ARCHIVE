@@ -6,12 +6,14 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api import assets, auth, jobs, ops, review, tags
+from app.api import assets, auth, faces, jobs, ops, review, tags
 from app.config import settings
 from app.database import engine
 from sqlalchemy import text
 
 settings.validate()
+
+
 class RequestIdFilter(logging.Filter):
     def filter(self, record):
         if not hasattr(record, "request_id"):
@@ -66,6 +68,7 @@ app.include_router(jobs.router)
 app.include_router(review.router)
 app.include_router(ops.router)
 app.include_router(tags.router)
+app.include_router(faces.router)
 
 
 @app.get("/healthz")

@@ -1,3 +1,4 @@
+import shutil
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
@@ -8,7 +9,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.deps import roles
 from app.config import settings
-from app.models import Annotation, AssetEmbedding, AuditEvent, IngestionJob, MediaAsset, User
+from app.models import Annotation, AssetEmbedding, AuditEvent, IngestionJob, MediaAsset, SearchSegment, User
 from app.services.embeddings import model_health
 
 router = APIRouter(prefix="/api/ops", tags=["operations"])
@@ -20,7 +21,10 @@ def summary(user: Annotated[User, Depends(roles("admin", "archivist", "researche
         "assets": db.scalar(select(func.count()).select_from(MediaAsset)) or 0,
         "images": db.scalar(select(func.count()).select_from(MediaAsset).where(MediaAsset.media_type == "image")) or 0,
         "videos": db.scalar(select(func.count()).select_from(MediaAsset).where(MediaAsset.media_type == "video")) or 0,
+        "audio": db.scalar(select(func.count()).select_from(MediaAsset).where(MediaAsset.media_type == "audio")) or 0,
+        "documents": db.scalar(select(func.count()).select_from(MediaAsset).where(MediaAsset.media_type == "document")) or 0,
         "indexed_assets": db.scalar(select(func.count(distinct(AssetEmbedding.asset_id))).select_from(AssetEmbedding)) or 0,
+        "segments": db.scalar(select(func.count()).select_from(SearchSegment)) or 0,
         "pending_reviews": db.scalar(select(func.count()).select_from(Annotation).where(Annotation.status == "suggested")) or 0,
         "queued_jobs": db.scalar(select(func.count()).select_from(IngestionJob).where(IngestionJob.state == "queued")) or 0,
         "running_jobs": db.scalar(select(func.count()).select_from(IngestionJob).where(IngestionJob.state.in_(["running", "cancel_requested"]))) or 0,
@@ -38,4 +42,23 @@ def audit_events(user: Annotated[User, Depends(roles("admin", "operator"))], db:
 @router.get("/capabilities")
 def capabilities(user: Annotated[User, Depends(roles("admin", "operator"))]):
     model = model_health()
-    return {"mode": "demo" if settings.demo_mode else "restricted", "local_ai": model["status"], "model": model.get("model"), "semantic_search": "available" if model["status"] == "ready" else "unavailable", "video_processing": "available_if_ffmpeg_is_installed", "face_enrollment": "disabled"}
+    disk_free_bytes = None
+    try:
+        disk_free_bytes = shutil.disk_usage(settings.storage_root).free
+    except Exception:
+        disk_free_bytes = None
+    return {
+        "mode": "demo" if settings.demo_mode else "restricted",
+        "local_ai": model["status"],
+        "model": model.get("model"),
+        "device": model.get("device"),
+        "gpu": model.get("gpu"),
+        "semantic_search": "available" if model["status"] == "ready" else "unavailable",
+        "video_processing": "available_if_ffmpeg_is_installed",
+        "audio_processing": "available_if_ffmpeg_is_installed",
+        "document_processing": "available",
+        "copy_source_originals": settings.copy_source_originals,
+        "storage_free_bytes": disk_free_bytes,
+        "face_enrollment": "enabled" if (settings.face_feature_enabled and settings.face_institutional_authorization) else "disabled",
+        "face_model_pack": settings.face_model_pack,
+    }

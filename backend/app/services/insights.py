@@ -164,6 +164,114 @@ def camera_metadata(path: Path):
     return {"fields": fields, "gps_present": gps_present}
 
 
-def employees_status():
-    return {"status": "disabled", "items": [], "message": "Employee recognition is turned off until IIHS privacy, consent and governance approval is in place. No faces are matched."}
+def employees_status(db=None, asset=None, media_path: Path | None = None):
+    if not (settings.face_feature_enabled and settings.face_institutional_authorization):
+        return {
+            "status": "disabled",
+            "items": [],
+            "message": "Employee recognition is turned off until IIHS privacy, consent and governance approval is in place. No faces are matched.",
+        }
+    if db is None or asset is None:
+        return {
+            "status": "ready",
+            "model": f"insightface/{settings.face_model_pack}",
+            "items": [],
+            "message": "InsightFace (buffalo_l) face recognition is active.",
+        }
 
+    from sqlalchemy import func, select
+    from app.models import DetectedArchiveFace, FaceCandidateMatch, PersonProfile
+    from app.services.face_recognition import process_archive_asset_faces
+
+    face_count = db.scalar(
+        select(func.count()).select_from(DetectedArchiveFace).where(DetectedArchiveFace.asset_id == asset.id)
+    ) or 0
+    active_profile_count = db.scalar(
+        select(func.count()).select_from(PersonProfile).where(PersonProfile.status == "active")
+    ) or 0
+
+    if asset.media_type == "image" and media_path is not None and media_path.is_file():
+        meta_face = (asset.metadata_json or {}).get("face_recognition")
+        cand_count = db.scalar(
+            select(func.count()).select_from(FaceCandidateMatch).where(FaceCandidateMatch.asset_id == asset.id)
+        ) or 0
+        if (face_count == 0 and not meta_face) or (face_count > 0 and cand_count == 0 and active_profile_count > 0):
+            try:
+                res = process_archive_asset_faces(db, asset, media_path)
+                asset.metadata_json = (asset.metadata_json or {}) | {
+                    "face_recognition": {"status": "ready", "model_pack": settings.face_model_pack, **res}
+                }
+                db.commit()
+                face_count = int(res.get("faces_detected", 0))
+            except Exception as exc:
+                log.warning("On-demand InsightFace detection failed on %s: %s", asset.id, exc)
+
+    rows = db.execute(
+        select(FaceCandidateMatch, PersonProfile)
+        .join(PersonProfile, PersonProfile.id == FaceCandidateMatch.person_id)
+        .where(
+            FaceCandidateMatch.asset_id == asset.id,
+            FaceCandidateMatch.status.in_(["accepted", "unverified"]),
+            PersonProfile.status == "active",
+        )
+        .order_by(FaceCandidateMatch.aggregate_similarity.desc())
+    ).all()
+
+    seen_people: set[str] = set()
+    items = []
+    for match, person in rows:
+        if person.id in seen_people:
+            continue
+        seen_people.add(person.id)
+        badge = "Verified" if match.status == "accepted" else "Candidate · needs review"
+        items.append({
+            "label": f"{person.display_name} ({badge} · {round(match.aggregate_similarity * 100)}%)",
+            "score": round(float(match.aggregate_similarity), 4),
+            "category": match.status,
+            "person_id": person.id,
+            "match_id": match.id,
+        })
+
+    if items:
+        msg = f"InsightFace ({settings.face_model_pack}) matched {len(items)} enrolled profile(s) across {face_count} detected face(s)."
+    elif active_profile_count == 0:
+        msg = (
+            f"InsightFace ({settings.face_model_pack}) is enabled ({face_count} face(s) detected in this record). "
+            "Add person subfolders to data/profile_photos/IIHS_Profile_Photos to enroll reference profiles."
+        )
+    elif face_count == 0:
+        msg = f"InsightFace ({settings.face_model_pack}) active ({active_profile_count} enrolled profile(s)) — no faces detected in this media record."
+    else:
+        msg = f"InsightFace ({settings.face_model_pack}) detected {face_count} face(s) — no enrolled profile matched above threshold."
+
+    return {
+        "status": "ready",
+        "model": f"insightface/{settings.face_model_pack}",
+        "items": items,
+        "message": msg,
+    }
+
+
+def generate_visual_description(image_vector) -> dict:
+    """Build an unverified visual description and tag summary from the image embedding."""
+    if image_vector is None:
+        return {"status": "not_indexed", "description": "", "object_tags": [], "keyword_suggestions": []}
+    objs = rank_objects(image_vector)
+    kws = rank_keywords(image_vector)
+    if objs.get("status") != "ready" and kws.get("status") != "ready":
+        return {"status": "unavailable", "description": "", "object_tags": [], "keyword_suggestions": []}
+    top_objs = [item["label"] for item in (objs.get("items") or [])[:5]]
+    top_kws = [item["label"] for item in (kws.get("items") or [])[:5]]
+    parts = []
+    if top_objs:
+        parts.append("Visual elements (AI suggestion): " + ", ".join(top_objs))
+    if top_kws:
+        parts.append("Related IIHS vocabulary (AI suggestion): " + ", ".join(top_kws))
+    description = ". ".join(parts) + ("." if parts else "")
+    return {
+        "status": "ready",
+        "description": description,
+        "object_tags": objs.get("items") or [],
+        "keyword_suggestions": kws.get("items") or [],
+        "is_verified": False,
+    }
