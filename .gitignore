@@ -1,6 +1,8 @@
 .env
 .DS_Store
 storage/
+data/
+*.pid
 .venv-ml/
 .venv-test/
 backend/.env

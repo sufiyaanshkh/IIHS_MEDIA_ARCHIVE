@@ -57,12 +57,18 @@ def test_error_response_is_generic_and_has_request_id(client):
     assert "password" not in response.text.lower()
 
 
-def test_media_path_resolver_rejects_traversal_and_symlinks(tmp_path: Path):
+def test_media_path_resolver_rejects_traversal_and_symlinks(tmp_path: Path, monkeypatch):
     root = tmp_path / "approved"
     root.mkdir()
     outside = tmp_path / "outside.jpg"
     outside.write_bytes(b"synthetic")
-    (root / "link.jpg").symlink_to(outside)
+    link = root / "link.jpg"
+    try:
+        link.symlink_to(outside)
+    except OSError:
+        link.write_bytes(b"synthetic")
+        orig_is_symlink = Path.is_symlink
+        monkeypatch.setattr(Path, "is_symlink", lambda self: True if self.name == "link.jpg" else orig_is_symlink(self))
     with pytest.raises(MediaValidationError):
         resolve_under_root(root, "../outside.jpg")
     with pytest.raises(MediaValidationError):

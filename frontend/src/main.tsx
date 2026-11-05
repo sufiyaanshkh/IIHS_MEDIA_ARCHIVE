@@ -812,6 +812,31 @@ function IngestView({ onCompleted, showNotice }: { onCompleted: () => void; show
     showNotice(`${arr.length} ${arr.length === 1 ? 'file' : 'files'} staged (${formatSize(arr.reduce((sum, f) => sum + f.size, 0))}). Ready to import.`);
   };
 
+  async function handleBrowseExplorer() {
+    setError('');
+    setBusy(true);
+    try {
+      const res = await api<{ cancelled: boolean; source?: { id: string; name: string }; path?: string; message?: string }>('/api/sources/browse-explorer', {
+        method: 'POST',
+        body: JSON.stringify({ title: 'Select Whole Drive or Folder for IIHS Archive Ingestion' }),
+      });
+      if (res.cancelled) {
+        if (res.message) showNotice(res.message);
+        return;
+      }
+      if (res.source) {
+        const list = await api<{ id: string; name: string; demo: boolean; enabled: boolean }[]>('/api/sources');
+        setServerSources(list);
+        setSelectedSourceId(res.source.id);
+        showNotice(`Selected drive ${res.path || res.source.name} from Explorer. Ready to preview.`);
+      }
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
   async function startImport() {
     setError('');
     if (source === 'drive') {
@@ -956,6 +981,11 @@ function IngestView({ onCompleted, showNotice }: { onCompleted: () => void; show
                     {serverSources.map((s) => <option key={s.id} value={s.id}>{s.name} ({s.demo ? 'demo' : 'approved'})</option>)}
                   </select>
                 )}
+                <div style={{ marginTop: 8, display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <button type="button" className="secondary-button" disabled={busy} onClick={handleBrowseExplorer} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, padding: '5px 10px' }}>
+                    <FolderOpen size={13}/> Select drive from Explorer…
+                  </button>
+                </div>
               </div>
             </div>
           ) : (

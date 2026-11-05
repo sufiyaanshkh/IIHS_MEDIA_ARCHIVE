@@ -8,7 +8,8 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.database import get_db
 from app.deps import roles, csrf_check
-from app.models import Annotation, AuditEvent, MediaAsset, ReviewEvent, Tag, User, now_utc
+from app.models import Annotation, AuditEvent, FaceCandidateMatch, MediaAsset, PersonProfile, ReviewEvent, Tag, User, now_utc
+from app.services.face_recognition import review_face_candidate_match
 
 router = APIRouter(prefix="/api", tags=["annotations and review"])
 
@@ -88,6 +89,21 @@ def review_annotation(annotation_id: str, body: ReviewRequest, request: Request,
     annotation.reviewed_at = now_utc()
     db.add(ReviewEvent(annotation_id=annotation.id, reviewer_id=actor.id, decision=body.decision, previous_label=old_label, final_label=final_label, comment=body.comment))
     db.add(AuditEvent(actor_id=actor.id, action=f"annotation_{body.decision}", target_type="annotation", target_id=annotation.id, request_id=getattr(request.state, "request_id", None)))
+
+    # If this annotation corresponds to an InsightFace candidate match on this asset, record human face verification decision
+    if body.decision in {"accept", "reject"}:
+        face_decision = "accepted" if body.decision == "accept" else "rejected"
+        matching_candidates = db.execute(
+            select(FaceCandidateMatch)
+            .join(PersonProfile, PersonProfile.id == FaceCandidateMatch.person_id)
+            .where(
+                FaceCandidateMatch.asset_id == annotation.asset_id,
+                PersonProfile.normalized_name == " ".join(old_label.strip().split()).casefold(),
+            )
+        ).scalars().all()
+        for cand in matching_candidates:
+            review_face_candidate_match(db, cand.id, actor_id=actor.id, decision=face_decision, notes=body.comment)
+
     db.commit()
     return {"id": annotation.id, "label": annotation.label, "status": annotation.status, "reviewed_at": annotation.reviewed_at}
 
