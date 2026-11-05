@@ -41,7 +41,6 @@ def _labels(items, key: str = "label") -> list[str]:
 def build_semantic_profile(db, asset: MediaAsset) -> tuple[str, dict]:
     meta = asset.metadata_json or {}
     visual = meta.get("visual_analysis") or {}
-    context = meta.get("context") or {}
 
     description = (visual.get("description") or "").strip()
     suggested_objects = _labels(visual.get("object_tags"))
