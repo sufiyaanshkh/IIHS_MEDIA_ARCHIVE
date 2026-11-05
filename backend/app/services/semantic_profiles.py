@@ -46,7 +46,6 @@ def build_semantic_profile(db, asset: MediaAsset) -> tuple[str, dict]:
     description = (visual.get("description") or "").strip()
     suggested_objects = _labels(visual.get("object_tags"))
     suggested_keywords = _labels(visual.get("keyword_suggestions"))
-    contextual_keywords = _labels(context.get("matched_keywords"), key="keyword")
 
     accepted_annotations = db.scalars(
         select(Annotation.label).where(
@@ -75,8 +74,6 @@ def build_semantic_profile(db, asset: MediaAsset) -> tuple[str, dict]:
         sections.append("AI-suggested visible objects (unverified): " + ", ".join(suggested_objects))
     if suggested_keywords:
         sections.append("AI-suggested IIHS keywords (unverified): " + ", ".join(suggested_keywords))
-    if contextual_keywords:
-        sections.append("IIHS archive vocabulary and contextual keywords: " + ", ".join(contextual_keywords))
     if verified_tags:
         sections.append("Human-verified visual tags: " + ", ".join(verified_tags))
     if people:
@@ -86,7 +83,6 @@ def build_semantic_profile(db, asset: MediaAsset) -> tuple[str, dict]:
         "ai_visual_description": bool(description),
         "ai_object_suggestions": bool(suggested_objects),
         "ai_keyword_suggestions": bool(suggested_keywords),
-        "archive_keywords": bool(contextual_keywords),
         "human_verified_tags": bool(verified_tags),
         "human_verified_people": bool(people),
     }
