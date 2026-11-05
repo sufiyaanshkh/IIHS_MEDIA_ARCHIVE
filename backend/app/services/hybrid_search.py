@@ -402,9 +402,9 @@ def _LexicalAndContextChannels(
             seg_hit_score = 0.0
             if raw_phrase and _contains_term(seg_text, raw_phrase):
                 seg_hit_score += 3.5
-            matched_seg_tokens = [tok for tok in tokens if _contains_term(seg_text, tok)]
-            if matched_seg_tokens:
-                seg_hit_score += 2.2 * (len(matched_seg_tokens) / max(1, len(tokens)))
+            coverage = _token_coverage(seg_text, tokens)
+            if coverage >= 0.5:
+                seg_hit_score += 2.2 * coverage
             if seg_hit_score > 0:
                 if seg_hit_score > lex_score or best_segment_evidence is None:
                     best_segment_evidence = {
@@ -433,9 +433,9 @@ def _LexicalAndContextChannels(
             m_score = 0.0
             if raw_phrase and _contains_term(meta_field, raw_phrase):
                 m_score += 3.0
-            matched_m_tokens = [tok for tok in tokens if _contains_term(meta_field, tok)]
-            if matched_m_tokens:
-                m_score += 2.0 * (len(matched_m_tokens) / max(1, len(tokens)))
+            coverage = _token_coverage(meta_field, tokens)
+            if coverage >= 0.5:
+                m_score += 2.0 * coverage
             if m_score > lex_score:
                 lex_score = m_score
                 if best_segment_evidence is None:
