@@ -976,6 +976,20 @@ def update_person_profile_name(
             detail={"from": old_name, "to": cleaned},
         )
     )
+    affected_asset_ids = db.scalars(
+        select(FaceCandidateMatch.asset_id).where(
+            FaceCandidateMatch.person_id == person.id,
+            FaceCandidateMatch.status == "accepted",
+        ).distinct()
+    ).all()
+    from app.services.semantic_profiles import refresh_asset_semantic_profile
+    for asset_id in affected_asset_ids:
+        affected_asset = db.get(MediaAsset, asset_id)
+        if affected_asset is not None:
+            try:
+                refresh_asset_semantic_profile(db, affected_asset)
+            except Exception:
+                log.exception("Could not refresh semantic profile after person rename for asset %s", asset_id)
     db.commit()
     db.refresh(person)
     return person
@@ -1166,6 +1180,12 @@ def revoke_person_enrollment(
     if person is None:
         raise LookupError("Person profile not found.")
     person_name = person.display_name
+    affected_asset_ids = db.scalars(
+        select(FaceCandidateMatch.asset_id).where(
+            FaceCandidateMatch.person_id == person.id,
+            FaceCandidateMatch.status == "accepted",
+        ).distinct()
+    ).all()
 
     del_decisions = db.execute(delete(FaceVerificationDecision).where(FaceVerificationDecision.person_id == person.id)).rowcount or 0
     del_matches = db.execute(delete(FaceCandidateMatch).where(FaceCandidateMatch.person_id == person.id)).rowcount or 0
@@ -1200,6 +1220,14 @@ def revoke_person_enrollment(
             detail=summary,
         )
     )
+    from app.services.semantic_profiles import refresh_asset_semantic_profile
+    for asset_id in affected_asset_ids:
+        affected_asset = db.get(MediaAsset, asset_id)
+        if affected_asset is not None:
+            try:
+                refresh_asset_semantic_profile(db, affected_asset)
+            except Exception:
+                log.exception("Could not refresh semantic profile after enrollment revocation for asset %s", asset_id)
     db.commit()
     return summary
 
