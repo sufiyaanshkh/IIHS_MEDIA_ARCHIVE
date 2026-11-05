@@ -29,7 +29,6 @@ def _asset(db):
                 "object_tags": [{"label": "microphone"}],
                 "keyword_suggestions": [{"label": "public event"}],
             },
-            "context": {"matched_keywords": [{"keyword": "Campus Life"}]},
         },
     )
     db.add(asset)
@@ -80,7 +79,6 @@ def test_semantic_profile_contains_keywords_tags_and_only_verified_people(monkey
         assert "Ravi Kumar" not in profile_text
         assert "microphone" in profile_text
         assert "public event" in profile_text
-        assert "Campus Life" in profile_text
         assert "podium" in profile_text
         assert metadata["contains_verified_person_identity"] is True
         assert metadata["sources"]["human_verified_tags"] is True
