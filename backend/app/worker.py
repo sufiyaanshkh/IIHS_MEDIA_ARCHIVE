@@ -33,6 +33,7 @@ from app.services.document_readers import SUPPORTED_DOCUMENT_EXTENSIONS, extract
 from app.services.embeddings import image_embedding, text_embeddings, transcribe_audio
 from app.services.face_recognition import is_biometric_governance_authorized, process_archive_asset_faces
 from app.services.insights import generate_visual_description
+from app.services.semantic_profiles import refresh_asset_semantic_profile
 from app.services.media import (
     MediaValidationError,
     copy_original,
@@ -776,6 +777,7 @@ def _run_ingest(job_id: str):
                     )
                     if context_data.get("context_text"):
                         _store_text_embeddings(db, existing_asset, context_data["context_text"], "context", segment_type="contextual_metadata")
+                    refresh_asset_semantic_profile(db, existing_asset)
                     if old_rel:
                         old_rec = db.scalar(
                             select(SourceFileRecord).where(
@@ -1164,6 +1166,10 @@ def _run_ingest(job_id: str):
                         }
                     except (OSError, ValueError, KeyError, zipfile.BadZipFile):
                         asset.metadata_json = asset.metadata_json | {"text_extraction": {"status": "unavailable", "text": ""}}
+
+                # Build a single searchable text profile from AI visual suggestions, IIHS keywords,
+                # human-verified tags and (only if approved later) verified person identities.
+                refresh_asset_semantic_profile(db, asset)
 
                 _upsert_source_file_record(
                     db,
