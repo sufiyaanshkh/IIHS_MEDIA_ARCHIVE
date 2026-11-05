@@ -139,9 +139,9 @@ def _token_coverage(text: str, tokens: list[str]) -> float:
 def _is_identifier_query(query: str) -> bool:
     """Detect likely archive identifiers, filenames and codes where lexical precision matters."""
     q = (query or "").strip()
-    return bool(q and (re.search(r"(?i)\\b[A-Z]{2,}[-_/]?\\d{2,}\\b", q)
-                       or re.search(r"\\b\\d{4,}\\b", q)
-                       or re.search(r"\\.[A-Za-z0-9]{2,5}$", q)))
+    return bool(q and (re.search(r"(?i)\b[A-Z]{2,}[-_/]?\d{2,}\b", q)
+                       or re.search(r"\b\d{4,}\b", q)
+                       or re.search(r"\.[A-Za-z0-9]{2,5}$", q)))
 
 
 def _year_bounds(year: int | None):
