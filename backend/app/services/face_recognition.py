@@ -1391,6 +1391,15 @@ def review_face_candidate_match(
             },
         )
     )
+    # Keep person names in semantic search only after a human accepts the match.
+    # Rebuild on rejection too, so a revoked identity is removed from the profile text.
+    asset = db.get(MediaAsset, match.asset_id)
+    if asset is not None:
+        try:
+            from app.services.semantic_profiles import refresh_asset_semantic_profile
+            refresh_asset_semantic_profile(db, asset)
+        except Exception:
+            log.exception("Could not refresh semantic profile after face verification for asset %s", match.asset_id)
     db.commit()
     db.refresh(match)
     return match
