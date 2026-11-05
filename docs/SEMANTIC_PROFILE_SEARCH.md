@@ -4,7 +4,7 @@ IIHS Media Archive keeps the original image and sampled-video-frame embeddings u
 
 The profile combines:
 - AI-generated visual descriptions, object suggestions and IIHS keyword suggestions (explicitly labelled unverified);
-- IIHS vocabulary associated with the archive context;
+- IIHS keyword suggestions generated from the image content;
 - accepted/corrected human annotations;
 - person display names only when an InsightFace candidate match has been explicitly accepted by an authorised reviewer and the person enrollment remains active.
 
