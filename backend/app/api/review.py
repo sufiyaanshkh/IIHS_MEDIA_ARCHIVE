@@ -10,6 +10,7 @@ from app.database import get_db
 from app.deps import roles, csrf_check
 from app.models import Annotation, AuditEvent, FaceCandidateMatch, MediaAsset, PersonProfile, ReviewEvent, Tag, User, now_utc
 from app.services.face_recognition import review_face_candidate_match
+from app.services.semantic_profiles import refresh_asset_semantic_profile
 
 router = APIRouter(prefix="/api", tags=["annotations and review"])
 
@@ -50,6 +51,7 @@ def create_annotation(asset_id: str, body: AnnotationCreate, request: Request, a
     db.flush()
     db.add(ReviewEvent(annotation_id=annotation.id, reviewer_id=actor.id, decision="accept", previous_label=label, final_label=label))
     db.add(AuditEvent(actor_id=actor.id, action="annotation_created", target_type="annotation", target_id=annotation.id, request_id=getattr(request.state, "request_id", None)))
+    refresh_asset_semantic_profile(db, asset)
     db.commit()
     return {"id": annotation.id, "asset_id": asset.id, "label": label, "source": annotation.source, "status": annotation.status}
 
@@ -104,6 +106,11 @@ def review_annotation(annotation_id: str, body: ReviewRequest, request: Request,
         for cand in matching_candidates:
             review_face_candidate_match(db, cand.id, actor_id=actor.id, decision=face_decision, notes=body.comment)
 
+    # Accepted/corrected labels become part of the searchable semantic profile;
+    # rejected/deferred labels are deliberately excluded.
+    asset = db.get(MediaAsset, annotation.asset_id)
+    if asset is not None:
+        refresh_asset_semantic_profile(db, asset)
     db.commit()
     return {"id": annotation.id, "label": annotation.label, "status": annotation.status, "reviewed_at": annotation.reviewed_at}
 
