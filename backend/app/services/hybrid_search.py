@@ -417,7 +417,7 @@ def _LexicalAndContextChannels(
                         "start_ms": seg.start_ms,
                         "end_ms": seg.end_ms,
                         "frame_id": seg.frame_id,
-                        "is_visual_claim": seg.segment_type in VISUAL_SEGMENT_TYPES,
+                        "is_visual_claim": bool((seg.metadata_json or {}).get("is_visual_claim", seg.segment_type in VISUAL_SEGMENT_TYPES)),
                     }
                 lex_score = max(lex_score, seg_hit_score)
 
